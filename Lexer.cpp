@@ -4,35 +4,37 @@
 #define SIZE 2000 
 #define PREV_STATE 0
 #define NEXT_STATE 1
-#define IS_ASTERISK           ((inputFlags & 0x1) != 0) 
-#define IS_FSLASH             ((inputFlags & 0x2) != 0)
-#define IS_PLUS               ((inputFlags & 0x4) != 0) 
-#define IS_HYPHEN             ((inputFlags & 0x8) != 0)
-#define IS_PERCENT            ((inputFlags & 0x10) != 0) 
-#define IS_EQUAL              ((inputFlags & 0x20) != 0)
-#define IS_BAR                ((inputFlags & 0x40) != 0) 
-#define IS_AMPERSAND          ((inputFlags & 0x80) != 0)
-#define IS_CARET              ((inputFlags & 0x100) != 0) 
-#define IS_GT                 ((inputFlags & 0x200) != 0)
-#define IS_LT                 ((inputFlags & 0x400) != 0) 
-#define IS_PERIOD             ((inputFlags & 0x800) != 0)
-#define IS_EXCLAMATION        ((inputFlags & 0x1000) != 0) 
-#define IS_APOSTROPHE         ((inputFlags & 0x2000) != 0)
-#define IS_QUOTATION          ((inputFlags & 0x4000) != 0) 
-#define IS_WHITESPACE         ((inputFlags & 0x8000) != 0)
-#define IS_COLON              ((inputFlags & 0x10000) != 0) 
-#define IS_LPARANTHESIS       ((inputFlags & 0x20000) != 0)
-#define IS_RPARANTHESIS       ((inputFlags & 0x40000) != 0) 
-#define IS_LBRACE             ((inputFlags & 0x80000) != 0)
-#define IS_RBRACE             ((inputFlags & 0x100000) != 0) 
-#define IS_LBRACKET           ((inputFlags & 0x200000) != 0)
-#define IS_RBRACKET           ((inputFlags & 0x400000) != 0)
-#define IS_TILDE              ((inputFlags & 0x800000) != 0) 
-#define IS_NUMERAL            ((inputFlags & 0x1000000) != 0)
-#define IS_ALPHABET           ((inputFlags & 0x2000000) != 0) 
-#define IS_UNDERSCORE         ((inputFlags & 0x4000000) != 0)
+#define IS_UNDERSCORE         ((inputFlags & 0x1)         != 0)
+#define IS_ALPHABET           ((inputFlags & 0x2)         != 0) 
+#define IS_NUMERAL            ((inputFlags & 0x4)         != 0)
+#define IS_ASTERISK           ((inputFlags & 0x8)         != 0) 
+#define IS_FSLASH             ((inputFlags & 0x10)        != 0)
+#define IS_PLUS               ((inputFlags & 0x20)        != 0) 
+#define IS_HYPHEN             ((inputFlags & 0x40)        != 0)
+#define IS_PERCENT            ((inputFlags & 0x80)        != 0) 
+#define IS_EQUAL              ((inputFlags & 0x100)       != 0)
+#define IS_BAR                ((inputFlags & 0x200)       != 0) 
+#define IS_AMPERSAND          ((inputFlags & 0x400)       != 0)
+#define IS_CARET              ((inputFlags & 0x800)       != 0) 
+#define IS_GT                 ((inputFlags & 0x1000)      != 0)
+#define IS_LT                 ((inputFlags & 0x8000)      != 0) 
+#define IS_PERIOD             ((inputFlags & 0x20000)     != 0)
+#define IS_EXCLAMATION        ((inputFlags & 0x80000)     != 0) 
+#define IS_APOSTROPHE         ((inputFlags & 0x100000)    != 0)
+#define IS_QUOTATION          ((inputFlags & 0x400000)    != 0) 
+#define IS_WHITESPACE         ((inputFlags & 0x800000)    != 0)
+#define IS_COLON              ((inputFlags & 0x1000000)   != 0) 
+#define IS_LPARANTHESIS       ((inputFlags & 0x2000000)   != 0)
+#define IS_RPARANTHESIS       ((inputFlags & 0x4000000)   != 0) 
+#define IS_LBRACE             ((inputFlags & 0x8000000)   != 0)
+#define IS_RBRACE             ((inputFlags & 0x10000000)  != 0) 
+#define IS_LBRACKET           ((inputFlags & 0x20000000)  != 0)
+#define IS_RBRACKET           ((inputFlags & 0x40000000)  != 0)
+#define IS_TILDE              ((inputFlags & 0x80000000)  != 0) 
+
+
                                                                                                     
-#define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((inputFlags & 0xFF8000) != 0)
+#define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((inputFlags & 0xFF800000) != 0)
                       
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20 ((tokens[PREV_STATE] & 0xF00000) == 0 )
 
@@ -40,18 +42,21 @@
 
 #define IS_P21_OR_P20 ( (tokens[PREV_STATE] & 0x300000) != 0 )
 
-#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( (((inputFlags << 3) & 0x768) & tokens[PREV_STATE]) != 0 )
+#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( ((inputFlags & 0x1668) & tokens[PREV_STATE]) != 0 )
 
 #define GET_PREV_STATE(P) ( (tokens[PREV_STATE] & (0x1 << P)) != 0 ) 
 
 #define SET_NEXT_STATE(N, CONDITION) (tokens[NEXT_STATE] |= (CONDITION << N) )
 
+#define P18PERIOD_OR_P21APOSTROPHE ((((inputFlags << 1) & 0x240000) & tokens[PREV_STATE]) != 0)
+
+#define P20APOSTROPHE_OR_P22QUOTATION (((inputFlags & 0x500000) & tokens[PREV_STATE]) != 0) 
 
 int main() {
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-    tokens[PREV_STATE] = 0x40000;
+    tokens[PREV_STATE] = 0x400000;
     uint64_t inputFlags = 0x0;  
     uint32_t i = 2;
     while(tokens[i] += getchar()) {
@@ -59,50 +64,61 @@ int main() {
         // Set the corresponding bit of current input to 1.
         inputFlags = 
             
-            (tokens[i] == '*')                                                                            | 
-            (tokens[i] == '/') << 1                                                                       | 
-            (tokens[i] == '+') << 2                                                                       | 
-            (tokens[i] == '-') << 3                                                                       | 
-            (tokens[i] == '%') << 4                                                                       |
-            (tokens[i] == '=') << 5                                                                       | 
-            (tokens[i] == '|') << 6                                                                       | 
-            (tokens[i] == '&') << 7                                                                       | 
-            (tokens[i] == '^') << 8                                                                       | 
-            (tokens[i] == '>') << 9                                                                       |
-            (tokens[i] == '<') << 10                                                                      | 
-            (tokens[i] == '.') << 11                                                                      | 
-            (tokens[i] == '!') << 12                                                                      | 
-            (tokens[i] == '\'') << 13                                                                     | 
-            (tokens[i] == '"') << 14                                                                      |
-            ((tokens[i] == 0x9) | (tokens[i] == 0xA) | (tokens[i] == 0x20)) << 15                         | 
-            (tokens[i] == ':') << 16                                                                      | 
-            (tokens[i] == '(') << 17                                                                      |
-            (tokens[i] == ')') << 18                                                                      | 
-            (tokens[i] == '{') << 19                                                                      | 
-            (tokens[i] == '}') << 20                                                                      | 
-            (tokens[i] == '[') << 21                                                                      | 
-            (tokens[i] == ']') << 22                                                                      |
-            (tokens[i] == '~') << 23                                                                      | 
-            ((tokens[i] >= '0')  & (tokens[i] <= '9')) << 24                                              |
-            (((tokens[i] >= 'a') & (tokens[i] <= 'z')) | ((tokens[i] >= 'A') & (tokens[i] <= 'Z'))) << 25 | 
-            (tokens[i] == '_') << 26;
-            
-            
+            (tokens[i] == '_') << 0                                                                       |
+            (((tokens[i] >= 'a') & (tokens[i] <= 'z')) | ((tokens[i] >= 'A') & (tokens[i] <= 'Z'))) << 1  |
+            ((tokens[i] >= '0')  & (tokens[i] <= '9')) << 2                                               |
+            (tokens[i] == '*') << 3                                                                       | 
+            (tokens[i] == '/') << 4                                                                       | 
+            (tokens[i] == '+') << 5                                                                       | 
+            (tokens[i] == '-') << 6                                                                       | 
+            (tokens[i] == '%') << 7                                                                       |
+            (tokens[i] == '=') << 8                                                                       | 
+            (tokens[i] == '|') << 9                                                                       | 
+            (tokens[i] == '&') << 10                                                                      | 
+            (tokens[i] == '^') << 11                                                                      | 
+            (tokens[i] == '>') << 12                                                                      |
+            (tokens[i] == '<') << 15                                                                      | 
+            (tokens[i] == '.') << 17                                                                      | 
+            (tokens[i] == '!') << 19                                                                      | 
+            (tokens[i] == '\'') << 20                                                                     | 
+            (tokens[i] == '"') << 22                                                                      |
+            ((tokens[i] == 0x9) | (tokens[i] == 0xA) | (tokens[i] == 0x20)) << 23                         | 
+            (tokens[i] == ':') << 24                                                                      | 
+            (tokens[i] == '(') << 25                                                                      |
+            (tokens[i] == ')') << 26                                                                      | 
+            (tokens[i] == '{') << 27                                                                      | 
+            (tokens[i] == '}') << 28                                                                      | 
+            (tokens[i] == '[') << 29                                                                      | 
+            (tokens[i] == ']') << 30                                                                      |
+            (tokens[i] == '~') << 31                                                                      ; 
+                                                        
              
-       
+            
+            
+            
+          
+                      
              
         SET_NEXT_STATE(0, 
             
             (IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS & IS_NOT_P23_OR_P22_OR_P21_OR_P20) |
             (IS_EQUAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P2_OR_P1_OR_P0)                         |
-            P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                      |
+             P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                     |
+             P18PERIOD_OR_P21APOSTROPHE                                                            |
+             P20APOSTROPHE_OR_P22QUOTATION                               
+           /*            
+                                                                                                   |
             (GET_PREV_STATE(18) & IS_PERIOD)  | (IS_APOSTROPHE & IS_P21_OR_P20 )                   |
             (GET_PREV_STATE(22) & IS_QUOTATION)
+           */
         );
         
         
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
+        
+        tokens[NEXT_STATE] = 0x0;
+        tokens[i] = 0;
         
         
             
