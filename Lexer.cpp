@@ -78,6 +78,7 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15 ((tokens[PREV_STATE] & 0xF08000) == 0)
 
+#define IS_P15LT (((inputFlags & 0x8000) & tokens[PREV_STATE]) != 0)
 
 
 int main() {
@@ -225,6 +226,13 @@ int main() {
             
         SET_NEXT_STATE(15,
             IS_LT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15            
+        );
+        
+            
+        SET_NEXT_STATE(16,
+                                      
+            IS_P15LT
+                           
         );
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
