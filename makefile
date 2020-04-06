@@ -1,7 +1,10 @@
 build:
-    g++ -g -std=c++11 -Wall Lexer.cpp -o venom.exe
-    
-    
-    
+	rm -f program.exe
+	g++ -g -std=c++11 -Wall Lexer.cpp -o Venom.exe
+
+	
 run:
-    ./venom.exe
+	./Venom.exe
+
+valgrind:
+	valgrind --tool=memcheck --leak-check=yes ./Venom.exe
