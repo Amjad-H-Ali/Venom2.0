@@ -190,6 +190,13 @@ int main() {
             IS_AMPERSAND & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P10
         );
         
+     
+            
+        SET_NEXT_STATE(11,
+             IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
+        );
+        
+        
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
         tokens[NEXT_STATE] = 0x0;
