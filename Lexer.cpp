@@ -64,12 +64,13 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P6 ((tokens[PREV_STATE] & 0xF00040) == 0)
 
+#define IS_P0_OR_P1_OR_P2_OR_P17_OR_P18 ((tokens[PREV_STATE] & 0x60003) != 0)
 
 int main() {
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-    tokens[PREV_STATE] = 0x10;
+    tokens[PREV_STATE] = 0x100;
     uint64_t inputFlags = 0x0;  
     uint32_t i = 2;
     while(tokens[i] += getchar()) {
@@ -162,9 +163,16 @@ int main() {
             IS_HYPHEN & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P6
         );
         
+   
+            
+        SET_NEXT_STATE(7,
+            IS_PERCENT & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+        );
         
-        
-        
+            
+        SET_NEXT_STATE(8,
+             IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
+        );
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
