@@ -82,6 +82,8 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17 ((tokens[PREV_STATE] & 0xF60000) == 0)
 
+#define IS_P17PERIOD (((inputFlags & 0x20000) & tokens[PREV_STATE]) != 0)
+
 int main() {
     
     
@@ -242,8 +244,14 @@ int main() {
             IS_PERIOD & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17                           
                              
         );    
+        
             
-            
+        SET_NEXT_STATE(18,
+                                   
+             IS_P17PERIOD                                       
+                                               
+                           
+        );    
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
