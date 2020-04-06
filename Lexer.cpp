@@ -66,6 +66,8 @@
 
 #define IS_P0_OR_P1_OR_P2_OR_P17_OR_P18 ((tokens[PREV_STATE] & 0x60003) != 0)
 
+#define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P9 ((tokens[PREV_STATE] & 0xF00200) == 0)
+
 int main() {
     
     
@@ -173,6 +175,13 @@ int main() {
         SET_NEXT_STATE(8,
              IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
         );
+        
+        
+            
+        SET_NEXT_STATE(9,
+            IS_BAR & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P9
+        );
+        
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
