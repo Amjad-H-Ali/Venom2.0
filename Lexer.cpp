@@ -249,9 +249,14 @@ int main() {
         SET_NEXT_STATE(18,
                                    
              IS_P17PERIOD                                       
-                                               
-                           
-        );    
+               
+        ); 
+       
+            
+        SET_NEXT_STATE(19,
+            IS_EXCLAMATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+            
+        );
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
