@@ -166,7 +166,7 @@
 
 #define GET_PREV_STATE(P) ( (tokens[PREV_STATE] & (0x1 << P)) != 0 ) 
 
-#define SET_NEXT_STATE(N, CONDITION) (tokens[NEXT_STATE] |= (static_cast<uint64_t>(CONDITION) << N) )
+#define SET_NEXT_STATE(N, CONDITION) (static_cast<uint64_t>(CONDITION) << N) 
 
 #define P18PERIOD_OR_P21APOSTROPHE ((((tokens[i] << 1) & 0x240000) & tokens[PREV_STATE]) != 0)
 
@@ -209,6 +209,8 @@
 #define IS_P22NOTQUOTATION ((((tokens[i] & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
 
 #define IS_P21NOTAPOSTROPHE ((((tokens[i] & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x200000) != 0)) != 0)
+
+#define N20
 
 #define IS_P23 ((tokens[PREV_STATE] & 0x800000) != 0)
 int main() {
@@ -255,161 +257,153 @@ int main() {
         
              
         
-       
-        SET_NEXT_STATE(0, 
-       
-            (IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)               |
-            (IS_EQUAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17_OR_P2_OR_P1_OR_P0)                         |
-             P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                                   |
-             P18PERIOD_OR_P21APOSTROPHE                                                                          |
-             P20APOSTROPHE_OR_P22QUOTATION       
-           /*            
-                                                                                                   |
-            (GET_PREV_STATE(18) & IS_PERIOD)  | (IS_APOSTROPHE & IS_P21_OR_P20 )                   |
-            (GET_PREV_STATE(22) & IS_QUOTATION)
-           */
-        );
+    tokens[NEXT_STATE] |= 
+              
+            SET_NEXT_STATE(0, 
+
+                (IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS & IS_NOT_P23_OR_P22_OR_P21_OR_P20) |
+                (IS_EQUAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17_OR_P2_OR_P1_OR_P0)           |
+                 P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                     |
+                 P18PERIOD_OR_P21APOSTROPHE                                                            |
+                 P20APOSTROPHE_OR_P22QUOTATION       
+            )  
+                                                                                                                        |
+            SET_NEXT_STATE(1,                 
+                (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)|
+                 IS_P1NUMERAL   
+
+            )                                                                                                    
+                                                                                                                        |
+            SET_NEXT_STATE(2,
+                IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(3,
+
+                IS_ASTERISK & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(4,
+
+                IS_FSLASH & IS_NOT_P23_OR_P22_OR_P21_OR_P20            
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(5,
+                IS_PLUS & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P5          
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(6,
+                IS_HYPHEN & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P6
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(7,
+                IS_PERCENT & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(8,
+                IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(9,
+                IS_BAR & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P9
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(10,
+                IS_AMPERSAND & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P10
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(11,
+                IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(12,
+                IS_GT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8                  
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(13,
+                IS_P12GT                  
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(14,
+                 IS_P13GT                           
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(15,
+                IS_LT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15            
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(16,
+
+                IS_P15LT
+
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(17,
+
+                IS_PERIOD & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17                           
+
+            )    
+                                                                                                                        |
+            SET_NEXT_STATE(18,
+
+                 IS_P17PERIOD                                       
+
+            ) 
+                                                                                                                        |
+            SET_NEXT_STATE(19,
+                IS_EXCLAMATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(20,
+                IS_APOSTROPHE & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(21,
+
+                IS_P20NOTAPOSTROPHE                   
+            )   
+                                                                                                                        |
+            SET_NEXT_STATE(22,
+                (IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20) |
+                 IS_P22NOTQUOTATION             
+            )
+                                                                                                                        |
+            SET_NEXT_STATE(23,
+                IS_P21NOTAPOSTROPHE |
+                IS_P23
+            )
+                                                                                                                        ;
         
 
         
-        SET_NEXT_STATE(1,                 
-            (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)                                        |
-             IS_P1NUMERAL   
-
-        );
         
         
-        SET_NEXT_STATE(2,
-            IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1
-        );
         
         
-            
-        SET_NEXT_STATE(3,
-        
-            IS_ASTERISK & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3
-        );
-        
-            
-        SET_NEXT_STATE(4,
-                       
-            IS_FSLASH & IS_NOT_P23_OR_P22_OR_P21_OR_P20            
-        );
-        
-
-        
-        SET_NEXT_STATE(5,
-            IS_PLUS & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P5          
-        );
         
         
-            
-        SET_NEXT_STATE(6,
-            IS_HYPHEN & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P6
-        );
-        
-   
-            
-        SET_NEXT_STATE(7,
-            IS_PERCENT & IS_NOT_P23_OR_P22_OR_P21_OR_P20
-        );
-        
-            
-        SET_NEXT_STATE(8,
-            IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
-        );
         
         
-            
-        SET_NEXT_STATE(9,
-            IS_BAR & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P9
-        );
-        
-   
-
-        SET_NEXT_STATE(10,
-            IS_AMPERSAND & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P10
-        );
-        
-     
-            
-        SET_NEXT_STATE(11,
-            IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
-        );
-        
-            
-        SET_NEXT_STATE(12,
-            IS_GT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8                  
-        );
-        
-       
-            
-        SET_NEXT_STATE(13,
-            IS_P12GT                  
-        );
-        
-            
-        SET_NEXT_STATE(14,
-             IS_P13GT                           
-        );
-        
-            
-        SET_NEXT_STATE(15,
-            IS_LT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15            
-        );
-        
-            
-        SET_NEXT_STATE(16,
-                                      
-            IS_P15LT
-                           
-        );
-        
-            
-        SET_NEXT_STATE(17,
-                           
-            IS_PERIOD & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17                           
-                             
-        );    
-        
-            
-        SET_NEXT_STATE(18,
-                                   
-             IS_P17PERIOD                                       
-               
-        ); 
-       
-            
-        SET_NEXT_STATE(19,
-            IS_EXCLAMATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20
-            
-        );
-        
-   
-               
-        SET_NEXT_STATE(20,
-            IS_APOSTROPHE & IS_NOT_P23_OR_P22_OR_P21_OR_P20
-        );
         
         
-                      
-        SET_NEXT_STATE(21,
-                  
-            IS_P20NOTAPOSTROPHE                   
-        );   
         
         
-        SET_NEXT_STATE(22,
-            (IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)  |
-             IS_P22NOTQUOTATION             
-        );
-                      
-
-                       
-        SET_NEXT_STATE(23,
-            IS_P21NOTAPOSTROPHE                               |
-            IS_P23
-        );
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
  
