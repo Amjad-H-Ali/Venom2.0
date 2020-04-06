@@ -4,6 +4,8 @@
 #define SIZE 2000 
 #define PREV_STATE 0
 #define NEXT_STATE 1
+
+// Inputs
 #define IS_UNDERSCORE         ((tokens[i] & 0x1)         != 0)
 #define IS_ALPHABET           ((tokens[i] & 0x2)         != 0) 
 #define IS_NUMERAL            ((tokens[i] & 0x4)         != 0)
@@ -32,6 +34,124 @@
 #define IS_RBRACKET           ((tokens[i] & 0x40000000)  != 0)
 #define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
+/* TOKENS */
+#define CHR(CONDITION)        (static_cast<uint8_t>(0x1 & CONDITION))
+
+#define STR(CONDITION)        (static_cast<uint8_t>(0x2 * CONDITION))
+
+#define MUL(CONDITION)        (static_cast<uint8_t>(0x3 * CONDITION))
+
+#define DIV(CONDITION)        (static_cast<uint8_t>(0x4 * CONDITION))
+
+#define PLUS(CONDITION)       (static_cast<uint8_t>(0x5 * CONDITION))
+
+#define MIN(CONDITION)        (static_cast<uint8_t>(0x6 * CONDITION))
+
+#define MOD(CONDITION)        (static_cast<uint8_t>(0x7 * CONDITION))
+
+#define ASSGN(CONDITION)      (static_cast<uint8_t>(0x8 * CONDITION))
+
+#define BOR(CONDITION)        (static_cast<uint8_t>(0x9 * CONDITION))
+
+#define BAND(CONDITION)       (static_cast<uint8_t>(0xA * CONDITION))
+
+#define BXOR(CONDITION)       (static_cast<uint8_t>(0xB * CONDITION))
+
+#define GT(CONDITION)         (static_cast<uint8_t>(0xC * CONDITION))
+
+#define SAR(CONDITION)        (static_cast<uint8_t>(0xD * CONDITION))
+
+#define SHR(CONDITION)        (static_cast<uint8_t>(0xE * CONDITION))
+
+#define LT(CONDITION)         (static_cast<uint8_t>(0xF * CONDITION))
+
+#define SHL(CONDITION)        (static_cast<uint8_t>(0x10 * CONDITION))
+
+#define DOT(CONDITION)        (static_cast<uint8_t>(0x11 * CONDITION))
+
+#define DDOT(CONDITION)       (static_cast<uint8_t>(0x12 * CONDITION))
+
+#define ELLIP(CONDITION)      (static_cast<uint8_t>(0x13 * CONDITION))
+
+#define NOT(CONDITION)        (static_cast<uint8_t>(0x14 * CONDITION))
+
+#define W_CHR(CONDITION)      (static_cast<uint8_t>(0x15 * CONDITION))
+
+#define W_STR(CONDITION)      (static_cast<uint8_t>(0x16 * CONDITION))
+
+#define MULEQ(CONDITION)      (static_cast<uint8_t>(0x17 * CONDITION))
+
+#define EXP(CONDITION)        (static_cast<uint8_t>(0x18 * CONDITION))
+
+#define COLON(CONDITION)      (static_cast<uint8_t>(0x19 * CONDITION))
+
+#define LPARAN(CONDITION)     (static_cast<uint8_t>(0x1A * CONDITION))
+
+#define RPARAN(CONDITION)     (static_cast<uint8_t>(0x1B * CONDITION))
+
+#define LBRACK(CONDITION)     (static_cast<uint8_t>(0x1C * CONDITION))
+
+#define RBRACK(CONDITION)     (static_cast<uint8_t>(0x1D * CONDITION))
+
+#define LBRACE(CONDITION)     (static_cast<uint8_t>(0x1E * CONDITION))
+
+#define RBRACE(CONDITION)     (static_cast<uint8_t>(0x1F * CONDITION))
+
+#define BNOT(CONDITION)       (static_cast<uint8_t>(0x20 * CONDITION))
+
+#define DIVEQ(CONDITION)      (static_cast<uint8_t>(0x21 * CONDITION))
+
+#define PE(CONDITION)         (static_cast<uint8_t>(0x22 * CONDITION))
+
+#define INC(CONDITION)        (static_cast<uint8_t>(0x23 * CONDITION))
+
+#define MINE(CONDITION)       (static_cast<uint8_t>(0x24 * CONDITION))
+
+#define DEC(CONDITION)        (static_cast<uint8_t>(0x25 * CONDITION))
+
+#define MODEQ(CONDITION)      (static_cast<uint8_t>(0x26 * CONDITION))
+
+#define EQ(CONDITION)         (static_cast<uint8_t>(0x27 * CONDITION))
+
+#define FARROW(CONDITION)     (static_cast<uint8_t>(0x28 * CONDITION))
+
+#define BOREQ(CONDITION)      (static_cast<uint8_t>(0x29 * CONDITION))
+
+#define LOR(CONDITION)        (static_cast<uint8_t>(0x2A * CONDITION))
+
+#define BANDEQ(CONDITION)     (static_cast<uint8_t>(0x2B * CONDITION))
+
+#define LAND(CONDITION)       (static_cast<uint8_t>(0x2C * CONDITION))
+
+#define BXOREQ(CONDITION)     (static_cast<uint8_t>(0x2D * CONDITION))
+
+#define GTE(CONDITION)        (static_cast<uint8_t>(0x2E * CONDITION))
+
+#define SAREQ(CONDITION)      (static_cast<uint8_t>(0x2F * CONDITION))
+
+#define SHREQ(CONDITION)      (static_cast<uint8_t>(0x30 * CONDITION))
+
+#define LTE(CONDITION)        (static_cast<uint8_t>(0x31 * CONDITION))
+
+#define SHLEQ(CONDITION)      (static_cast<uint8_t>(0x32 * CONDITION))
+
+#define NOTEQ(CONDITION)      (static_cast<uint8_t>(0x33 * CONDITION))
+
+#define R_CHR(CONDITION)      (static_cast<uint8_t>(0x34 * CONDITION))
+
+#define R_STR(CONDITION)      (static_cast<uint8_t>(0x35 * CONDITION))
+
+#define W_NUM(CONDITION)      (static_cast<uint8_t>(0x36 * CONDITION))
+
+#define W_ALPHANUM(CONDITION) (static_cast<uint8_t>(0x37 * CONDITION))
+
+#define NUM(CONDITION)        (static_cast<uint8_t>(0x38 * CONDITION))
+
+#define R_ALPHANUM(CONDITION) (static_cast<uint8_t>(0x39 * CONDITION))
+
+#define ERROR(CONDITION)      (static_cast<uint8_t>(0x3A * CONDITION))
+
+/* END OF TOKEN DEFINITIONS */
 
                                                                                                     
 #define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((tokens[i] & 0xFF800000) != 0)
@@ -92,6 +212,7 @@
 
 #define IS_P23 ((tokens[PREV_STATE] & 0x800000) != 0)
 int main() {
+   
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
@@ -290,6 +411,8 @@ int main() {
             IS_P23
         );
         
+        
+ 
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
