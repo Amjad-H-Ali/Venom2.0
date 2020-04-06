@@ -74,6 +74,7 @@
 
 #define IS_P12GT (((inputFlags & 0x1000) & tokens[PREV_STATE]) != 0)
 
+#define IS_P13GT ((((inputFlags & 0x1000) << 1) & tokens[PREV_STATE]) != 0)
 int main() {
     
     
@@ -179,7 +180,7 @@ int main() {
         
             
         SET_NEXT_STATE(8,
-             IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
+            IS_EQUAL & IS_P0_OR_P1_OR_P2_OR_P17_OR_P18                      
         );
         
         
@@ -197,18 +198,23 @@ int main() {
      
             
         SET_NEXT_STATE(11,
-             IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
+            IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
         );
         
             
         SET_NEXT_STATE(12,
-             IS_GT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8                  
+            IS_GT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8                  
         );
         
        
             
         SET_NEXT_STATE(13,
-             IS_P12GT                  
+            IS_P12GT                  
+        );
+        
+            
+        SET_NEXT_STATE(14,
+             IS_P13GT                           
         );
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
