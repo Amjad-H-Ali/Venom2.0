@@ -60,6 +60,8 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3 ((tokens[PREV_STATE] & 0xF00008) == 0)
 
+#define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P5 ((tokens[PREV_STATE] & 0xF00020) == 0)
+
 int main() {
     
     
@@ -144,6 +146,17 @@ int main() {
                        
             IS_FSLASH & IS_NOT_P23_OR_P22_OR_P21_OR_P20            
         );
+        
+
+        
+        SET_NEXT_STATE(5,
+            IS_PLUS & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P5          
+        );
+        
+        
+        
+        
+        
         
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
