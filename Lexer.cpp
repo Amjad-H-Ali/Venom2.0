@@ -84,10 +84,13 @@
 
 #define IS_P17PERIOD (((inputFlags & 0x20000) & tokens[PREV_STATE]) != 0)
 
-#define IS_P20NOTAPOSTROPHE ( (((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x100000) != 0) ) !=0)
+#define IS_P20NOTAPOSTROPHE ((((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x100000) != 0) ) !=0)
 
-#define IS_P22NOTQUOTATION ( (((inputFlags & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
+#define IS_P22NOTQUOTATION ((((inputFlags & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
 
+#define IS_P21NOTAPOSTROPHE ((((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x200000) != 0)) != 0)
+
+#define IS_P23 ((tokens[PREV_STATE] & 0x800000) != 0)
 int main() {
     
     
@@ -281,6 +284,13 @@ int main() {
              IS_P22NOTQUOTATION             
         );
                       
+
+                       
+        SET_NEXT_STATE(23,
+            IS_P21NOTAPOSTROPHE                               |
+            IS_P23
+        );
+        
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
