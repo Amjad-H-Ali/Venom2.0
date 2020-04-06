@@ -4,37 +4,37 @@
 #define SIZE 2000 
 #define PREV_STATE 0
 #define NEXT_STATE 1
-#define IS_UNDERSCORE         ((inputFlags & 0x1)         != 0)
-#define IS_ALPHABET           ((inputFlags & 0x2)         != 0) 
-#define IS_NUMERAL            ((inputFlags & 0x4)         != 0)
-#define IS_ASTERISK           ((inputFlags & 0x8)         != 0) 
-#define IS_FSLASH             ((inputFlags & 0x10)        != 0)
-#define IS_PLUS               ((inputFlags & 0x20)        != 0) 
-#define IS_HYPHEN             ((inputFlags & 0x40)        != 0)
-#define IS_PERCENT            ((inputFlags & 0x80)        != 0) 
-#define IS_EQUAL              ((inputFlags & 0x100)       != 0)
-#define IS_BAR                ((inputFlags & 0x200)       != 0) 
-#define IS_AMPERSAND          ((inputFlags & 0x400)       != 0)
-#define IS_CARET              ((inputFlags & 0x800)       != 0) 
-#define IS_GT                 ((inputFlags & 0x1000)      != 0)
-#define IS_LT                 ((inputFlags & 0x8000)      != 0) 
-#define IS_PERIOD             ((inputFlags & 0x20000)     != 0)
-#define IS_EXCLAMATION        ((inputFlags & 0x80000)     != 0) 
-#define IS_APOSTROPHE         ((inputFlags & 0x100000)    != 0)
-#define IS_QUOTATION          ((inputFlags & 0x400000)    != 0) 
-#define IS_WHITESPACE         ((inputFlags & 0x800000)    != 0)
-#define IS_COLON              ((inputFlags & 0x1000000)   != 0) 
-#define IS_LPARANTHESIS       ((inputFlags & 0x2000000)   != 0)
-#define IS_RPARANTHESIS       ((inputFlags & 0x4000000)   != 0) 
-#define IS_LBRACE             ((inputFlags & 0x8000000)   != 0)
-#define IS_RBRACE             ((inputFlags & 0x10000000)  != 0) 
-#define IS_LBRACKET           ((inputFlags & 0x20000000)  != 0)
-#define IS_RBRACKET           ((inputFlags & 0x40000000)  != 0)
-#define IS_TILDE              ((inputFlags & 0x80000000)  != 0) 
+#define IS_UNDERSCORE         ((tokens[i] & 0x1)         != 0)
+#define IS_ALPHABET           ((tokens[i] & 0x2)         != 0) 
+#define IS_NUMERAL            ((tokens[i] & 0x4)         != 0)
+#define IS_ASTERISK           ((tokens[i] & 0x8)         != 0) 
+#define IS_FSLASH             ((tokens[i] & 0x10)        != 0)
+#define IS_PLUS               ((tokens[i] & 0x20)        != 0) 
+#define IS_HYPHEN             ((tokens[i] & 0x40)        != 0)
+#define IS_PERCENT            ((tokens[i] & 0x80)        != 0) 
+#define IS_EQUAL              ((tokens[i] & 0x100)       != 0)
+#define IS_BAR                ((tokens[i] & 0x200)       != 0) 
+#define IS_AMPERSAND          ((tokens[i] & 0x400)       != 0)
+#define IS_CARET              ((tokens[i] & 0x800)       != 0) 
+#define IS_GT                 ((tokens[i] & 0x1000)      != 0)
+#define IS_LT                 ((tokens[i] & 0x8000)      != 0) 
+#define IS_PERIOD             ((tokens[i] & 0x20000)     != 0)
+#define IS_EXCLAMATION        ((tokens[i] & 0x80000)     != 0) 
+#define IS_APOSTROPHE         ((tokens[i] & 0x100000)    != 0)
+#define IS_QUOTATION          ((tokens[i] & 0x400000)    != 0) 
+#define IS_WHITESPACE         ((tokens[i] & 0x800000)    != 0)
+#define IS_COLON              ((tokens[i] & 0x1000000)   != 0) 
+#define IS_LPARANTHESIS       ((tokens[i] & 0x2000000)   != 0)
+#define IS_RPARANTHESIS       ((tokens[i] & 0x4000000)   != 0) 
+#define IS_LBRACE             ((tokens[i] & 0x8000000)   != 0)
+#define IS_RBRACE             ((tokens[i] & 0x10000000)  != 0) 
+#define IS_LBRACKET           ((tokens[i] & 0x20000000)  != 0)
+#define IS_RBRACKET           ((tokens[i] & 0x40000000)  != 0)
+#define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
 
                                                                                                     
-#define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((inputFlags & 0xFF800000) != 0)
+#define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((tokens[i] & 0xFF800000) != 0)
                       
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20 ((tokens[PREV_STATE] & 0xF00000) == 0 )
 
@@ -42,19 +42,19 @@
 
 #define IS_P21_OR_P20 ( (tokens[PREV_STATE] & 0x300000) != 0 )
 
-#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( ((inputFlags & 0x1668) & tokens[PREV_STATE]) != 0 )
+#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( ((tokens[i] & 0x1668) & tokens[PREV_STATE]) != 0 )
 
 #define GET_PREV_STATE(P) ( (tokens[PREV_STATE] & (0x1 << P)) != 0 ) 
 
 #define SET_NEXT_STATE(N, CONDITION) (tokens[NEXT_STATE] |= (static_cast<uint64_t>(CONDITION) << N) )
 
-#define P18PERIOD_OR_P21APOSTROPHE ((((inputFlags << 1) & 0x240000) & tokens[PREV_STATE]) != 0)
+#define P18PERIOD_OR_P21APOSTROPHE ((((tokens[i] << 1) & 0x240000) & tokens[PREV_STATE]) != 0)
 
-#define P20APOSTROPHE_OR_P22QUOTATION (((inputFlags & 0x500000) & tokens[PREV_STATE]) != 0) 
+#define P20APOSTROPHE_OR_P22QUOTATION (((tokens[i] & 0x500000) & tokens[PREV_STATE]) != 0) 
 
-#define IS_UNDERSCORE_OR_ALPHABET ((inputFlags & 0x3) != 0)
+#define IS_UNDERSCORE_OR_ALPHABET ((tokens[i] & 0x3) != 0)
 
-#define IS_P1NUMERAL (((inputFlags & 0x4) & (tokens[PREV_STATE] << 1)) != 0) 
+#define IS_P1NUMERAL (((tokens[i] & 0x4) & (tokens[PREV_STATE] << 1)) != 0) 
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1 ((tokens[PREV_STATE] & 0xF00002) == 0)
 
@@ -72,23 +72,23 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8 ((tokens[PREV_STATE] & 0xF03100) == 0)
 
-#define IS_P12GT (((inputFlags & 0x1000) & tokens[PREV_STATE]) != 0)
+#define IS_P12GT (((tokens[i] & 0x1000) & tokens[PREV_STATE]) != 0)
 
-#define IS_P13GT ((((inputFlags & 0x1000) << 1) & tokens[PREV_STATE]) != 0)
+#define IS_P13GT ((((tokens[i] & 0x1000) << 1) & tokens[PREV_STATE]) != 0)
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15 ((tokens[PREV_STATE] & 0xF08000) == 0)
 
-#define IS_P15LT (((inputFlags & 0x8000) & tokens[PREV_STATE]) != 0)
+#define IS_P15LT (((tokens[i] & 0x8000) & tokens[PREV_STATE]) != 0)
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17 ((tokens[PREV_STATE] & 0xF60000) == 0)
 
-#define IS_P17PERIOD (((inputFlags & 0x20000) & tokens[PREV_STATE]) != 0)
+#define IS_P17PERIOD (((tokens[i] & 0x20000) & tokens[PREV_STATE]) != 0)
 
-#define IS_P20NOTAPOSTROPHE ((((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x100000) != 0) ) !=0)
+#define IS_P20NOTAPOSTROPHE ((((tokens[i] & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x100000) != 0) ) !=0)
 
-#define IS_P22NOTQUOTATION ((((inputFlags & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
+#define IS_P22NOTQUOTATION ((((tokens[i] & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
 
-#define IS_P21NOTAPOSTROPHE ((((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x200000) != 0)) != 0)
+#define IS_P21NOTAPOSTROPHE ((((tokens[i] & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x200000) != 0)) != 0)
 
 #define IS_P23 ((tokens[PREV_STATE] & 0x800000) != 0)
 int main() {
@@ -96,12 +96,11 @@ int main() {
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x100;
-    uint64_t inputFlags = 0x0;  
     uint32_t i = 2;
     while(tokens[i] += getchar()) {
         
         // Set the corresponding bit of current input to 1.
-        inputFlags = 
+        tokens[i] = 
             
             (tokens[i] == '_') << 0                                                                       |
             (((tokens[i] >= 'a') & (tokens[i] <= 'z')) | ((tokens[i] >= 'A') & (tokens[i] <= 'Z'))) << 1  |
