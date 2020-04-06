@@ -58,11 +58,13 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1 ((tokens[PREV_STATE] & 0xF00002) == 0)
 
+#define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3 ((tokens[PREV_STATE] & 0xF00008) == 0)
+
 int main() {
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-    tokens[PREV_STATE] = 0x8;
+    tokens[PREV_STATE] = 0x1;
     uint64_t inputFlags = 0x0;  
     uint32_t i = 2;
     while(tokens[i] += getchar()) {
@@ -130,6 +132,12 @@ int main() {
             IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1
         );
         
+        
+            
+        SET_NEXT_STATE(3,
+        
+            IS_ASTERISK & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3
+        );
         
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
