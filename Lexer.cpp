@@ -75,6 +75,11 @@
 #define IS_P12GT (((inputFlags & 0x1000) & tokens[PREV_STATE]) != 0)
 
 #define IS_P13GT ((((inputFlags & 0x1000) << 1) & tokens[PREV_STATE]) != 0)
+
+#define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15 ((tokens[PREV_STATE] & 0xF08000) == 0)
+
+
+
 int main() {
     
     
@@ -215,6 +220,11 @@ int main() {
             
         SET_NEXT_STATE(14,
              IS_P13GT                           
+        );
+        
+            
+        SET_NEXT_STATE(15,
+            IS_LT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P15            
         );
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
