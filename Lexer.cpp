@@ -84,7 +84,9 @@
 
 #define IS_P17PERIOD (((inputFlags & 0x20000) & tokens[PREV_STATE]) != 0)
 
-#define IS_P20NOTAPOSTROPHE (((inputFlags & 0x100000) & tokens[PREV_STATE]) == 0)
+#define IS_P20NOTAPOSTROPHE ( (((inputFlags & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x100000) != 0) ) !=0)
+
+#define IS_P22NOTQUOTATION ( (((inputFlags & 0x400000) == 0) & ((tokens[PREV_STATE] & 0x400000) != 0) ) != 0) 
 
 int main() {
     
@@ -271,7 +273,13 @@ int main() {
         SET_NEXT_STATE(21,
                   
             IS_P20NOTAPOSTROPHE                   
-        );              
+        );   
+        
+        
+        SET_NEXT_STATE(22,
+            (IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)  |
+             IS_P22NOTQUOTATION             
+        );
                       
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
