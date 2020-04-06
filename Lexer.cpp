@@ -64,7 +64,7 @@ int main() {
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-    tokens[PREV_STATE] = 0x1;
+    tokens[PREV_STATE] = 0x10;
     uint64_t inputFlags = 0x0;  
     uint32_t i = 2;
     while(tokens[i] += getchar()) {
@@ -137,6 +137,12 @@ int main() {
         SET_NEXT_STATE(3,
         
             IS_ASTERISK & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P3
+        );
+        
+            
+        SET_NEXT_STATE(4,
+                       
+            IS_FSLASH & IS_NOT_P23_OR_P22_OR_P21_OR_P20            
         );
         
         
