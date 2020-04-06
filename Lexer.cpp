@@ -84,6 +84,8 @@
 
 #define IS_P17PERIOD (((inputFlags & 0x20000) & tokens[PREV_STATE]) != 0)
 
+#define IS_P20NOTAPOSTROPHE (((inputFlags & 0x100000) & tokens[PREV_STATE]) == 0)
+
 int main() {
     
     
@@ -263,6 +265,14 @@ int main() {
         SET_NEXT_STATE(20,
             IS_APOSTROPHE & IS_NOT_P23_OR_P22_OR_P21_OR_P20
         );
+        
+        
+                      
+        SET_NEXT_STATE(21,
+                  
+            IS_P20NOTAPOSTROPHE                   
+        );              
+                      
         
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
