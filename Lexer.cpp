@@ -46,11 +46,15 @@
 
 #define GET_PREV_STATE(P) ( (tokens[PREV_STATE] & (0x1 << P)) != 0 ) 
 
-#define SET_NEXT_STATE(N, CONDITION) (tokens[NEXT_STATE] |= (CONDITION << N) )
+#define SET_NEXT_STATE(N, CONDITION) (tokens[NEXT_STATE] |= (static_cast<uint64_t>(CONDITION) << N) )
 
 #define P18PERIOD_OR_P21APOSTROPHE ((((inputFlags << 1) & 0x240000) & tokens[PREV_STATE]) != 0)
 
 #define P20APOSTROPHE_OR_P22QUOTATION (((inputFlags & 0x500000) & tokens[PREV_STATE]) != 0) 
+
+#define IS_UNDERSCORE_OR_ALPHABET ((inputFlags & 0x3) != 0)
+
+#define IS_P1NUMERAL (((inputFlags & 0x4) & (tokens[PREV_STATE] << 1)) != 0) 
 
 int main() {
     
@@ -92,25 +96,32 @@ int main() {
             (tokens[i] == ']') << 30                                                                      |
             (tokens[i] == '~') << 31                                                                      ; 
                                                         
+ 
+        
              
-            
-            
-            
-          
-                      
-             
+        
+       
         SET_NEXT_STATE(0, 
-            
+            static_cast<uint64_t>(
             (IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)               |
             (IS_EQUAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17_OR_P2_OR_P1_OR_P0)                         |
              P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                                   |
              P18PERIOD_OR_P21APOSTROPHE                                                                          |
-             P20APOSTROPHE_OR_P22QUOTATION                               
+             P20APOSTROPHE_OR_P22QUOTATION       
+                ) 
            /*            
                                                                                                    |
             (GET_PREV_STATE(18) & IS_PERIOD)  | (IS_APOSTROPHE & IS_P21_OR_P20 )                   |
             (GET_PREV_STATE(22) & IS_QUOTATION)
            */
+        );
+        
+
+        
+        SET_NEXT_STATE(1,                 
+            (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)                                        |
+             IS_P1NUMERAL   
+
         );
         
         
