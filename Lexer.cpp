@@ -258,6 +258,12 @@ int main() {
             
         );
         
+   
+               
+        SET_NEXT_STATE(20,
+            IS_APOSTROPHE & IS_NOT_P23_OR_P22_OR_P21_OR_P20
+        );
+        
         std::cout << tokens[NEXT_STATE] <<std::endl;
         
         tokens[NEXT_STATE] = 0x0;
