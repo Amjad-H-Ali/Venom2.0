@@ -70,6 +70,8 @@
 
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P10 ((tokens[PREV_STATE] & 0xF00400) == 0)
 
+#define IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8 (tokens[PREV_STATE] & 0xF03100)
+
 int main() {
     
     
@@ -194,6 +196,11 @@ int main() {
             
         SET_NEXT_STATE(11,
              IS_CARET & IS_NOT_P23_OR_P22_OR_P21_OR_P20                     
+        );
+        
+            
+        SET_NEXT_STATE(12,
+             IS_GT & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P13_OR_P12_OR_P8                  
         );
         
         
