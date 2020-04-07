@@ -496,6 +496,10 @@ int main() {
                     MULEQ(IS_P3EQUAL)
                                                                                |
                     EXP(IS_P3ASTERISK)
+                                                                               |
+                    COLON(IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+
+    
                                                                       
                 
                 
