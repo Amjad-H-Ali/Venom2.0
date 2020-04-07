@@ -492,113 +492,115 @@ int main() {
                 (
                 
                     CHR(N20)                                   
-                                                                               |
+                                                                                                       |
                     STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        
-                                                                               |
+                                                                                                       |
                     MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)                      
-                                                                               |
+                                                                                                       |
                     DIV(IS_P4 & IS_NOT_EQUAL) 
-                                                                               |
+                                                                                                       |
                     PLUS(IS_P5 & IS_NOT_PLUS_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     MIN(IS_P6 & IS_NOT_MIN_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     MOD(IS_P7 & IS_NOT_EQUAL)
-                                                                               |
+                                                                                                       |
                     ASSGN(IS_P8 & IS_NOT_GT_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     BOR(IS_P9 & IS_NOT_BAR_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     BAND(IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     BXOR(IS_P11 & IS_NOT_EQUAL)
-                                                                               |
+                                                                                                       |
                     GT(IS_P12 & IS_NOT_GT_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     SAR(IS_P13 & IS_NOT_GT_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     SHR(IS_P14 & IS_NOT_EQUAL)
-                                                                               |
+                                                                                                       |
                     LT(IS_P15 & IS_NOT_LT_OR_EQUAL)
-                                                                               |
+                                                                                                       |
                     SHL(IS_P16 & IS_NOT_EQUAL)
-                                                                               |
+                                                                                                       |
                     DOT(IS_P17 & IS_NOT_PERIOD)
-                                                                               |
+                                                                                                       |
                     DDOT(IS_P18 & IS_NOT_PERIOD)
-                                                                               |
+                                                                                                       |
                     ELLIP(IS_P18PERIOD)
-                                                                               |
+                                                                                                       |
                     NOT(IS_P19 & IS_NOT_EQUAL)
-                                                                               |
+                                                                                                       |
                     W_CHR(N21)
-                                                                               |
+                                                                                                       |
                     W_STR(IS_P22 & IS_NOT_QUOTATION)
-                                                                               |
+                                                                                                       |
                     MULEQ(IS_P3EQUAL)
-                                                                               |
+                                                                                                       |
                     EXP(IS_P3ASTERISK)
-                                                                               |
+                                                                                                       |
                     COLON(IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     LPARAN(IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     RPARAN(IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     LBRACK(IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     RBRACK(IS_RBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     LBRACE(IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     RBRACE(IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     BNOT(IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                                                                               |
+                                                                                                       |
                     DIVEQ(IS_P4EQUAL)
-                                                                               |
+                                                                                                       |
                     PE(IS_P5EQUAL)
-                                                                               |
+                                                                                                       |
                     INC(IS_P5PLUS)
-                                                                               |
+                                                                                                       |
                     MINE(IS_P6EQUAL)
-                                                                               |
+                                                                                                       |
                     DEC(IS_P6HYPHEN)
-                                                                               |
+                                                                                                       |
                     MODEQ(IS_P7EQUAL)
-                                                                               |
+                                                                                                       |
                     EQ(IS_P8EQUAL)
-                                                                               |
+                                                                                                       |
                     FARROW(IS_P8GT)
-                                                                               |
+                                                                                                       |
                     BOREQ(IS_P9EQUAL)
-                                                                               |
+                                                                                                       |
                     LOR(IS_P9BAR)
-                                                                               |
+                                                                                                       |
                     BANDEQ(IS_P10EQUAL)
-                                                                               |
+                                                                                                       |
                     LAND(IS_P10AMPERSAND)
-                                                                               |
+                                                                                                       |
                     BXOREQ(IS_P11EQUAL)
-                                                                               |
+                                                                                                       |
                     GTE(IS_P12EQUAL)
-                                                                               |
+                                                                                                       |
                     SAREQ(IS_P13EQUAL)
-                                                                               |
+                                                                                                       |
                     SHREQ(IS_P14EQUAL)
-                                                                               |
+                                                                                                       |
                     LTE(IS_P15EQUAL)
-                                                                               |
+                                                                                                       |
                     SHLEQ(IS_P16EQUAL)
-                                                                               |
+                                                                                                       |
                     NOTEQ(IS_P19EQUAL)
-                                                                               |
+                                                                                                       |
                     R_CHR(IS_P20APOSTROPHE_OR_P21APOSTROPHE)
-                                                                               |
+                                                                                                       |
                     R_STR(IS_P22QUOTATION)
-                                                                               |
+                                                                                                       |
                     W_NUM(IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)  
-                                                                               
+                                                                                                       |
+                    W_ALPHANUM(IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                
                 
                 
                 
