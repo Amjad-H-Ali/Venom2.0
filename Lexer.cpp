@@ -323,6 +323,8 @@
 
 #define IS_P22QUOTATION (((tokens[i] & 0x400000) & tokens[PREV_STATE]) != 0)
 
+#define IS_P2NOTNUMERAL ((((tokens[i] & 0x4) == 0) & ((tokens[PREV_STATE] & 0x4) != 0)) != 0)
+
 int main() {
    
     
@@ -600,8 +602,9 @@ int main() {
                     W_NUM(IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)  
                                                                                                        |
                     W_ALPHANUM(IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
-                
-                
+                                                                                                       |
+                    NUM(IS_P2NOTNUMERAL)
+                    
                 
                 
                 ) << w_shft_factor;
