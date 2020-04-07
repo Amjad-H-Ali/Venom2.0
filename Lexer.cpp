@@ -321,6 +321,8 @@
 
 #define IS_P20APOSTROPHE_OR_P21APOSTROPHE ((((tokens[i] & 0x100000) != 0) & ((tokens[PREV_STATE] & 0x300000) != 0)) != 0)
 
+#define IS_P22QUOTATION (((tokens[i] & 0x400000) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -592,6 +594,8 @@ int main() {
                     NOTEQ(IS_P19EQUAL)
                                                                                |
                     R_CHR(IS_P20APOSTROPHE_OR_P21APOSTROPHE)
+                                                                               |
+                    R_STR(IS_P22QUOTATION)
                 
                 
                 
