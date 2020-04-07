@@ -247,7 +247,7 @@
 
 #define IS_P11 ((tokens[PREV_STATE] & 0x800) != 0)
 
-
+#define IS_P12 ((tokens[PREV_STATE] & 0x1000) != 0)
 
 int main() {
    
@@ -438,6 +438,9 @@ int main() {
                     BAND(IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL)
                                                                                |
                     BXOR(IS_P11 & IS_NOT_EQUAL)
+                                                                               |
+                    GT(IS_P12 & IS_NOT_GT_OR_EQUAL)
+      
                                                                                
                 ) << w_shft_factor;
         
