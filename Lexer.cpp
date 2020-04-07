@@ -287,6 +287,8 @@
 
 #define IS_P5PLUS (((tokens[i] & 0x20) & tokens[PREV_STATE]) != 0)
 
+#define IS_P6EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 2)) != 0)
+
 int main() {
    
     
@@ -524,6 +526,11 @@ int main() {
                     PE(IS_P5EQUAL)
                                                                                |
                     INC(IS_P5PLUS)
+                                                                               |
+                    MINE(IS_P6EQUAL)
+                                                                               
+                    
+
 
 
     
