@@ -319,6 +319,8 @@
 
 #define IS_P19EQUAL ((((tokens[i] & 0x100) << 11) & tokens[PREV_STATE]) != 0)
 
+#define IS_P20APOSTROPHE_OR_P21APOSTROPHE ((((tokens[i] & 0x100000) != 0) & ((tokens[PREV_STATE] & 0x300000) != 0)) != 0)
+
 int main() {
    
     
@@ -588,7 +590,8 @@ int main() {
                     SHLEQ(IS_P16EQUAL)
                                                                                |
                     NOTEQ(IS_P19EQUAL)
-                
+                                                                               |
+                    R_CHR(IS_P20APOSTROPHE_OR_P21APOSTROPHE)
                 
                 
                 
