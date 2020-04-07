@@ -293,6 +293,8 @@
 
 #define IS_P7EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 1)) != 0)
 
+#define IS_P8EQUAL (((tokens[i] & 0x100) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -536,7 +538,8 @@ int main() {
                     DEC(IS_P6HYPHEN)
                                                                                |
                     MODEQ(IS_P7EQUAL)
-                    
+                                                                               |
+                    EQ(IS_P8EQUAL)
 
 
 
