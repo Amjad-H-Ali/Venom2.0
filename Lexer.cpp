@@ -285,6 +285,8 @@
 
 #define IS_P5EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 3)) != 0)
 
+#define IS_P5PLUS (((tokens[i] & 0x20) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -520,7 +522,8 @@ int main() {
                     DIVEQ(IS_P4EQUAL)
                                                                                |
                     PE(IS_P5EQUAL)
-
+                                                                               |
+                    INC(IS_P5PLUS)
 
 
     
