@@ -277,7 +277,9 @@
 
 #define N21 ((tokens[NEXT_STATE] & 0x200000) != 0)
 
-#define IS_P3EQUAL (((tokens[i] & 0x8) & tokens[PREV_STATE]) != 0)
+#define IS_P3EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 5)) != 0)
+
+#define IS_P3ASTERISK (((tokens[i] & 0x8) & tokens[PREV_STATE]) != 0)
 
 int main() {
    
@@ -492,6 +494,8 @@ int main() {
                     W_STR(IS_P22 & IS_NOT_QUOTATION)
                                                                                |
                     MULEQ(IS_P3EQUAL)
+                                                                               |
+                    EXP(IS_P3ASTERISK)
                                                                       
                 
                 
