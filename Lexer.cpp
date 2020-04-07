@@ -227,6 +227,10 @@
 
 #define IS_NOT_PLUS_OR_EQUAL ((tokens[i] & 0x120) == 0)
 
+#define IS_P6 ((tokens[PREV_STATE] & 0x40) != 0)
+
+#define IS_NOT_MIN_OR_EQUAL ((tokens[i] & 0x140) == 0)
+
 int main() {
    
     
@@ -389,7 +393,7 @@ int main() {
                 IS_P23
             )
                                                                                                                         ;
-     
+
                 
             tokens[W_POS] |=
                 
@@ -404,6 +408,8 @@ int main() {
                     DIV(IS_P4 & IS_NOT_EQUAL) 
                                                                                |
                     PLUS(IS_P5 & IS_NOT_PLUS_OR_EQUAL)
+                                                                               |
+                    MIN(IS_P6 & IS_NOT_MIN_OR_EQUAL)
                                                                                
                 ) << w_shft_factor;
         
