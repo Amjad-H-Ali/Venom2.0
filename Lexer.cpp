@@ -265,6 +265,8 @@
 
 #define IS_P19 ((tokens[PREV_STATE] & 0x80000) != 0)
 
+#define IS_NOT_PERIOD ((tokens[i] & 0x20000) == 0)
+
 int main() {
    
     
@@ -464,7 +466,8 @@ int main() {
                     LT(IS_P15 & IS_NOT_LT_OR_EQUAL)
                                                                                |
                     SHL(IS_P16 & IS_NOT_EQUAL)
-                    
+                                                                               |
+                    DOT(IS_P17 & IS_NOT_PERIOD)
                                                                                
                 ) << w_shft_factor;
         
