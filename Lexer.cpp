@@ -474,7 +474,8 @@ int main() {
                     DDOT(IS_P18 & IS_NOT_PERIOD)
                                                                                |
                     ELLIP(IS_P18PERIOD)
-                                                                               
+                                                                               |
+                    NOT(IS_P19 & IS_NOT_EQUAL)
                     
 
                 ) << w_shft_factor;
