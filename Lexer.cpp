@@ -301,6 +301,8 @@
 
 #define IS_P9BAR (((tokens[i] & 0x200) & tokens[PREV_STATE]) != 0)
 
+#define IS_P10EQUAL ((((tokens[i] & 0x100) << 2) & tokens[PREV_STATE]) != 0) 
+
 int main() {
    
     
@@ -552,8 +554,12 @@ int main() {
                     BOREQ(IS_P9EQUAL)
                                                                                |
                     LOR(IS_P9BAR)
-    
-                                                                      
+                                                                               |
+                    BANDEQ(IS_P10EQUAL)
+                                                                               
+                    
+                
+                                                                          
                 
                 
                 
