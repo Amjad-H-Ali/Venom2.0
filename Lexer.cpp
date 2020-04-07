@@ -289,6 +289,8 @@
 
 #define IS_P6EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 2)) != 0)
 
+#define IS_P6HYPHEN (((tokens[i] & 0x40) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -528,7 +530,9 @@ int main() {
                     INC(IS_P5PLUS)
                                                                                |
                     MINE(IS_P6EQUAL)
-                                                                               
+                                                                               |
+                    DEC(IS_P6HYPHEN)
+                    
                     
 
 
