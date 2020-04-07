@@ -265,9 +265,14 @@
 
 #define IS_P19 ((tokens[PREV_STATE] & 0x80000) != 0)
 
+#define IS_P22 ((tokens[PREV_STATE] & 0x400000) != 0)
+
 #define IS_NOT_PERIOD ((tokens[i] & 0x20000) == 0)
 
 #define IS_P18PERIOD ((((tokens[i] & 0x20000) << 1) & tokens[PREV_STATE]) != 0)
+
+#define IS_NOT_QUOTATION ((tokens[i] & 0x400000) == 0)
+
 
 int main() {
    
@@ -478,7 +483,14 @@ int main() {
                     NOT(IS_P19 & IS_NOT_EQUAL)
                                                                                |
                     W_CHR(GET_NEXT_STATE(21))
-
+                                                                               |
+                    W_STR(IS_P22 & IS_NOT_QUOTATION)
+                                                    
+                                                                      
+                
+                
+                
+                
                 ) << w_shft_factor;
         
         
