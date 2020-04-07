@@ -586,6 +586,8 @@ int main() {
                     LTE(IS_P15EQUAL)
                                                                                |
                     SHLEQ(IS_P16EQUAL)
+                                                                               |
+                    NOTEQ(IS_P19EQUAL)
                 
                 
                 
