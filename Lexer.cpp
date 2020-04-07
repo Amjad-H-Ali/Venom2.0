@@ -500,6 +500,8 @@ int main() {
                     COLON(IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
                                                                                |
                     LPARAN(IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                                                                               |
+                    RPARAN(IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
 
 
     
