@@ -584,6 +584,8 @@ int main() {
                     SHREQ(IS_P14EQUAL)
                                                                                |
                     LTE(IS_P15EQUAL)
+                                                                               |
+                    SHLEQ(IS_P16EQUAL)
                 
                 
                 
