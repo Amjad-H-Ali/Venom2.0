@@ -273,6 +273,11 @@
 
 #define IS_NOT_QUOTATION ((tokens[i] & 0x400000) == 0)
 
+#define N20 ((tokens[NEXT_STATE] & 0x100000) != 0)
+
+#define N21 ((tokens[NEXT_STATE] & 0x200000) != 0)
+
+#define IS_P3EQUAL (((tokens[i] & 0x8) & tokens[PREV_STATE]) != 0)
 
 int main() {
    
@@ -442,7 +447,7 @@ int main() {
                 
                 (
                 
-                    CHR(GET_NEXT_STATE(20))                                   
+                    CHR(N20)                                   
                                                                                |
                     STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        
                                                                                |
@@ -482,10 +487,11 @@ int main() {
                                                                                |
                     NOT(IS_P19 & IS_NOT_EQUAL)
                                                                                |
-                    W_CHR(GET_NEXT_STATE(21))
+                    W_CHR(N21)
                                                                                |
                     W_STR(IS_P22 & IS_NOT_QUOTATION)
-                                                    
+                                                                               |
+                    MULEQ(IS_P3EQUAL)
                                                                       
                 
                 
