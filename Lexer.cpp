@@ -267,6 +267,8 @@
 
 #define IS_NOT_PERIOD ((tokens[i] & 0x20000) == 0)
 
+#define IS_P18PERIOD ((((tokens[i] & 0x20000) << 1) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -470,6 +472,11 @@ int main() {
                     DOT(IS_P17 & IS_NOT_PERIOD)
                                                                                |
                     DDOT(IS_P18 & IS_NOT_PERIOD)
+                                                                               |
+                    ELLIP(IS_P18PERIOD)
+                                                                               
+                    
+
                 ) << w_shft_factor;
         
         
