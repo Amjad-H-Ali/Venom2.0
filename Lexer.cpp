@@ -327,6 +327,8 @@
 
 #define IS_P1NOT_ALPHABET_OR_UNDERSCORE ((((tokens[i] & 0x3) == 0) & ((tokens[PREV_STATE] & 0x2) != 0)) != 0)
 
+#define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
+
 int main() {
    
     
@@ -608,6 +610,8 @@ int main() {
                     NUM(IS_P2NOTNUMERAL)
                                                                                                        |
                     R_ALPHANUM(IS_P1NOT_ALPHABET_OR_UNDERSCORE)
+                                                                                                       |
+                    ERROR(IS_N23)
                     
                 
                 
