@@ -309,6 +309,16 @@
 
 #define IS_P12EQUAL ((((tokens[i] & 0x100) << 4) & tokens[PREV_STATE]) != 0)
 
+#define IS_P13EQUAL ((((tokens[i] & 0x100) << 5) & tokens[PREV_STATE]) != 0)
+
+#define IS_P14EQUAL ((((tokens[i] & 0x100) << 6) & tokens[PREV_STATE]) != 0)
+
+#define IS_P15EQUAL ((((tokens[i] & 0x100) << 7) & tokens[PREV_STATE]) != 0)
+
+#define IS_P16EQUAL ((((tokens[i] & 0x100) << 8) & tokens[PREV_STATE]) != 0)
+
+#define IS_P19EQUAL ((((tokens[i] & 0x100) << 11) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -568,6 +578,8 @@ int main() {
                     BXOREQ(IS_P11EQUAL)
                                                                                |
                     GTE(IS_P12EQUAL)
+                                                                               |
+                    SAREQ(IS_P13EQUAL)
                                                                           
                 
                 
