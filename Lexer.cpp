@@ -239,7 +239,15 @@
 
 #define IS_P9 ((tokens[PREV_STATE] & 0x200) != 0)
 
-#define IS_NOT_BAR_OR_EQUAL ((tokens[i] & 0x300) == 0) 
+#define IS_NOT_BAR_OR_EQUAL ((tokens[i] & 0x300) == 0)
+
+#define IS_P10 ((tokens[PREV_STATE] & 0x400) != 0)
+
+#define IS_NOT_AMPERSAND_OR_EQUAL ((tokens[i] & 0x500) == 0)
+
+
+
+
 int main() {
    
     
@@ -425,6 +433,9 @@ int main() {
                     ASSGN(IS_P8 & IS_NOT_GT_OR_EQUAL)
                                                                                |
                     BOR(IS_P9 & IS_NOT_BAR_OR_EQUAL)
+                                                                               |
+                    BAND(IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL)
+                
                                                                                
                 ) << w_shft_factor;
         
