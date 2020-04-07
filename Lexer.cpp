@@ -295,6 +295,8 @@
 
 #define IS_P8EQUAL (((tokens[i] & 0x100) & tokens[PREV_STATE]) != 0)
 
+#define IS_P8GT (((tokens[i] & 0x1000) & tokens[PREV_STATE] << 4)  != 0)
+
 int main() {
    
     
@@ -540,7 +542,8 @@ int main() {
                     MODEQ(IS_P7EQUAL)
                                                                                |
                     EQ(IS_P8EQUAL)
-
+                                                                               |
+                    FARROW(IS_P8GT)
 
 
     
