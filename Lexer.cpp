@@ -510,6 +510,8 @@ int main() {
                     LBRACE(IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
                                                                                |
                     RBRACE(IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                                                                               |
+                    BNOT(IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
 
                 
 
