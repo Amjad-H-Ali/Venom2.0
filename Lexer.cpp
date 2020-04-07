@@ -325,6 +325,8 @@
 
 #define IS_P2NOTNUMERAL ((((tokens[i] & 0x4) == 0) & ((tokens[PREV_STATE] & 0x4) != 0)) != 0)
 
+#define IS_P1NOT_ALPHABET_OR_UNDERSCORE ((((tokens[i] & 0x3) == 0) & ((tokens[PREV_STATE] & 0x2) != 0)) != 0)
+
 int main() {
    
     
@@ -604,6 +606,8 @@ int main() {
                     W_ALPHANUM(IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
                                                                                                        |
                     NUM(IS_P2NOTNUMERAL)
+                                                                                                       |
+                    R_ALPHANUM(IS_P1NOT_ALPHABET_OR_UNDERSCORE)
                     
                 
                 
