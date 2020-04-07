@@ -217,7 +217,11 @@
 
 #define IS_P3 ((tokens[PREV_STATE] & 0x8) != 0)
 
+#define IS_P4 ((tokens[PREV_STATE] & 0x10) != 0)
+
 #define IS_NOT_ASTERISK_OR_EQUAL ((tokens[PREV_STATE] & 0x108) == 0) 
+
+#define IS_NOT_EQUAL ((tokens[i] & 0x100) == 0)
 
 
 int main() {
@@ -382,17 +386,20 @@ int main() {
                 IS_P23
             )
                                                                                                                         ;
-            
+     
+                
             tokens[W_POS] |=
                 
                 (
                 
-                    CHR(GET_NEXT_STATE(20))                                    |
-
-                    STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        |
-
-                    MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)
-                
+                    CHR(GET_NEXT_STATE(20))                                   
+                                                                               |
+                    STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        
+                                                                               |
+                    MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)                      
+                                                                               |
+                    DIV(IS_P4 & IS_NOT_EQUAL)                
+                                                                               
                 ) << w_shft_factor;
         
         
