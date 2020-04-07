@@ -580,6 +580,8 @@ int main() {
                     GTE(IS_P12EQUAL)
                                                                                |
                     SAREQ(IS_P13EQUAL)
+                                                                               |
+                    SHREQ(IS_P14EQUAL)
                                                                           
                 
                 
