@@ -223,6 +223,9 @@
 
 #define IS_NOT_EQUAL ((tokens[i] & 0x100) == 0)
 
+#define IS_P5 ((tokens[PREV_STATE] & 0x20) != 0)
+
+#define IS_NOT_PLUS_OR_EQUAL ((tokens[i] & 0x120) == 0)
 
 int main() {
    
@@ -398,7 +401,9 @@ int main() {
                                                                                |
                     MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)                      
                                                                                |
-                    DIV(IS_P4 & IS_NOT_EQUAL)                
+                    DIV(IS_P4 & IS_NOT_EQUAL) 
+                                                                               |
+                    PLUS(IS_P5 & IS_NOT_PLUS_OR_EQUAL)
                                                                                
                 ) << w_shft_factor;
         
