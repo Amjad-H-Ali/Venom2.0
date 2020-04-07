@@ -245,6 +245,7 @@
 
 #define IS_NOT_AMPERSAND_OR_EQUAL ((tokens[i] & 0x500) == 0)
 
+#define IS_P11 ((tokens[PREV_STATE] & 0x800) != 0)
 
 
 
@@ -435,7 +436,8 @@ int main() {
                     BOR(IS_P9 & IS_NOT_BAR_OR_EQUAL)
                                                                                |
                     BAND(IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL)
-                
+                                                                               |
+                    BXOR(IS_P11 & IS_NOT_EQUAL)
                                                                                
                 ) << w_shft_factor;
         
