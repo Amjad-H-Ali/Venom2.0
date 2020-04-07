@@ -305,6 +305,8 @@
 
 #define IS_P10AMPERSAND (((tokens[i] & 0x400) & tokens[PREV_STATE]) != 0)
 
+#define IS_P11EQUAL ((((tokens[i] & 0x100) << 3) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -560,7 +562,8 @@ int main() {
                     BANDEQ(IS_P10EQUAL)
                                                                                |
                     LAND(IS_P10AMPERSAND)
-                
+                                                                               |
+                    BXOREQ(IS_P11EQUAL)
                                                                           
                 
                 
