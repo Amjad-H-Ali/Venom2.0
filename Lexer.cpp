@@ -237,6 +237,9 @@
 
 #define IS_NOT_GT_OR_EQUAL ((tokens[i] & 0x1100) == 0)
 
+#define IS_P9 ((tokens[PREV_STATE] & 0x200) != 0)
+
+#define IS_NOT_BAR_OR_EQUAL ((tokens[i] & 0x300) == 0) 
 int main() {
    
     
@@ -420,6 +423,8 @@ int main() {
                     MOD(IS_P7 & IS_NOT_EQUAL)
                                                                                |
                     ASSGN(IS_P8 & IS_NOT_GT_OR_EQUAL)
+                                                                               |
+                    BOR(IS_P9 & IS_NOT_BAR_OR_EQUAL)
                                                                                
                 ) << w_shft_factor;
         
