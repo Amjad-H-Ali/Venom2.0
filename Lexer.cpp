@@ -299,6 +299,8 @@
 
 #define IS_P9EQUAL ((((tokens[i] & 0x100) << 1) & tokens[PREV_STATE]) != 0)
 
+#define IS_P9BAR (((tokens[i] & 0x200) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -548,7 +550,8 @@ int main() {
                     FARROW(IS_P8GT)
                                                                                |
                     BOREQ(IS_P9EQUAL)
-
+                                                                               |
+                    LOR(IS_P9BAR)
     
                                                                       
                 
