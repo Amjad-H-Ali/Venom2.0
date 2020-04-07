@@ -502,6 +502,9 @@ int main() {
                     LPARAN(IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
                                                                                |
                     RPARAN(IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                                                                               |
+                    LBRACK(IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+
 
 
     
