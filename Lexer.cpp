@@ -582,7 +582,8 @@ int main() {
                     SAREQ(IS_P13EQUAL)
                                                                                |
                     SHREQ(IS_P14EQUAL)
-                                                                          
+                                                                               |
+                    LTE(IS_P15EQUAL)
                 
                 
                 
