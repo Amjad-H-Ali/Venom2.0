@@ -4,6 +4,7 @@
 #define SIZE 2000 
 #define PREV_STATE 0
 #define NEXT_STATE 1
+#define W_POS (i-1)
 
 // Inputs
 #define IS_UNDERSCORE         ((tokens[i] & 0x1)         != 0)
@@ -35,121 +36,121 @@
 #define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
 /* TOKENS */
-#define CHR(CONDITION)        (static_cast<uint8_t>(0x1 & CONDITION))
+#define CHR(CONDITION)        (static_cast<uint64_t>(0x1 & CONDITION))
 
-#define STR(CONDITION)        (static_cast<uint8_t>(0x2 * CONDITION))
+#define STR(CONDITION)        (static_cast<uint64_t>(0x2 * CONDITION))
 
-#define MUL(CONDITION)        (static_cast<uint8_t>(0x3 * CONDITION))
+#define MUL(CONDITION)        (static_cast<uint64_t>(0x3 * CONDITION))
 
-#define DIV(CONDITION)        (static_cast<uint8_t>(0x4 * CONDITION))
+#define DIV(CONDITION)        (static_cast<uint64_t>(0x4 * CONDITION))
 
-#define PLUS(CONDITION)       (static_cast<uint8_t>(0x5 * CONDITION))
+#define PLUS(CONDITION)       (static_cast<uint64_t>(0x5 * CONDITION))
 
-#define MIN(CONDITION)        (static_cast<uint8_t>(0x6 * CONDITION))
+#define MIN(CONDITION)        (static_cast<uint64_t>(0x6 * CONDITION))
 
-#define MOD(CONDITION)        (static_cast<uint8_t>(0x7 * CONDITION))
+#define MOD(CONDITION)        (static_cast<uint64_t>(0x7 * CONDITION))
 
-#define ASSGN(CONDITION)      (static_cast<uint8_t>(0x8 * CONDITION))
+#define ASSGN(CONDITION)      (static_cast<uint64_t>(0x8 * CONDITION))
 
-#define BOR(CONDITION)        (static_cast<uint8_t>(0x9 * CONDITION))
+#define BOR(CONDITION)        (static_cast<uint64_t>(0x9 * CONDITION))
 
-#define BAND(CONDITION)       (static_cast<uint8_t>(0xA * CONDITION))
+#define BAND(CONDITION)       (static_cast<uint64_t>(0xA * CONDITION))
 
-#define BXOR(CONDITION)       (static_cast<uint8_t>(0xB * CONDITION))
+#define BXOR(CONDITION)       (static_cast<uint64_t>(0xB * CONDITION))
 
-#define GT(CONDITION)         (static_cast<uint8_t>(0xC * CONDITION))
+#define GT(CONDITION)         (static_cast<uint64_t>(0xC * CONDITION))
 
-#define SAR(CONDITION)        (static_cast<uint8_t>(0xD * CONDITION))
+#define SAR(CONDITION)        (static_cast<uint64_t>(0xD * CONDITION))
 
-#define SHR(CONDITION)        (static_cast<uint8_t>(0xE * CONDITION))
+#define SHR(CONDITION)        (static_cast<uint64_t>(0xE * CONDITION))
 
-#define LT(CONDITION)         (static_cast<uint8_t>(0xF * CONDITION))
+#define LT(CONDITION)         (static_cast<uint64_t>(0xF * CONDITION))
 
-#define SHL(CONDITION)        (static_cast<uint8_t>(0x10 * CONDITION))
+#define SHL(CONDITION)        (static_cast<uint64_t>(0x10 * CONDITION))
 
-#define DOT(CONDITION)        (static_cast<uint8_t>(0x11 * CONDITION))
+#define DOT(CONDITION)        (static_cast<uint64_t>(0x11 * CONDITION))
 
-#define DDOT(CONDITION)       (static_cast<uint8_t>(0x12 * CONDITION))
+#define DDOT(CONDITION)       (static_cast<uint64_t>(0x12 * CONDITION))
 
-#define ELLIP(CONDITION)      (static_cast<uint8_t>(0x13 * CONDITION))
+#define ELLIP(CONDITION)      (static_cast<uint64_t>(0x13 * CONDITION))
 
-#define NOT(CONDITION)        (static_cast<uint8_t>(0x14 * CONDITION))
+#define NOT(CONDITION)        (static_cast<uint64_t>(0x14 * CONDITION))
 
-#define W_CHR(CONDITION)      (static_cast<uint8_t>(0x15 * CONDITION))
+#define W_CHR(CONDITION)      (static_cast<uint64_t>(0x15 * CONDITION))
 
-#define W_STR(CONDITION)      (static_cast<uint8_t>(0x16 * CONDITION))
+#define W_STR(CONDITION)      (static_cast<uint64_t>(0x16 * CONDITION))
 
-#define MULEQ(CONDITION)      (static_cast<uint8_t>(0x17 * CONDITION))
+#define MULEQ(CONDITION)      (static_cast<uint64_t>(0x17 * CONDITION))
 
-#define EXP(CONDITION)        (static_cast<uint8_t>(0x18 * CONDITION))
+#define EXP(CONDITION)        (static_cast<uint64_t>(0x18 * CONDITION))
 
-#define COLON(CONDITION)      (static_cast<uint8_t>(0x19 * CONDITION))
+#define COLON(CONDITION)      (static_cast<uint64_t>(0x19 * CONDITION))
 
-#define LPARAN(CONDITION)     (static_cast<uint8_t>(0x1A * CONDITION))
+#define LPARAN(CONDITION)     (static_cast<uint64_t>(0x1A * CONDITION))
 
-#define RPARAN(CONDITION)     (static_cast<uint8_t>(0x1B * CONDITION))
+#define RPARAN(CONDITION)     (static_cast<uint64_t>(0x1B * CONDITION))
 
-#define LBRACK(CONDITION)     (static_cast<uint8_t>(0x1C * CONDITION))
+#define LBRACK(CONDITION)     (static_cast<uint64_t>(0x1C * CONDITION))
 
-#define RBRACK(CONDITION)     (static_cast<uint8_t>(0x1D * CONDITION))
+#define RBRACK(CONDITION)     (static_cast<uint64_t>(0x1D * CONDITION))
 
-#define LBRACE(CONDITION)     (static_cast<uint8_t>(0x1E * CONDITION))
+#define LBRACE(CONDITION)     (static_cast<uint64_t>(0x1E * CONDITION))
 
-#define RBRACE(CONDITION)     (static_cast<uint8_t>(0x1F * CONDITION))
+#define RBRACE(CONDITION)     (static_cast<uint64_t>(0x1F * CONDITION))
 
-#define BNOT(CONDITION)       (static_cast<uint8_t>(0x20 * CONDITION))
+#define BNOT(CONDITION)       (static_cast<uint64_t>(0x20 * CONDITION))
 
-#define DIVEQ(CONDITION)      (static_cast<uint8_t>(0x21 * CONDITION))
+#define DIVEQ(CONDITION)      (static_cast<uint64_t>(0x21 * CONDITION))
 
-#define PE(CONDITION)         (static_cast<uint8_t>(0x22 * CONDITION))
+#define PE(CONDITION)         (static_cast<uint64_t>(0x22 * CONDITION))
 
-#define INC(CONDITION)        (static_cast<uint8_t>(0x23 * CONDITION))
+#define INC(CONDITION)        (static_cast<uint64_t>(0x23 * CONDITION))
 
-#define MINE(CONDITION)       (static_cast<uint8_t>(0x24 * CONDITION))
+#define MINE(CONDITION)       (static_cast<uint64_t>(0x24 * CONDITION))
 
-#define DEC(CONDITION)        (static_cast<uint8_t>(0x25 * CONDITION))
+#define DEC(CONDITION)        (static_cast<uint64_t>(0x25 * CONDITION))
 
-#define MODEQ(CONDITION)      (static_cast<uint8_t>(0x26 * CONDITION))
+#define MODEQ(CONDITION)      (static_cast<uint64_t>(0x26 * CONDITION))
 
-#define EQ(CONDITION)         (static_cast<uint8_t>(0x27 * CONDITION))
+#define EQ(CONDITION)         (static_cast<uint64_t>(0x27 * CONDITION))
 
-#define FARROW(CONDITION)     (static_cast<uint8_t>(0x28 * CONDITION))
+#define FARROW(CONDITION)     (static_cast<uint64_t>(0x28 * CONDITION))
 
-#define BOREQ(CONDITION)      (static_cast<uint8_t>(0x29 * CONDITION))
+#define BOREQ(CONDITION)      (static_cast<uint64_t>(0x29 * CONDITION))
 
-#define LOR(CONDITION)        (static_cast<uint8_t>(0x2A * CONDITION))
+#define LOR(CONDITION)        (static_cast<uint64_t>(0x2A * CONDITION))
 
-#define BANDEQ(CONDITION)     (static_cast<uint8_t>(0x2B * CONDITION))
+#define BANDEQ(CONDITION)     (static_cast<uint64_t>(0x2B * CONDITION))
 
-#define LAND(CONDITION)       (static_cast<uint8_t>(0x2C * CONDITION))
+#define LAND(CONDITION)       (static_cast<uint64_t>(0x2C * CONDITION))
 
-#define BXOREQ(CONDITION)     (static_cast<uint8_t>(0x2D * CONDITION))
+#define BXOREQ(CONDITION)     (static_cast<uint64_t>(0x2D * CONDITION))
 
-#define GTE(CONDITION)        (static_cast<uint8_t>(0x2E * CONDITION))
+#define GTE(CONDITION)        (static_cast<uint64_t>(0x2E * CONDITION))
 
-#define SAREQ(CONDITION)      (static_cast<uint8_t>(0x2F * CONDITION))
+#define SAREQ(CONDITION)      (static_cast<uint64_t>(0x2F * CONDITION))
 
-#define SHREQ(CONDITION)      (static_cast<uint8_t>(0x30 * CONDITION))
+#define SHREQ(CONDITION)      (static_cast<uint64_t>(0x30 * CONDITION))
 
-#define LTE(CONDITION)        (static_cast<uint8_t>(0x31 * CONDITION))
+#define LTE(CONDITION)        (static_cast<uint64_t>(0x31 * CONDITION))
 
-#define SHLEQ(CONDITION)      (static_cast<uint8_t>(0x32 * CONDITION))
+#define SHLEQ(CONDITION)      (static_cast<uint64_t>(0x32 * CONDITION))
 
-#define NOTEQ(CONDITION)      (static_cast<uint8_t>(0x33 * CONDITION))
+#define NOTEQ(CONDITION)      (static_cast<uint64_t>(0x33 * CONDITION))
 
-#define R_CHR(CONDITION)      (static_cast<uint8_t>(0x34 * CONDITION))
+#define R_CHR(CONDITION)      (static_cast<uint64_t>(0x34 * CONDITION))
 
-#define R_STR(CONDITION)      (static_cast<uint8_t>(0x35 * CONDITION))
+#define R_STR(CONDITION)      (static_cast<uint64_t>(0x35 * CONDITION))
 
-#define W_NUM(CONDITION)      (static_cast<uint8_t>(0x36 * CONDITION))
+#define W_NUM(CONDITION)      (static_cast<uint64_t>(0x36 * CONDITION))
 
-#define W_ALPHANUM(CONDITION) (static_cast<uint8_t>(0x37 * CONDITION))
+#define W_ALPHANUM(CONDITION) (static_cast<uint64_t>(0x37 * CONDITION))
 
-#define NUM(CONDITION)        (static_cast<uint8_t>(0x38 * CONDITION))
+#define NUM(CONDITION)        (static_cast<uint64_t>(0x38 * CONDITION))
 
-#define R_ALPHANUM(CONDITION) (static_cast<uint8_t>(0x39 * CONDITION))
+#define R_ALPHANUM(CONDITION) (static_cast<uint64_t>(0x39 * CONDITION))
 
-#define ERROR(CONDITION)      (static_cast<uint8_t>(0x3A * CONDITION))
+#define ERROR(CONDITION)      (static_cast<uint64_t>(0x3A * CONDITION))
 
 /* END OF TOKEN DEFINITIONS */
 
@@ -164,7 +165,9 @@
 
 #define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( ((tokens[i] & 0x1668) & tokens[PREV_STATE]) != 0 )
 
-#define GET_PREV_STATE(P) ( (tokens[PREV_STATE] & (0x1 << P)) != 0 ) 
+#define GET_PREV_STATE(P) ((tokens[PREV_STATE] & (0x1 << P)) != 0) 
+
+#define GET_NEXT_STATE(N) ((tokens[NEXT_STATE] & (0x1 << N)) != 0)
 
 #define SET_NEXT_STATE(N, CONDITION) (static_cast<uint64_t>(CONDITION) << N) 
 
@@ -210,16 +213,21 @@
 
 #define IS_P21NOTAPOSTROPHE ((((tokens[i] & 0x100000) == 0) & ((tokens[PREV_STATE] & 0x200000) != 0)) != 0)
 
-#define N20
-
 #define IS_P23 ((tokens[PREV_STATE] & 0x800000) != 0)
+
+#define IS_P3 ((tokens[PREV_STATE] & 0x8) != 0)
+
+#define IS_NOT_ASTERISK_OR_EQUAL ((tokens[PREV_STATE] & 0x108) == 0) 
+
+
 int main() {
    
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x100;
-    uint32_t i = 2;
+    uint32_t i = 3;
+    uint8_t w_shft_factor = 0;
     while(tokens[i] += getchar()) {
         
         // Set the corresponding bit of current input to 1.
@@ -374,10 +382,18 @@ int main() {
                 IS_P23
             )
                                                                                                                         ;
-        
+            
+            tokens[W_POS] |=
+                
+                (
+                
+                    CHR(GET_NEXT_STATE(20))                                    |
 
-        
-        
+                    STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        |
+
+                    MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)
+                
+                ) << w_shft_factor;
         
         
         
