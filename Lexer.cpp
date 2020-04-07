@@ -283,6 +283,8 @@
 
 #define IS_P4EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 4)) != 0)
 
+#define IS_P5EQUAL (((tokens[i] & 0x100) & (tokens[PREV_STATE] << 3)) != 0)
+
 int main() {
    
     
@@ -516,7 +518,8 @@ int main() {
                     BNOT(IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
                                                                                |
                     DIVEQ(IS_P4EQUAL)
-                    
+                                                                               |
+                    PE(IS_P5EQUAL)
 
 
 
