@@ -476,7 +476,8 @@ int main() {
                     ELLIP(IS_P18PERIOD)
                                                                                |
                     NOT(IS_P19 & IS_NOT_EQUAL)
-                    
+                                                                               |
+                    W_CHR(GET_NEXT_STATE(21))
 
                 ) << w_shft_factor;
         
