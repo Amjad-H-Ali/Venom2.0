@@ -307,6 +307,8 @@
 
 #define IS_P11EQUAL ((((tokens[i] & 0x100) << 3) & tokens[PREV_STATE]) != 0)
 
+#define IS_P12EQUAL ((((tokens[i] & 0x100) << 4) & tokens[PREV_STATE]) != 0)
+
 int main() {
    
     
@@ -564,6 +566,8 @@ int main() {
                     LAND(IS_P10AMPERSAND)
                                                                                |
                     BXOREQ(IS_P11EQUAL)
+                                                                               |
+                    GTE(IS_P12EQUAL)
                                                                           
                 
                 
