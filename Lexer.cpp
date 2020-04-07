@@ -257,6 +257,14 @@
 
 #define IS_NOT_LT_OR_EQUAL (tokens[i] & 0x8100)
 
+#define IS_P16 ((tokens[PREV_STATE] & 0x10000) != 0)
+
+#define IS_P17 ((tokens[PREV_STATE] & 0x20000) != 0)
+
+#define IS_P18 ((tokens[PREV_STATE] & 0x40000) != 0)
+
+#define IS_P19 ((tokens[PREV_STATE] & 0x80000) != 0)
+
 int main() {
    
     
@@ -454,6 +462,8 @@ int main() {
                     SHR(IS_P14 & IS_NOT_EQUAL)
                                                                                |
                     LT(IS_P15 & IS_NOT_LT_OR_EQUAL)
+                                                                               |
+                    SHL(IS_P16 & IS_NOT_EQUAL)
                     
                                                                                
                 ) << w_shft_factor;
