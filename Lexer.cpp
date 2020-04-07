@@ -233,7 +233,9 @@
 
 #define IS_P7 ((tokens[PREV_STATE] & 0x80) != 0)
 
+#define IS_P8 ((tokens[PREV_STATE] & 0x100) != 0)
 
+#define IS_NOT_GT_OR_EQUAL ((tokens[i] & 0x1100) == 0)
 
 int main() {
    
@@ -416,7 +418,8 @@ int main() {
                     MIN(IS_P6 & IS_NOT_MIN_OR_EQUAL)
                                                                                |
                     MOD(IS_P7 & IS_NOT_EQUAL)
-                                                                               
+                                                                               |
+                    ASSGN(IS_P8 & IS_NOT_GT_OR_EQUAL)
                                                                                
                 ) << w_shft_factor;
         
