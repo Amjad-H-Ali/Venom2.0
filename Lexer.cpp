@@ -249,6 +249,8 @@
 
 #define IS_P12 ((tokens[PREV_STATE] & 0x1000) != 0)
 
+#define IS_P13 ((tokens[PREV_STATE] & 0x2000) != 0)
+
 int main() {
    
     
@@ -440,7 +442,9 @@ int main() {
                     BXOR(IS_P11 & IS_NOT_EQUAL)
                                                                                |
                     GT(IS_P12 & IS_NOT_GT_OR_EQUAL)
-      
+                                                                               |
+                    SAR(IS_P13 & IS_NOT_GT_OR_EQUAL)
+                    
                                                                                
                 ) << w_shft_factor;
         
