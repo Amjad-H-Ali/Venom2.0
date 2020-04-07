@@ -596,6 +596,9 @@ int main() {
                     R_CHR(IS_P20APOSTROPHE_OR_P21APOSTROPHE)
                                                                                |
                     R_STR(IS_P22QUOTATION)
+                                                                               |
+                    W_NUM(IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)  
+                                                                               
                 
                 
                 
