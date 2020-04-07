@@ -468,7 +468,8 @@ int main() {
                     SHL(IS_P16 & IS_NOT_EQUAL)
                                                                                |
                     DOT(IS_P17 & IS_NOT_PERIOD)
-                                                                               
+                                                                               |
+                    DDOT(IS_P18 & IS_NOT_PERIOD)
                 ) << w_shft_factor;
         
         
