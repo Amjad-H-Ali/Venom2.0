@@ -5,6 +5,8 @@
 #define PREV_STATE 0
 #define NEXT_STATE 1
 #define W_POS (i-1)
+#define ALPHANUM_BUFFER (i+1)
+#define NUMERAL_BUFFER (i+3)
 
 // Inputs
 #define IS_UNDERSCORE         ((tokens[i] & 0x1)         != 0)
@@ -36,121 +38,121 @@
 #define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
 /* TOKENS */
-#define CHR(CONDITION)        (0x1 & CONDITION)
+#define SET_CHR(CONDITION)        (0x1 & CONDITION)
 
-#define STR(CONDITION)        (0x2 * CONDITION)
+#define SET_STR(CONDITION)        (0x2 * CONDITION)
 
-#define MUL(CONDITION)        (0x3 * CONDITION)
+#define SET_MUL(CONDITION)        (0x3 * CONDITION)
 
-#define DIV(CONDITION)        (0x4 * CONDITION)
+#define SET_DIV(CONDITION)        (0x4 * CONDITION)
 
-#define PLUS(CONDITION)       (0x5 * CONDITION)
+#define SET_PLUS(CONDITION)       (0x5 * CONDITION)
 
-#define MIN(CONDITION)        (0x6 * CONDITION)
+#define SET_MIN(CONDITION)        (0x6 * CONDITION)
 
-#define MOD(CONDITION)        (0x7 * CONDITION)
+#define SET_MOD(CONDITION)        (0x7 * CONDITION)
 
-#define ASSGN(CONDITION)      (0x8 * CONDITION)
+#define SET_ASSGN(CONDITION)      (0x8 * CONDITION)
 
-#define BOR(CONDITION)        (0x9 * CONDITION)
+#define SET_BOR(CONDITION)        (0x9 * CONDITION)
 
-#define BAND(CONDITION)       (0xA * CONDITION)
+#define SET_BAND(CONDITION)       (0xA * CONDITION)
 
-#define BXOR(CONDITION)       (0xB * CONDITION)
+#define SET_BXOR(CONDITION)       (0xB * CONDITION)
 
-#define GT(CONDITION)         (0xC * CONDITION)
+#define SET_GT(CONDITION)         (0xC * CONDITION)
 
-#define SAR(CONDITION)        (0xD * CONDITION)
+#define SET_SAR(CONDITION)        (0xD * CONDITION)
 
-#define SHR(CONDITION)        (0xE * CONDITION)
+#define SET_SHR(CONDITION)        (0xE * CONDITION)
 
-#define LT(CONDITION)         (0xF * CONDITION)
+#define SET_LT(CONDITION)         (0xF * CONDITION)
 
-#define SHL(CONDITION)        (0x10 * CONDITION)
+#define SET_SHL(CONDITION)        (0x10 * CONDITION)
 
-#define DOT(CONDITION)        (0x11 * CONDITION)
+#define SET_DOT(CONDITION)        (0x11 * CONDITION)
 
-#define DDOT(CONDITION)       (0x12 * CONDITION)
+#define SET_DDOT(CONDITION)       (0x12 * CONDITION)
 
-#define ELLIP(CONDITION)      (0x13 * CONDITION)
+#define SET_ELLIP(CONDITION)      (0x13 * CONDITION)
 
-#define NOT(CONDITION)        (0x14 * CONDITION)
+#define SET_NOT(CONDITION)        (0x14 * CONDITION)
 
-#define W_CHR(CONDITION)      (0x15 * CONDITION)
+#define SET_W_CHR(CONDITION)      (0x15 * CONDITION)
 
-#define W_STR(CONDITION)      (0x16 * CONDITION)
+#define SET_W_STR(CONDITION)      (0x16 * CONDITION)
 
-#define MULEQ(CONDITION)      (0x17 * CONDITION)
+#define SET_MULEQ(CONDITION)      (0x17 * CONDITION)
 
-#define EXP(CONDITION)        (0x18 * CONDITION)
+#define SET_EXP(CONDITION)        (0x18 * CONDITION)
 
-#define COLON(CONDITION)      (0x19 * CONDITION)
+#define SET_COLON(CONDITION)      (0x19 * CONDITION)
 
-#define LPARAN(CONDITION)     (0x1A * CONDITION)
+#define SET_LPARAN(CONDITION)     (0x1A * CONDITION)
 
-#define RPARAN(CONDITION)     (0x1B * CONDITION)
+#define SET_RPARAN(CONDITION)     (0x1B * CONDITION)
 
-#define LBRACK(CONDITION)     (0x1C * CONDITION)
+#define SET_LBRACK(CONDITION)     (0x1C * CONDITION)
 
-#define RBRACK(CONDITION)     (0x1D * CONDITION)
+#define SET_RBRACK(CONDITION)     (0x1D * CONDITION)
 
-#define LBRACE(CONDITION)     (0x1E * CONDITION)
+#define SET_LBRACE(CONDITION)     (0x1E * CONDITION)
 
-#define RBRACE(CONDITION)     (0x1F * CONDITION)
+#define SET_RBRACE(CONDITION)     (0x1F * CONDITION)
 
-#define BNOT(CONDITION)       (0x20 * CONDITION)
+#define SET_BNOT(CONDITION)       (0x20 * CONDITION)
 
-#define DIVEQ(CONDITION)      (0x21 * CONDITION)
+#define SET_DIVEQ(CONDITION)      (0x21 * CONDITION)
 
-#define PE(CONDITION)         (0x22 * CONDITION)
+#define SET_PE(CONDITION)         (0x22 * CONDITION)
 
-#define INC(CONDITION)        (0x23 * CONDITION)
+#define SET_INC(CONDITION)        (0x23 * CONDITION)
 
-#define MINE(CONDITION)       (0x24 * CONDITION)
+#define SET_MINE(CONDITION)       (0x24 * CONDITION)
 
-#define DEC(CONDITION)        (0x25 * CONDITION)
+#define SET_DEC(CONDITION)        (0x25 * CONDITION)
 
-#define MODEQ(CONDITION)      (0x26 * CONDITION)
+#define SET_MODEQ(CONDITION)      (0x26 * CONDITION)
 
-#define EQ(CONDITION)         (0x27 * CONDITION)
+#define SET_EQ(CONDITION)         (0x27 * CONDITION)
 
-#define FARROW(CONDITION)     (0x28 * CONDITION)
+#define SET_FARROW(CONDITION)     (0x28 * CONDITION)
 
-#define BOREQ(CONDITION)      (0x29 * CONDITION)
+#define SET_BOREQ(CONDITION)      (0x29 * CONDITION)
 
-#define LOR(CONDITION)        (0x2A * CONDITION)
+#define SET_LOR(CONDITION)        (0x2A * CONDITION)
 
-#define BANDEQ(CONDITION)     (0x2B * CONDITION)
+#define SET_BANDEQ(CONDITION)     (0x2B * CONDITION)
 
-#define LAND(CONDITION)       (0x2C * CONDITION)
+#define SET_LAND(CONDITION)       (0x2C * CONDITION)
 
-#define BXOREQ(CONDITION)     (0x2D * CONDITION)
+#define SET_BXOREQ(CONDITION)     (0x2D * CONDITION)
 
-#define GTE(CONDITION)        (0x2E * CONDITION)
+#define SET_GTE(CONDITION)        (0x2E * CONDITION)
 
-#define SAREQ(CONDITION)      (0x2F * CONDITION)
+#define SET_SAREQ(CONDITION)      (0x2F * CONDITION)
 
-#define SHREQ(CONDITION)      (0x30 * CONDITION)
+#define SET_SHREQ(CONDITION)      (0x30 * CONDITION)
 
-#define LTE(CONDITION)        (0x31 * CONDITION)
+#define SET_LTE(CONDITION)        (0x31 * CONDITION)
 
-#define SHLEQ(CONDITION)      (0x32 * CONDITION)
+#define SET_SHLEQ(CONDITION)      (0x32 * CONDITION)
 
-#define NOTEQ(CONDITION)      (0x33 * CONDITION)
+#define SET_NOTEQ(CONDITION)      (0x33 * CONDITION)
 
-#define R_CHR(CONDITION)      (0x34 * CONDITION)
+#define SET_R_CHR(CONDITION)      (0x34 * CONDITION)
 
-#define R_STR(CONDITION)      (0x35 * CONDITION)
+#define SET_R_STR(CONDITION)      (0x35 * CONDITION)
 
-#define W_NUM(CONDITION)      (0x36 * CONDITION)
+#define SET_W_NUM(CONDITION)      (0x36 * CONDITION)
 
-#define W_ALPHANUM(CONDITION) (0x37 * CONDITION)
+#define SET_W_ALPHANUM(CONDITION) (0x37 * CONDITION)
 
-#define NUM(CONDITION)        (0x38 * CONDITION)
+#define SET_NUM(CONDITION)        (0x38 * CONDITION)
 
-#define R_ALPHANUM(CONDITION) (0x39 * CONDITION)
+#define SET_R_ALPHANUM(CONDITION) (0x39 * CONDITION)
 
-#define ERROR(CONDITION)      (0x3A * CONDITION)
+#define SET_ERROR(CONDITION)      (0x3A * CONDITION)
 
 /* END OF TOKEN DEFINITIONS */
 
@@ -329,6 +331,8 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
+#define IS_W_ALPHANUM (tokens[W_POS] == 0x37)
+
 int main() {
    
     
@@ -336,7 +340,15 @@ int main() {
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
+    uint8_t buffer_num = 0;
     while((tokens[i] = getchar())) {
+        
+        // Regardless if TOKEN is W_ALPHANUM, write the getchar() value in ALPHANUM_BUFFER in case it is.
+        // Later on, value will be overwritten if it wasn't, or it will be shifted to the left if it was.
+        tokens[ALPHANUM_BUFFER + buffer_num]   = ((tokens[ALPHANUM_BUFFER + buffer_num] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
+        
+
+        
         
         // Set the corresponding bit of current input to 1.
         tokens[i] = 
@@ -498,125 +510,136 @@ int main() {
                 
                 (
                 
-                    CHR((N20))                                   
+                    SET_CHR((N20))                                   
                                                                                                        |
-                    STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
+                    SET_STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
                                                                                                        |
-                    MUL((IS_P3 & IS_NOT_ASTERISK_OR_EQUAL))                      
+                    SET_MUL((IS_P3 & IS_NOT_ASTERISK_OR_EQUAL))                      
                                                                                                        |
-                    DIV((IS_P4 & IS_NOT_EQUAL)) 
+                    SET_DIV((IS_P4 & IS_NOT_EQUAL)) 
                                                                                                        |
-                    PLUS((IS_P5 & IS_NOT_PLUS_OR_EQUAL))
+                    SET_PLUS((IS_P5 & IS_NOT_PLUS_OR_EQUAL))
                                                                                                        |
-                    MIN((IS_P6 & IS_NOT_MIN_OR_EQUAL))
+                    SET_MIN((IS_P6 & IS_NOT_MIN_OR_EQUAL))
                                                                                                        |
-                    MOD((IS_P7 & IS_NOT_EQUAL))
+                    SET_MOD((IS_P7 & IS_NOT_EQUAL))
                                                                                                        |
-                    ASSGN((IS_P8 & IS_NOT_GT_OR_EQUAL))
+                    SET_ASSGN((IS_P8 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    BOR((IS_P9 & IS_NOT_BAR_OR_EQUAL))
+                    SET_BOR((IS_P9 & IS_NOT_BAR_OR_EQUAL))
                                                                                                        |
-                    BAND((IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL))
+                    SET_BAND((IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL))
                                                                                                        |
-                    BXOR((IS_P11 & IS_NOT_EQUAL))
+                    SET_BXOR((IS_P11 & IS_NOT_EQUAL))
                                                                                                        |
-                    GT((IS_P12 & IS_NOT_GT_OR_EQUAL))
+                    SET_GT((IS_P12 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    SAR((IS_P13 & IS_NOT_GT_OR_EQUAL))
+                    SET_SAR((IS_P13 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    SHR((IS_P14 & IS_NOT_EQUAL))
+                    SET_SHR((IS_P14 & IS_NOT_EQUAL))
                                                                                                        |
-                    LT((IS_P15 & IS_NOT_LT_OR_EQUAL))
+                    SET_LT((IS_P15 & IS_NOT_LT_OR_EQUAL))
                                                                                                        |
-                    SHL((IS_P16 & IS_NOT_EQUAL))
+                    SET_SHL((IS_P16 & IS_NOT_EQUAL))
                                                                                                        |
-                    DOT((IS_P17 & IS_NOT_PERIOD))
+                    SET_DOT((IS_P17 & IS_NOT_PERIOD))
                                                                                                        |
-                    DDOT((IS_P18 & IS_NOT_PERIOD))
+                    SET_DDOT((IS_P18 & IS_NOT_PERIOD))
                                                                                                        |
-                    ELLIP((IS_P18PERIOD))
+                    SET_ELLIP((IS_P18PERIOD))
                                                                                                        |
-                    NOT((IS_P19 & IS_NOT_EQUAL))
+                    SET_NOT((IS_P19 & IS_NOT_EQUAL))
                                                                                                        |
-                    W_CHR((N21))
+                    SET_W_CHR((N21))
                                                                                                        |
-                    W_STR((IS_P22 & IS_NOT_QUOTATION))
+                    SET_W_STR((IS_P22 & IS_NOT_QUOTATION))
                                                                                                        |
-                    MULEQ((IS_P3EQUAL))
+                    SET_MULEQ((IS_P3EQUAL))
                                                                                                        |
-                    EXP((IS_P3ASTERISK))
+                    SET_EXP((IS_P3ASTERISK))
                                                                                                        |
-                    COLON((IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_COLON((IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LPARAN((IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_LPARAN((IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RPARAN((IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_RPARAN((IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LBRACK((IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_LBRACK((IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RBRACK((IS_RBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_RBRACK((IS_RBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LBRACE((IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_LBRACE((IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RBRACE((IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_RBRACE((IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    BNOT((IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_BNOT((IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    DIVEQ((IS_P4EQUAL))
+                    SET_DIVEQ((IS_P4EQUAL))
                                                                                                        |
-                    PE((IS_P5EQUAL))
+                    SET_PE((IS_P5EQUAL))
                                                                                                        |
-                    INC((IS_P5PLUS))
+                    SET_INC((IS_P5PLUS))
                                                                                                        |
-                    MINE((IS_P6EQUAL))
+                    SET_MINE((IS_P6EQUAL))
                                                                                                        |
-                    DEC((IS_P6HYPHEN))
+                    SET_DEC((IS_P6HYPHEN))
                                                                                                        |
-                    MODEQ((IS_P7EQUAL))
+                    SET_MODEQ((IS_P7EQUAL))
                                                                                                        |
-                    EQ((IS_P8EQUAL))
+                    SET_EQ((IS_P8EQUAL))
                                                                                                        |
-                    FARROW((IS_P8GT))
+                    SET_FARROW((IS_P8GT))
                                                                                                        |
-                    BOREQ((IS_P9EQUAL))
+                    SET_BOREQ((IS_P9EQUAL))
                                                                                                        |
-                    LOR((IS_P9BAR))
+                    SET_LOR((IS_P9BAR))
                                                                                                        |
-                    BANDEQ((IS_P10EQUAL))
+                    SET_BANDEQ((IS_P10EQUAL))
                                                                                                        |
-                    LAND((IS_P10AMPERSAND))
+                    SET_LAND((IS_P10AMPERSAND))
                                                                                                        |
-                    BXOREQ((IS_P11EQUAL))
+                    SET_BXOREQ((IS_P11EQUAL))
                                                                                                        |
-                    GTE((IS_P12EQUAL))
+                    SET_GTE((IS_P12EQUAL))
                                                                                                        |
-                    SAREQ((IS_P13EQUAL))
+                    SET_SAREQ((IS_P13EQUAL))
                                                                                                        |
-                    SHREQ((IS_P14EQUAL))
+                    SET_SHREQ((IS_P14EQUAL))
                                                                                                        |
-                    LTE((IS_P15EQUAL))
+                    SET_LTE((IS_P15EQUAL))
                                                                                                        |
-                    SHLEQ((IS_P16EQUAL))
+                    SET_SHLEQ((IS_P16EQUAL))
                                                                                                        |
-                    NOTEQ((IS_P19EQUAL))
+                    SET_NOTEQ((IS_P19EQUAL))
                                                                                                        |
-                    R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
+                    SET_R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
                                                                                                        |
-                    R_STR((IS_P22QUOTATION))
+                    SET_R_STR((IS_P22QUOTATION))
                                                                                                        |
-                    W_NUM((IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1))  
+                    SET_W_NUM((IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1))  
                                                                                                        |
-                    W_ALPHANUM((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
+                    SET_W_ALPHANUM((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    NUM((IS_P2NOTNUMERAL))
+                    SET_NUM((IS_P2NOTNUMERAL))
                                                                                                        |
-                    R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))
+                    SET_R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))
                                                                                                        |
-                    ERROR((IS_N23))
+                    SET_ERROR((IS_N23))
                 );
                     
-            std::cout << "TOKEN: "<<  tokens[W_POS] <<std::endl;
+            std::cout << "PREV_STATE: " << (tokens[PREV_STATE]&0xFFFFFFFF) << std::endl;
+            std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
+            // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
+            // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
+            // in the next round.
+            tokens[ALPHANUM_BUFFER + buffer_num] <<= (IS_W_ALPHANUM * 8);
+        
             
+        
+            // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
+            // is done by incrementing buffer_num.
+            buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
+        
             // Move to next index when current space is full.
             // W_POS moved as well since it's an alias of (i-1)
             i += (tokens[W_POS] > 0x00FFFFFFFFFFFFFF);
@@ -624,10 +647,7 @@ int main() {
             // Shift Token 1 Byte to the left to make room for next token at
             // the Most significant Byte. Do not shift if there was no output.
             tokens[W_POS] <<= ((tokens[W_POS] & 0xFF) != 0)*8;
-            
-            
-            
-           
+                
                 
             // Set Previous State to the old Next State. When Reading Previous State,
             // only most significant 23-Bits are ever read. That is why we don't care 
@@ -635,7 +655,7 @@ int main() {
             tokens[PREV_STATE] = (tokens[NEXT_STATE] >> 32);
         
             
- 
+            
              
     }
 }
