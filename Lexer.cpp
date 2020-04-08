@@ -331,7 +331,7 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-#define IS_W_ALPHANUM (tokens[W_POS] == 0x37)
+#define IS_W_ALPHANUM ((tokens[W_POS] & 0xFF) == 0x37)
 
 int main() {
    
@@ -632,10 +632,15 @@ int main() {
                     
             std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
         
+        
             // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
             // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
             // in the next round.
             tokens[ALPHANUM_BUFFER + buffer_num] <<= (IS_W_ALPHANUM * 8);
+         
+            std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;
+        
+            std::cout << "ALPHANUM_BUFFER: " << tokens[ALPHANUM_BUFFER] << std::endl;
          
         
             // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
@@ -655,9 +660,7 @@ int main() {
             // only most significant 23-Bits are ever read. That is why we don't care 
             // to do an Arithmetic Shift-Right operation here.
             tokens[PREV_STATE] = tokens[NEXT_STATE];
-        
-     
-            
+               
              
     }
 }
