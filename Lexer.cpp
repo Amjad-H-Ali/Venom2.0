@@ -36,121 +36,121 @@
 #define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
 /* TOKENS */
-#define CHR(CONDITION)        (static_cast<uint64_t>(0x1 & CONDITION))
+#define CHR(CONDITION)        (0x1 & CONDITION)
 
-#define STR(CONDITION)        (static_cast<uint64_t>(0x2 * CONDITION))
+#define STR(CONDITION)        (0x2 * CONDITION)
 
-#define MUL(CONDITION)        (static_cast<uint64_t>(0x3 * CONDITION))
+#define MUL(CONDITION)        (0x3 * CONDITION)
 
-#define DIV(CONDITION)        (static_cast<uint64_t>(0x4 * CONDITION))
+#define DIV(CONDITION)        (0x4 * CONDITION)
 
-#define PLUS(CONDITION)       (static_cast<uint64_t>(0x5 * CONDITION))
+#define PLUS(CONDITION)       (0x5 * CONDITION)
 
-#define MIN(CONDITION)        (static_cast<uint64_t>(0x6 * CONDITION))
+#define MIN(CONDITION)        (0x6 * CONDITION)
 
-#define MOD(CONDITION)        (static_cast<uint64_t>(0x7 * CONDITION))
+#define MOD(CONDITION)        (0x7 * CONDITION)
 
-#define ASSGN(CONDITION)      (static_cast<uint64_t>(0x8 * CONDITION))
+#define ASSGN(CONDITION)      (0x8 * CONDITION)
 
-#define BOR(CONDITION)        (static_cast<uint64_t>(0x9 * CONDITION))
+#define BOR(CONDITION)        (0x9 * CONDITION)
 
-#define BAND(CONDITION)       (static_cast<uint64_t>(0xA * CONDITION))
+#define BAND(CONDITION)       (0xA * CONDITION)
 
-#define BXOR(CONDITION)       (static_cast<uint64_t>(0xB * CONDITION))
+#define BXOR(CONDITION)       (0xB * CONDITION)
 
-#define GT(CONDITION)         (static_cast<uint64_t>(0xC * CONDITION))
+#define GT(CONDITION)         (0xC * CONDITION)
 
-#define SAR(CONDITION)        (static_cast<uint64_t>(0xD * CONDITION))
+#define SAR(CONDITION)        (0xD * CONDITION)
 
-#define SHR(CONDITION)        (static_cast<uint64_t>(0xE * CONDITION))
+#define SHR(CONDITION)        (0xE * CONDITION)
 
-#define LT(CONDITION)         (static_cast<uint64_t>(0xF * CONDITION))
+#define LT(CONDITION)         (0xF * CONDITION)
 
-#define SHL(CONDITION)        (static_cast<uint64_t>(0x10 * CONDITION))
+#define SHL(CONDITION)        (0x10 * CONDITION)
 
-#define DOT(CONDITION)        (static_cast<uint64_t>(0x11 * CONDITION))
+#define DOT(CONDITION)        (0x11 * CONDITION)
 
-#define DDOT(CONDITION)       (static_cast<uint64_t>(0x12 * CONDITION))
+#define DDOT(CONDITION)       (0x12 * CONDITION)
 
-#define ELLIP(CONDITION)      (static_cast<uint64_t>(0x13 * CONDITION))
+#define ELLIP(CONDITION)      (0x13 * CONDITION)
 
-#define NOT(CONDITION)        (static_cast<uint64_t>(0x14 * CONDITION))
+#define NOT(CONDITION)        (0x14 * CONDITION)
 
-#define W_CHR(CONDITION)      (static_cast<uint64_t>(0x15 * CONDITION))
+#define W_CHR(CONDITION)      (0x15 * CONDITION)
 
-#define W_STR(CONDITION)      (static_cast<uint64_t>(0x16 * CONDITION))
+#define W_STR(CONDITION)      (0x16 * CONDITION)
 
-#define MULEQ(CONDITION)      (static_cast<uint64_t>(0x17 * CONDITION))
+#define MULEQ(CONDITION)      (0x17 * CONDITION)
 
-#define EXP(CONDITION)        (static_cast<uint64_t>(0x18 * CONDITION))
+#define EXP(CONDITION)        (0x18 * CONDITION)
 
-#define COLON(CONDITION)      (static_cast<uint64_t>(0x19 * CONDITION))
+#define COLON(CONDITION)      (0x19 * CONDITION)
 
-#define LPARAN(CONDITION)     (static_cast<uint64_t>(0x1A * CONDITION))
+#define LPARAN(CONDITION)     (0x1A * CONDITION)
 
-#define RPARAN(CONDITION)     (static_cast<uint64_t>(0x1B * CONDITION))
+#define RPARAN(CONDITION)     (0x1B * CONDITION)
 
-#define LBRACK(CONDITION)     (static_cast<uint64_t>(0x1C * CONDITION))
+#define LBRACK(CONDITION)     (0x1C * CONDITION)
 
-#define RBRACK(CONDITION)     (static_cast<uint64_t>(0x1D * CONDITION))
+#define RBRACK(CONDITION)     (0x1D * CONDITION)
 
-#define LBRACE(CONDITION)     (static_cast<uint64_t>(0x1E * CONDITION))
+#define LBRACE(CONDITION)     (0x1E * CONDITION)
 
-#define RBRACE(CONDITION)     (static_cast<uint64_t>(0x1F * CONDITION))
+#define RBRACE(CONDITION)     (0x1F * CONDITION)
 
-#define BNOT(CONDITION)       (static_cast<uint64_t>(0x20 * CONDITION))
+#define BNOT(CONDITION)       (0x20 * CONDITION)
 
-#define DIVEQ(CONDITION)      (static_cast<uint64_t>(0x21 * CONDITION))
+#define DIVEQ(CONDITION)      (0x21 * CONDITION)
 
-#define PE(CONDITION)         (static_cast<uint64_t>(0x22 * CONDITION))
+#define PE(CONDITION)         (0x22 * CONDITION)
 
-#define INC(CONDITION)        (static_cast<uint64_t>(0x23 * CONDITION))
+#define INC(CONDITION)        (0x23 * CONDITION)
 
-#define MINE(CONDITION)       (static_cast<uint64_t>(0x24 * CONDITION))
+#define MINE(CONDITION)       (0x24 * CONDITION)
 
-#define DEC(CONDITION)        (static_cast<uint64_t>(0x25 * CONDITION))
+#define DEC(CONDITION)        (0x25 * CONDITION)
 
-#define MODEQ(CONDITION)      (static_cast<uint64_t>(0x26 * CONDITION))
+#define MODEQ(CONDITION)      (0x26 * CONDITION)
 
-#define EQ(CONDITION)         (static_cast<uint64_t>(0x27 * CONDITION))
+#define EQ(CONDITION)         (0x27 * CONDITION)
 
-#define FARROW(CONDITION)     (static_cast<uint64_t>(0x28 * CONDITION))
+#define FARROW(CONDITION)     (0x28 * CONDITION)
 
-#define BOREQ(CONDITION)      (static_cast<uint64_t>(0x29 * CONDITION))
+#define BOREQ(CONDITION)      (0x29 * CONDITION)
 
-#define LOR(CONDITION)        (static_cast<uint64_t>(0x2A * CONDITION))
+#define LOR(CONDITION)        (0x2A * CONDITION)
 
-#define BANDEQ(CONDITION)     (static_cast<uint64_t>(0x2B * CONDITION))
+#define BANDEQ(CONDITION)     (0x2B * CONDITION)
 
-#define LAND(CONDITION)       (static_cast<uint64_t>(0x2C * CONDITION))
+#define LAND(CONDITION)       (0x2C * CONDITION)
 
-#define BXOREQ(CONDITION)     (static_cast<uint64_t>(0x2D * CONDITION))
+#define BXOREQ(CONDITION)     (0x2D * CONDITION)
 
-#define GTE(CONDITION)        (static_cast<uint64_t>(0x2E * CONDITION))
+#define GTE(CONDITION)        (0x2E * CONDITION)
 
-#define SAREQ(CONDITION)      (static_cast<uint64_t>(0x2F * CONDITION))
+#define SAREQ(CONDITION)      (0x2F * CONDITION)
 
-#define SHREQ(CONDITION)      (static_cast<uint64_t>(0x30 * CONDITION))
+#define SHREQ(CONDITION)      (0x30 * CONDITION)
 
-#define LTE(CONDITION)        (static_cast<uint64_t>(0x31 * CONDITION))
+#define LTE(CONDITION)        (0x31 * CONDITION)
 
-#define SHLEQ(CONDITION)      (static_cast<uint64_t>(0x32 * CONDITION))
+#define SHLEQ(CONDITION)      (0x32 * CONDITION)
 
-#define NOTEQ(CONDITION)      (static_cast<uint64_t>(0x33 * CONDITION))
+#define NOTEQ(CONDITION)      (0x33 * CONDITION)
 
-#define R_CHR(CONDITION)      (static_cast<uint64_t>(0x34 * CONDITION))
+#define R_CHR(CONDITION)      (0x34 * CONDITION)
 
-#define R_STR(CONDITION)      (static_cast<uint64_t>(0x35 * CONDITION))
+#define R_STR(CONDITION)      (0x35 * CONDITION)
 
-#define W_NUM(CONDITION)      (static_cast<uint64_t>(0x36 * CONDITION))
+#define W_NUM(CONDITION)      (0x36 * CONDITION)
 
-#define W_ALPHANUM(CONDITION) (static_cast<uint64_t>(0x37 * CONDITION))
+#define W_ALPHANUM(CONDITION) (0x37 * CONDITION)
 
-#define NUM(CONDITION)        (static_cast<uint64_t>(0x38 * CONDITION))
+#define NUM(CONDITION)        (0x38 * CONDITION)
 
-#define R_ALPHANUM(CONDITION) (static_cast<uint64_t>(0x39 * CONDITION))
+#define R_ALPHANUM(CONDITION) (0x39 * CONDITION)
 
-#define ERROR(CONDITION)      (static_cast<uint64_t>(0x3A * CONDITION))
+#define ERROR(CONDITION)      (0x3A * CONDITION)
 
 /* END OF TOKEN DEFINITIONS */
 
@@ -334,10 +334,9 @@ int main() {
     
     
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-    tokens[PREV_STATE] = 0x100;
+    tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
-    uint8_t w_shft_factor = 0;
-    while(tokens[i] += getchar()) {
+    while((tokens[i] = getchar())) {
         
         // Set the corresponding bit of current input to 1.
         tokens[i] = 
@@ -371,8 +370,10 @@ int main() {
             (tokens[i] == '~') << 31                                                                      ; 
                                                         
  
-        
-             
+    // Store the new Previous State  but do not change Previous State now
+    // since it is needed to calculate Next State. Think of this as a 
+    // temporary variable.
+    tokens[NEXT_STATE] <<= 32;         
         
     tokens[NEXT_STATE] |= 
               
@@ -497,163 +498,145 @@ int main() {
                 
                 (
                 
-                    CHR(N20)                                   
+                    CHR((N20))                                   
                                                                                                        |
-                    STR(IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20)        
+                    STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
                                                                                                        |
-                    MUL(IS_P3 & IS_NOT_ASTERISK_OR_EQUAL)                      
+                    MUL((IS_P3 & IS_NOT_ASTERISK_OR_EQUAL))                      
                                                                                                        |
-                    DIV(IS_P4 & IS_NOT_EQUAL) 
+                    DIV((IS_P4 & IS_NOT_EQUAL)) 
                                                                                                        |
-                    PLUS(IS_P5 & IS_NOT_PLUS_OR_EQUAL)
+                    PLUS((IS_P5 & IS_NOT_PLUS_OR_EQUAL))
                                                                                                        |
-                    MIN(IS_P6 & IS_NOT_MIN_OR_EQUAL)
+                    MIN((IS_P6 & IS_NOT_MIN_OR_EQUAL))
                                                                                                        |
-                    MOD(IS_P7 & IS_NOT_EQUAL)
+                    MOD((IS_P7 & IS_NOT_EQUAL))
                                                                                                        |
-                    ASSGN(IS_P8 & IS_NOT_GT_OR_EQUAL)
+                    ASSGN((IS_P8 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    BOR(IS_P9 & IS_NOT_BAR_OR_EQUAL)
+                    BOR((IS_P9 & IS_NOT_BAR_OR_EQUAL))
                                                                                                        |
-                    BAND(IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL)
+                    BAND((IS_P10 & IS_NOT_AMPERSAND_OR_EQUAL))
                                                                                                        |
-                    BXOR(IS_P11 & IS_NOT_EQUAL)
+                    BXOR((IS_P11 & IS_NOT_EQUAL))
                                                                                                        |
-                    GT(IS_P12 & IS_NOT_GT_OR_EQUAL)
+                    GT((IS_P12 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    SAR(IS_P13 & IS_NOT_GT_OR_EQUAL)
+                    SAR((IS_P13 & IS_NOT_GT_OR_EQUAL))
                                                                                                        |
-                    SHR(IS_P14 & IS_NOT_EQUAL)
+                    SHR((IS_P14 & IS_NOT_EQUAL))
                                                                                                        |
-                    LT(IS_P15 & IS_NOT_LT_OR_EQUAL)
+                    LT((IS_P15 & IS_NOT_LT_OR_EQUAL))
                                                                                                        |
-                    SHL(IS_P16 & IS_NOT_EQUAL)
+                    SHL((IS_P16 & IS_NOT_EQUAL))
                                                                                                        |
-                    DOT(IS_P17 & IS_NOT_PERIOD)
+                    DOT((IS_P17 & IS_NOT_PERIOD))
                                                                                                        |
-                    DDOT(IS_P18 & IS_NOT_PERIOD)
+                    DDOT((IS_P18 & IS_NOT_PERIOD))
                                                                                                        |
-                    ELLIP(IS_P18PERIOD)
+                    ELLIP((IS_P18PERIOD))
                                                                                                        |
-                    NOT(IS_P19 & IS_NOT_EQUAL)
+                    NOT((IS_P19 & IS_NOT_EQUAL))
                                                                                                        |
-                    W_CHR(N21)
+                    W_CHR((N21))
                                                                                                        |
-                    W_STR(IS_P22 & IS_NOT_QUOTATION)
+                    W_STR((IS_P22 & IS_NOT_QUOTATION))
                                                                                                        |
-                    MULEQ(IS_P3EQUAL)
+                    MULEQ((IS_P3EQUAL))
                                                                                                        |
-                    EXP(IS_P3ASTERISK)
+                    EXP((IS_P3ASTERISK))
                                                                                                        |
-                    COLON(IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    COLON((IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LPARAN(IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    LPARAN((IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RPARAN(IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    RPARAN((IS_RPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LBRACK(IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    LBRACK((IS_LBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RBRACK(IS_RBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    RBRACK((IS_RBRACKET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    LBRACE(IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    LBRACE((IS_LBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    RBRACE(IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    RBRACE((IS_RBRACE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    BNOT(IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    BNOT((IS_TILDE & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    DIVEQ(IS_P4EQUAL)
+                    DIVEQ((IS_P4EQUAL))
                                                                                                        |
-                    PE(IS_P5EQUAL)
+                    PE((IS_P5EQUAL))
                                                                                                        |
-                    INC(IS_P5PLUS)
+                    INC((IS_P5PLUS))
                                                                                                        |
-                    MINE(IS_P6EQUAL)
+                    MINE((IS_P6EQUAL))
                                                                                                        |
-                    DEC(IS_P6HYPHEN)
+                    DEC((IS_P6HYPHEN))
                                                                                                        |
-                    MODEQ(IS_P7EQUAL)
+                    MODEQ((IS_P7EQUAL))
                                                                                                        |
-                    EQ(IS_P8EQUAL)
+                    EQ((IS_P8EQUAL))
                                                                                                        |
-                    FARROW(IS_P8GT)
+                    FARROW((IS_P8GT))
                                                                                                        |
-                    BOREQ(IS_P9EQUAL)
+                    BOREQ((IS_P9EQUAL))
                                                                                                        |
-                    LOR(IS_P9BAR)
+                    LOR((IS_P9BAR))
                                                                                                        |
-                    BANDEQ(IS_P10EQUAL)
+                    BANDEQ((IS_P10EQUAL))
                                                                                                        |
-                    LAND(IS_P10AMPERSAND)
+                    LAND((IS_P10AMPERSAND))
                                                                                                        |
-                    BXOREQ(IS_P11EQUAL)
+                    BXOREQ((IS_P11EQUAL))
                                                                                                        |
-                    GTE(IS_P12EQUAL)
+                    GTE((IS_P12EQUAL))
                                                                                                        |
-                    SAREQ(IS_P13EQUAL)
+                    SAREQ((IS_P13EQUAL))
                                                                                                        |
-                    SHREQ(IS_P14EQUAL)
+                    SHREQ((IS_P14EQUAL))
                                                                                                        |
-                    LTE(IS_P15EQUAL)
+                    LTE((IS_P15EQUAL))
                                                                                                        |
-                    SHLEQ(IS_P16EQUAL)
+                    SHLEQ((IS_P16EQUAL))
                                                                                                        |
-                    NOTEQ(IS_P19EQUAL)
+                    NOTEQ((IS_P19EQUAL))
                                                                                                        |
-                    R_CHR(IS_P20APOSTROPHE_OR_P21APOSTROPHE)
+                    R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
                                                                                                        |
-                    R_STR(IS_P22QUOTATION)
+                    R_STR((IS_P22QUOTATION))
                                                                                                        |
-                    W_NUM(IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)  
+                    W_NUM((IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1))  
                                                                                                        |
-                    W_ALPHANUM(IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+                    W_ALPHANUM((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                        |
-                    NUM(IS_P2NOTNUMERAL)
+                    NUM((IS_P2NOTNUMERAL))
                                                                                                        |
-                    R_ALPHANUM(IS_P1NOT_ALPHABET_OR_UNDERSCORE)
+                    R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))
                                                                                                        |
-                    ERROR(IS_N23)
+                    ERROR((IS_N23))
+                );
                     
+            std::cout << "TOKEN: "<<  tokens[W_POS] <<std::endl;
+            
+            // Move to next index when current space is full.
+            // W_POS moved as well since it's an alias of (i-1)
+            i += (tokens[W_POS] > 0x00FFFFFFFFFFFFFF);
+            
+            // Shift Token 1 Byte to the left to make room for next token at
+            // the Most significant Byte. Do not shift if there was no output.
+            tokens[W_POS] <<= ((tokens[W_POS] & 0xFF) != 0)*8;
+            
+            
+            
+           
                 
-                
-                ) << w_shft_factor;
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
- 
-        
-        std::cout << tokens[NEXT_STATE] <<std::endl;
-        
-        tokens[NEXT_STATE] = 0x0;
-        tokens[i] = 0;
-        
+            // Set Previous State to the old Next State. When Reading Previous State,
+            // only most significant 23-Bits are ever read. That is why we don't care 
+            // to do an Arithmetic Shift-Right operation here.
+            tokens[PREV_STATE] = (tokens[NEXT_STATE] >> 32);
         
             
-        
+ 
+             
     }
 }
 
