@@ -341,7 +341,10 @@ int main() {
     tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
     uint8_t buffer_num = 0;
+    
     while((tokens[i] = getchar())) {
+        
+        std::cout << "PREV_STATE: " << (tokens[PREV_STATE]&0xFFFFFFFF) << std::endl;
         
         // Regardless if TOKEN is W_ALPHANUM, write the getchar() value in ALPHANUM_BUFFER in case it is.
         // Later on, value will be overwritten if it wasn't, or it will be shifted to the left if it was.
@@ -385,9 +388,9 @@ int main() {
     // Store the new Previous State  but do not change Previous State now
     // since it is needed to calculate Next State. Think of this as a 
     // temporary variable.
-    tokens[NEXT_STATE] <<= 32;         
+//     tokens[NEXT_STATE] <<= 32;         
         
-    tokens[NEXT_STATE] |= 
+    tokens[NEXT_STATE] = 
               
             SET_NEXT_STATE(0, 
 
@@ -508,8 +511,7 @@ int main() {
                 
             tokens[W_POS] |=
                 
-                (
-                
+                (              
                     SET_CHR((N20))                                   
                                                                                                        |
                     SET_STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
@@ -626,15 +628,15 @@ int main() {
                                                                                                        |
                     SET_ERROR((IS_N23))
                 );
+ 
                     
-            std::cout << "PREV_STATE: " << (tokens[PREV_STATE]&0xFFFFFFFF) << std::endl;
             std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
+        
             // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
             // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
             // in the next round.
             tokens[ALPHANUM_BUFFER + buffer_num] <<= (IS_W_ALPHANUM * 8);
-        
-            
+         
         
             // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
             // is done by incrementing buffer_num.
@@ -652,9 +654,9 @@ int main() {
             // Set Previous State to the old Next State. When Reading Previous State,
             // only most significant 23-Bits are ever read. That is why we don't care 
             // to do an Arithmetic Shift-Right operation here.
-            tokens[PREV_STATE] = (tokens[NEXT_STATE] >> 32);
+            tokens[PREV_STATE] = tokens[NEXT_STATE];
         
-            
+     
             
              
     }
