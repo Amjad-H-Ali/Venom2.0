@@ -165,7 +165,7 @@
 
 #define IS_P21_OR_P20 ( (tokens[PREV_STATE] & 0x300000) != 0 )
 
-#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND ( ((tokens[i] & 0x1668) & tokens[PREV_STATE]) != 0 )
+#define P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P9BAR_OR_P10AMPERSAND ( ((tokens[i] & 0x668) & tokens[PREV_STATE]) != 0 )
 
 #define GET_PREV_STATE(P) ((tokens[PREV_STATE] & (0x1 << P)) != 0) 
 
@@ -396,16 +396,17 @@ int main() {
     // since it is needed to calculate Next State. Think of this as a 
     // temporary variable.
 //     tokens[NEXT_STATE] <<= 32;         
-        
+
     tokens[NEXT_STATE] = 
               
             SET_NEXT_STATE(0, 
 
                 (IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS & IS_NOT_P23_OR_P22_OR_P21_OR_P20) |
                 (IS_EQUAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P18_OR_P17_OR_P2_OR_P1_OR_P0)           |
-                 P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P8GT_OR_P9BAR_OR_P10AMPERSAND                     |
+                 P3ASTERISK_OR_P5PLUS_OR_P6HYPHEN_OR_P9BAR_OR_P10AMPERSAND                             |
                  P18PERIOD_OR_P21APOSTROPHE                                                            |
-                 P20APOSTROPHE_OR_P22QUOTATION       
+                 P20APOSTROPHE_OR_P22QUOTATION                                                         |
+                 IS_P8GT
             )  
                                                                                                                         |
             SET_NEXT_STATE(1,                 
@@ -662,7 +663,10 @@ int main() {
         
             std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
         
-            tokens[W_POS] = (tokens[W_POS] & (0xFFFFFFFFFFFFFFFF << (buffer_num % 64)));
+//             tokens[W_POS] = (tokens[W_POS] & (0xFFFFFFFFFFFFFFFF << (buffer_num % 64)));
+            std::cout << "OFFSET: " << ((&tokens[W_POS]) - (tokens)) << std::endl;
+           
+            tokens[i] = 0x0;
           
 //             buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
         
