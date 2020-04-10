@@ -643,12 +643,12 @@ int main() {
             // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
             // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
             // in the next round.
-            tokens[ALPHANUM_BUFFER + (buffer_num/64)] <<= (IS_W_ALPHANUM * 8);
+            tokens[ALPHANUM_BUFFER + (buffer_num/64)] <<= ( (IS_W_ALPHANUM & (buffer_num < 56)) * 8);
          
             std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;
             
         
-            std::cout << "ALPHANUM_BUFFER: " << tokens[ALPHANUM_BUFFER] << std::endl;
+            std::cout << "ALPHANUM_BUFFER " << tokens[ALPHANUM_BUFFER] << std::endl;
             std::cout << "ALPHANUM_BUFFER1: " << tokens[ALPHANUM_BUFFER + 1] << std::endl;
             
              
@@ -656,6 +656,9 @@ int main() {
             // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
             // is done by incrementing buffer_num.
             buffer_num += (IS_W_ALPHANUM*8);
+        
+        
+            std::cout << "ALPHANUM_BUFFER is ==== " << (tokens[ALPHANUM_BUFFER] == 0x6161616161616161) << std::endl;
         
             std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
         
