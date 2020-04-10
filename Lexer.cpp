@@ -333,7 +333,14 @@
 
 #define IS_W_ALPHANUM ((tokens[W_POS] & 0xFF) == 0x37)
 
+#define IS_R_ALPHANUM ((tokens[W_POS] & 0xFF) == 0x39)
+
 int main() {
+    
+    /*
+     *  For Next time, write ALPHANUM_BUFFER into Tokens Buffer when Token is a R_ALPHANUM and clear the buffer.
+     *  Then, do the NUMERAL_BUFFER and Operator Stack. 
+     */
    
     
     
@@ -348,7 +355,7 @@ int main() {
         
         // Regardless if TOKEN is W_ALPHANUM, write the getchar() value in ALPHANUM_BUFFER in case it is.
         // Later on, value will be overwritten if it wasn't, or it will be shifted to the left if it was.
-        tokens[ALPHANUM_BUFFER + buffer_num]   = ((tokens[ALPHANUM_BUFFER + buffer_num] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
+        tokens[ALPHANUM_BUFFER + (buffer_num/64)]   = ((tokens[ALPHANUM_BUFFER + (buffer_num/64)] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
         
 
         
@@ -636,16 +643,25 @@ int main() {
             // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
             // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
             // in the next round.
-            tokens[ALPHANUM_BUFFER + buffer_num] <<= (IS_W_ALPHANUM * 8);
+            tokens[ALPHANUM_BUFFER + (buffer_num/64)] <<= (IS_W_ALPHANUM * 8);
          
             std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;
+            
         
             std::cout << "ALPHANUM_BUFFER: " << tokens[ALPHANUM_BUFFER] << std::endl;
-         
-        
+            std::cout << "ALPHANUM_BUFFER1: " << tokens[ALPHANUM_BUFFER + 1] << std::endl;
+            
+             
+            
             // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
             // is done by incrementing buffer_num.
-            buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
+            buffer_num += (IS_W_ALPHANUM*8);
+        
+            std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
+        
+            tokens[W_POS] = (tokens[W_POS] & (0xFFFFFFFFFFFFFFFF << (buffer_num % 64)));
+          
+//             buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
         
             // Move to next index when current space is full.
             // W_POS moved as well since it's an alias of (i-1)
