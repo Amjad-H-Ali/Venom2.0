@@ -348,6 +348,7 @@ int main() {
     tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
     uint8_t buffer_num = 0;
+    uint8_t w_lshft_factor = 0;
     
     while((tokens[i] = getchar())) {
         
@@ -355,7 +356,8 @@ int main() {
         
         // Regardless if TOKEN is W_ALPHANUM, write the getchar() value in ALPHANUM_BUFFER in case it is.
         // Later on, value will be overwritten if it wasn't, or it will be shifted to the left if it was.
-        tokens[ALPHANUM_BUFFER + (buffer_num/64)]   = ((tokens[ALPHANUM_BUFFER + (buffer_num/64)] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
+        
+//         tokens[ALPHANUM_BUFFER + (buffer_num/64)]   = ((tokens[ALPHANUM_BUFFER + (buffer_num/64)] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
         
 
         
@@ -635,7 +637,8 @@ int main() {
                     SET_R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))
                                                                                                        |
                     SET_ERROR((IS_N23))
-                );
+                
+                ) << w_lshft_factor ;
  
                     
             std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
@@ -664,19 +667,27 @@ int main() {
             std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
         
 //             tokens[W_POS] = (tokens[W_POS] & (0xFFFFFFFFFFFFFFFF << (buffer_num % 64)));
-            std::cout << "OFFSET: " << ((&tokens[W_POS]) - (tokens)) << std::endl;
+//             
+            std::cout << "tokens[wpos]" << std::hex << tokens[W_POS]  << std::endl;
            
+               
             tokens[i] = 0x0;
           
 //             buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
-        
+            w_lshft_factor += (((tokens[W_POS] & (0xFF << w_lshft_factor)))<< 3); 
+       
             // Move to next index when current space is full.
             // W_POS moved as well since it's an alias of (i-1)
-            i += (tokens[W_POS] > 0x00FFFFFFFFFFFFFF);
+            i += (w_lshft_factor >= 56);
+        
+            w_lshft_factor = (w_lshft_factor < 56)*w_lshft_factor;
+ 
+            
             
             // Shift Token 1 Byte to the left to make room for next token at
             // the Most significant Byte. Do not shift if there was no output.
-            tokens[W_POS] <<= ((tokens[W_POS] & 0xFF) != 0)*8;
+//             tokens[W_POS] <<= ((tokens[W_POS] & 0xFF) != 0)*8;
+            
                 
                 
             // Set Previous State to the old Next State. When Reading Previous State,
