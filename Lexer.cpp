@@ -4,9 +4,8 @@
 #define SIZE 2000 
 #define PREV_STATE 0
 #define NEXT_STATE 1
-#define W_POS (i-1)
-#define ALPHANUM_BUFFER (i+1)
-#define NUMERAL_BUFFER (i+3)
+
+
 
 // Inputs
 #define IS_UNDERSCORE         ((tokens[i] & 0x1)         != 0)
@@ -146,7 +145,7 @@
 
 #define SET_W_NUM(CONDITION)      (0x36 * CONDITION)
 
-#define SET_W_ALPHANUM(CONDITION) (0x37 * CONDITION)
+#define SET_W_ALPHANUM(CONDITION) (tokens[i+1] * CONDITION)
 
 #define SET_NUM(CONDITION)        (0x38 * CONDITION)
 
@@ -221,7 +220,7 @@
 
 #define IS_P4 ((tokens[PREV_STATE] & 0x10) != 0)
 
-#define IS_NOT_ASTERISK_OR_EQUAL ((tokens[PREV_STATE] & 0x108) == 0) 
+#define IS_NOT_ASTERISK_OR_EQUAL ((tokens[i] & 0x108) == 0) 
 
 #define IS_NOT_EQUAL ((tokens[i] & 0x100) == 0)
 
@@ -331,9 +330,9 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-#define IS_W_ALPHANUM ((tokens[W_POS] & 0xFF) == 0x37)
+// #define IS_W_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x37)
 
-#define IS_R_ALPHANUM ((tokens[W_POS] & 0xFF) == 0x39)
+// #define IS_R_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x39)
 
 int main() {
     
@@ -347,8 +346,8 @@ int main() {
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
-    uint8_t buffer_num = 0;
-    uint8_t w_lshft_factor = 0;
+    uint32_t w_token = 16;
+//     uint32_t start_to_buffer = 0;
     
     while((tokens[i] = getchar())) {
         
@@ -358,8 +357,9 @@ int main() {
         // Later on, value will be overwritten if it wasn't, or it will be shifted to the left if it was.
         
 //         tokens[ALPHANUM_BUFFER + (buffer_num/64)]   = ((tokens[ALPHANUM_BUFFER + (buffer_num/64)] & 0xFFFFFFFFFFFFFF00) | tokens[i]);
-        
+            
 
+        tokens[i+1] = tokens[i]; 
         
         
         // Set the corresponding bit of current input to 1.
@@ -519,7 +519,7 @@ int main() {
                                                                                                                         ;
 
                 
-            tokens[W_POS] |=
+            tokens[w_token/8] |=
                 
                 (              
                     SET_CHR((N20))                                   
@@ -638,49 +638,55 @@ int main() {
                                                                                                        |
                     SET_ERROR((IS_N23))
                 
-                ) << w_lshft_factor ;
+                ) << ((w_token % 8) << 3) ;
  
-                    
+           
+                   
             std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
-        
-        
+            
             // If TOKEN is W_ALPHANUM, then store value Alphanum input in ALPHANUM_BUFFER.
             // If TOKEN is not W_ALPHANUM, then don't shift and allow value to be overwritten
             // in the next round.
-            tokens[ALPHANUM_BUFFER + (buffer_num/64)] <<= ( (IS_W_ALPHANUM & (buffer_num < 56)) * 8);
+//             tokens[ALPHANUM_BUFFER + (buffer_num/64)] <<= ( (IS_W_ALPHANUM & (buffer_num < 56)) * 8);
          
-            std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;
+//             std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;
             
         
-            std::cout << "ALPHANUM_BUFFER " << tokens[ALPHANUM_BUFFER] << std::endl;
-            std::cout << "ALPHANUM_BUFFER1: " << tokens[ALPHANUM_BUFFER + 1] << std::endl;
+//             std::cout << "ALPHANUM_BUFFER " << tokens[ALPHANUM_BUFFER] << std::endl;
+//             std::cout << "ALPHANUM_BUFFER1: " << tokens[ALPHANUM_BUFFER + 1] << std::endl;
             
              
             
             // If the current ALPHANUM_BUFFER is full, then move on to the next buffer. This
             // is done by incrementing buffer_num.
-            buffer_num += (IS_W_ALPHANUM*8);
+//             buffer_num += (IS_W_ALPHANUM*8);
         
         
-            std::cout << "ALPHANUM_BUFFER is ==== " << (tokens[ALPHANUM_BUFFER] == 0x6161616161616161) << std::endl;
+//             std::cout << "ALPHANUM_BUFFER is ==== " << (tokens[ALPHANUM_BUFFER] == 0x6161616161616161) << std::endl;
         
-            std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
+//             std::cout << "Buffer SZ: " <<  (int)buffer_num << std::endl;
         
 //             tokens[W_POS] = (tokens[W_POS] & (0xFFFFFFFFFFFFFFFF << (buffer_num % 64)));
 //             
-            std::cout << "tokens[wpos]" << std::hex << tokens[W_POS]  << std::endl;
+            std::cout << "tokens[wpos]" << std::hex << tokens[w_token/8]  << std::endl;
+        
+        
            
                
             tokens[i] = 0x0;
+            tokens[i+1] = 0x0;
+            
+        
+            w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF)<< ((w_token%8) << 3))) != 0);
           
 //             buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
-            w_lshft_factor += (((tokens[W_POS] & (0xFF << w_lshft_factor)))<< 3); 
+//             w_lshft_factor += (((tokens[W_POS/8] & (0xFF << w_lshft_factor)))<< 3); 
        
             // Move to next index when current space is full.
             // W_POS moved as well since it's an alias of (i-1)
-            i += (w_lshft_factor >= 56);
+            i += !(w_token%8);
         
-            w_lshft_factor = (w_lshft_factor < 56)*w_lshft_factor;
+//             w_lshft_factor = (w_lshft_factor < 56)*w_lshft_factor;
  
             
             
