@@ -145,7 +145,7 @@
 
 #define SET_W_NUM(CONDITION)      (0x36 * CONDITION)
 
-#define SET_W_ALPHANUM(CONDITION) (tokens[i+1] * CONDITION)
+#define SET_W_ALPHANUM(CONDITION) (0x37 * CONDITION)
 
 #define SET_NUM(CONDITION)        (0x38 * CONDITION)
 
@@ -330,7 +330,9 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-// #define IS_W_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x37)
+#define IS_W_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x37)
+
+#define IS_W_ALPHANUM_AFTER ((tokens[(w_token-3)/8] & 0xFF) == 0x37)
 
 // #define IS_R_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x39)
 
@@ -347,7 +349,7 @@ int main() {
     tokens[PREV_STATE] = 0x1;
     uint32_t i = 3;
     uint32_t w_token = 16;
-//     uint32_t start_to_buffer = 0;
+    uint32_t start_to_alphanum = 0;
     
     while((tokens[i] = getchar())) {
         
@@ -641,6 +643,7 @@ int main() {
                 ) << ((w_token % 8) << 3) ;
  
            
+            
                    
             std::cout << "NEXT_STATE: " << (tokens[NEXT_STATE]&0xFFFFFFFF) << std::endl;
             
@@ -673,18 +676,42 @@ int main() {
         
            
                
-            tokens[i] = 0x0;
-            tokens[i+1] = 0x0;
+           
+                                  
+            start_to_alphanum = ((w_token*IS_W_ALPHANUM*!start_to_alphanum) + start_to_alphanum);
             
+            std::cout << "start_to_alphanum: " << start_to_alphanum << std::endl;
+    
         
-            w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF)<< ((w_token%8) << 3))) != 0);
-          
+            tokens[(w_token+2)/8] |= ((IS_W_ALPHANUM & (start_to_alphanum == w_token))*tokens[i+1]) << (((w_token+2)%8)<<3);
+        
+            tokens[w_token/8] = (tokens[w_token/8] ^ ((0x37^tokens[i+1]) << ((w_token%8)<<3)))*(IS_W_ALPHANUM&(start_to_alphanum!=w_token))+
+                                tokens[w_token/8]*(!IS_W_ALPHANUM | (start_to_alphanum == w_token));
+        
+            w_token +=
+                
+                (
+                    ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF)<< ((w_token%8) << 3))) != 0) + 
+                        
+                    ((IS_W_ALPHANUM & (start_to_alphanum == w_token)) <<1)
+                        
+                );
+            
+            std::cout << "w_token: " << w_token << std::endl;
+        
 //             buffer_num += (tokens[ALPHANUM_BUFFER + buffer_num] > 0x00FFFFFFFFFFFFFF);
 //             w_lshft_factor += (((tokens[W_POS/8] & (0xFF << w_lshft_factor)))<< 3); 
+//             
+            tokens[i] = 0x0;
+            tokens[i+1] = 0x0;
        
             // Move to next index when current space is full.
             // W_POS moved as well since it's an alias of (i-1)
-            i += !(w_token%8);
+            i += (!(w_token%8)) | (IS_W_ALPHANUM_AFTER & !start_to_alphanum & (((w_token%8) == 1) | ((w_token%8) == 2)) );
+        
+            std::cout << "i: " << i << std::endl;
+        
+            
         
 //             w_lshft_factor = (w_lshft_factor < 56)*w_lshft_factor;
  
