@@ -330,9 +330,9 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-#define IS_W_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x37)
+#define IS_W_ALPHANUM ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF)<< ((w_token%8)<<3))  ) == 0x37)
 
-#define IS_W_ALPHANUM_AFTER ((tokens[(w_token-3)/8] & 0xFF) == 0x37)
+#define IS_W_ALPHANUM_AFTER ((tokens[w_token-3/8] & (static_cast<uint64_t>(0xFF)<< (((w_token-3)%8)<<3))  ) == 0x37)
 
 // #define IS_R_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x39)
 
@@ -351,7 +351,7 @@ int main() {
     uint32_t w_token = 16;
     uint32_t start_to_alphanum = 0;
     
-    while((tokens[i] = getchar())) {
+    while(((tokens[i] = getchar()) != 0x23 )) {
         
         std::cout << "PREV_STATE: " << (tokens[PREV_STATE]&0xFFFFFFFF) << std::endl;
         
@@ -681,12 +681,15 @@ int main() {
             start_to_alphanum = ((w_token*IS_W_ALPHANUM*!start_to_alphanum) + start_to_alphanum);
             
             std::cout << "start_to_alphanum: " << start_to_alphanum << std::endl;
+        
+//            std::cout << "IS_P5 & IS_NOT_PLUS_OR_EQUAL: " << (IS_P5 & IS_NOT_PLUS_OR_EQUAL) << std::endl;
+//            std::cout << "(IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20): " << (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20) << std::endl;
     
         
             tokens[(w_token+2)/8] |= ((IS_W_ALPHANUM & (start_to_alphanum == w_token))*tokens[i+1]) << (((w_token+2)%8)<<3);
         
             tokens[w_token/8] = (tokens[w_token/8] ^ ((0x37^tokens[i+1]) << ((w_token%8)<<3)))*(IS_W_ALPHANUM&(start_to_alphanum!=w_token))+
-                                tokens[w_token/8]*(!IS_W_ALPHANUM | (start_to_alphanum == w_token));
+                                 tokens[w_token/8]*(!IS_W_ALPHANUM | (start_to_alphanum == w_token));
         
             w_token +=
                 
@@ -709,7 +712,7 @@ int main() {
             // W_POS moved as well since it's an alias of (i-1)
             i += (!(w_token%8)) | (IS_W_ALPHANUM_AFTER & !start_to_alphanum & (((w_token%8) == 1) | ((w_token%8) == 2)) );
         
-            std::cout << "i: " << i << std::endl;
+//             std::cout << "i: " << i << std::endl;
         
             
         
@@ -730,6 +733,10 @@ int main() {
                
              
     }
+    std::cout << std::hex;
+    std::cout << "TOKENS1: " << tokens[2] << std::endl;
+    std::cout << "TOKENS2: " << tokens[3] << std::endl;
+    std::cout << "TOKENS3: " << tokens[4] << std::endl;
 }
 
 
