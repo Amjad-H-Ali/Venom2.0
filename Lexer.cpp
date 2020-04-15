@@ -332,7 +332,7 @@
 
 #define IS_W_ALPHANUM (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
 
-// #define IS_R_ALPHANUM ((tokens[w_token/8] & 0xFF) == 0x39)
+#define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE)
 
 int main() {
     
@@ -694,11 +694,11 @@ int main() {
 /*temp*/std::cout << "w_token3: " << w_token << std::endl;                     
         // Clear out input space and the space where alphanum was premptively stored since
         // i may be changed in next step. Input space needs to be cleared out since Token
-        // space may overtake it.      
-        tokens[i] = 0x0;
-/*temp*/std::cout << "tokens[i]: " << tokens[i] << std::endl;        
-        tokens[i+1] = 0x0;
-/*temp*/std::cout << "tokens[i+1]: " << tokens[i+1] << std::endl;            
+        // space may overtake it. 
+/*temp*/std::cout << "tokens[i]: " << tokens[i] << std::endl;     
+        tokens[i] = 0x0; 
+/*temp*/std::cout << "tokens[i+1]: " << tokens[i+1] << std::endl;        
+        tokens[i+1] = 0x0;            
         // Move write "pointer" for input one index over if there is less than four bytes left in
         // Token buffer. At least four bytes are needed in case two Tokens are outputted in one cycle,
         // one of which may be IS_W_ALPHANUM, that alone skips two bytes (reserved for actual Token and 
