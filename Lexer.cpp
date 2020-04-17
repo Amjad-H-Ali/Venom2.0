@@ -338,7 +338,9 @@
 
 int main() {
     
-   
+   /*
+    * For next Time: Delete alphanums in array if Token was a keyword (reset w_token, reset start_to_alphanum).
+    */
    
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x1;
@@ -690,6 +692,8 @@ int main() {
             !(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ 
             (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))))*IS_R_ALPHANUM*static_cast<uint64_t>(IS)) <<
             ((start_to_alphanum%8)*8);
+        
+        
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
@@ -716,7 +720,8 @@ int main() {
         // Warning: If less than five bytes are available, then w_token may encroach on input space. The 
         // extra byte is so i can increment 1 cycle before w_token. If the extra byte was not there,
         // w_token would have incremented before i, and tokens[w_token/8] is needed to calculate i.
-        i += (tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) );
+        // Also, increment i only if w_token is at adjacent space.
+        i += ((tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) ) & (i == 1+(w_token/8)));
 /*temp*/std::cout << "i: " << i << std::endl; 
            
 //                     SET_R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
