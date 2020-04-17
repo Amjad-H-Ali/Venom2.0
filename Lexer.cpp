@@ -153,6 +153,8 @@
 
 #define SET_ERROR(CONDITION)      (0x3A * CONDITION)
 
+#define IS                        (0x3B)
+
 /* END OF TOKEN DEFINITIONS */
 
                                                                                                     
@@ -662,7 +664,7 @@ int main() {
             ) << ((w_token % 8) << 3) ;
 /*temp*/std::cout << "tokens[w_token]2: " << tokens[w_token/8] << std::endl;        
 /*temp*/std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;        
-        // Move write "pointer" one space over in Token array if above wrote in a Token in current spot.
+        // Move write "pointer" one space over in Token array if above wrote in a Token at current spot.
         w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0);
 /*temp*/std::cout << "w_token2: " << w_token << std::endl;
         // Save current w_token (the write "pointer" for tokens) if IS_W_ALPHANUM is on, AND 
@@ -676,9 +678,19 @@ int main() {
         // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
         // the third byte. The alphanum was premptively stored at tokens[i+1], so copy it over from there. If 
         // IS_W_ALPHANUM and it's not the beginning, then don't skip and just write alphanum at w_token position.
-        tokens[(w_token+2*(start_to_alphanum == w_token))/8] |= 
-                    
+        tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
             (IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
+        
+        // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token matches a keyword, then write at
+        // start_to_alphanum the corresponding 1 Byte Token. Note: part of keyword may be in adjacent parts of the Tokens
+        // array. This needs to be considered when matching.
+        tokens[start_to_alphanum/8] |= 
+            ((!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ 
+            (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8)))) &
+            !(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ 
+            (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))))*IS_R_ALPHANUM*static_cast<uint64_t>(IS)) <<
+            ((start_to_alphanum%8)*8);
+     
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
         // Increment w_token by either 0 if no Token output, 1 if IS_W_ALPHANUM is on but it's not the beginning
@@ -686,10 +698,8 @@ int main() {
         // for the two bytes that are reserved for Token and Length of VAR/KEYWORD, and 1 byte for the alphanum itself.
         // Incrementing by two is not a case since start_to_alphanum never equals w_token while IS_W_ALPHANUM is off.
         w_token +=
-
             (
                 IS_W_ALPHANUM + 2*(start_to_alphanum == w_token)
-
             );
 /*temp*/std::cout << "w_token3: " << w_token << std::endl;                     
         // Clear out input space and the space where alphanum was premptively stored since
@@ -699,13 +709,15 @@ int main() {
         tokens[i] = 0x0; 
 /*temp*/std::cout << "tokens[i+1]: " << tokens[i+1] << std::endl;        
         tokens[i+1] = 0x0;            
-        // Move write "pointer" for input one index over if there is less than four bytes left in
+        // Move write "pointer" for input one index over if there is less than five bytes left in
         // Token buffer. At least four bytes are needed in case two Tokens are outputted in one cycle,
         // one of which may be IS_W_ALPHANUM, that alone skips two bytes (reserved for actual Token and 
         // Length of VAR) and writes the alphanum in the third byte. This is 1+2+1 = 4 bytes.
-        // Warning: If less than four bytes are available, then w_token may encroach on input space.
-        i += (tokens[w_token/8] > static_cast<uint64_t>(0x00000000FFFFFFFF) );
- 
+        // Warning: If less than five bytes are available, then w_token may encroach on input space. The 
+        // extra byte is so i can increment 1 cycle before w_token. If the extra byte was not there,
+        // w_token would have incremented before i, and tokens[w_token/8] is needed to calculate i.
+        i += (tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) );
+/*temp*/std::cout << "i: " << i << std::endl; 
            
 //                     SET_R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
 //                                                                                                        |
@@ -727,7 +739,7 @@ int main() {
 /*temp*/std::cout << "===================================================== "  << std::endl;             
     }
                      
-    
+/*temp*/std::cout << "Tokens: " << tokens[2] << std::endl;    
  
 }
 
