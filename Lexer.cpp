@@ -340,9 +340,6 @@
 
 int main() {
     
-   /*
-    * For next Time: Delete alphanums in array if Token was a keyword (reset w_token, reset start_to_alphanum).
-    */
    
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
     tokens[PREV_STATE] = 0x1;
@@ -715,6 +712,11 @@ int main() {
                 !((tokens[start_to_alphanum/8] & ((static_cast<uint64_t>(0xFF)) << ((start_to_alphanum%8)*8))))&IS_R_ALPHANUM
             
             )*VAR << ((start_to_alphanum%8)*8);
+        
+        // When IS_R_ALPHANUM is on, write the length of the VAR at the beginning of the alphanums after the VAR Token.
+        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
+        // known. But this may change later.
+        tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(IS_R_ALPHANUM*(w_token - (start_to_alphanum+2))) << (((start_to_alphanum+1)%8)*8);
         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
         // is already known at the this point.
