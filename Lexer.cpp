@@ -153,7 +153,9 @@
 
 #define SET_ERROR(CONDITION)      (0x3A * CONDITION)
 
-#define IS                        (0x3B)
+#define VAR                       (0x3B)
+
+#define IS                        (0x3C)
 
 /* END OF TOKEN DEFINITIONS */
 
@@ -546,7 +548,7 @@ int main() {
         // if the first writes, then w_token write "pointer" is adjusted.
         tokens[w_token/8] |= 
                     
-            (
+            static_cast<uint64_t>(
                 
                 SET_CHR((N20))                                   
                                                                                                    |
@@ -642,9 +644,10 @@ int main() {
         w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0);
 /*temp*/std::cout << "w_token1: " << w_token << std::endl;        
         // Write the Token output, if any, to the Token space via the w_token "pointer". 
-        tokens[w_token/8] |=
-                
-            (              
+        tokens[w_token/8] |= 
+ 
+            static_cast<uint64_t>( 
+            
                 SET_COLON((IS_COLON & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
                                                                                                    |
                 SET_LPARAN((IS_LPARANTHESIS & IS_NOT_P23_OR_P22_OR_P21_OR_P20))
@@ -664,6 +667,8 @@ int main() {
                 SET_ERROR((IS_N23))
                 
             ) << ((w_token % 8) << 3) ;
+      
+        
 /*temp*/std::cout << "tokens[w_token]2: " << tokens[w_token/8] << std::endl;        
 /*temp*/std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;        
         // Move write "pointer" one space over in Token array if above wrote in a Token at current spot.
@@ -683,15 +688,33 @@ int main() {
         tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
             (IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
         
-        // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token matches a keyword, then write at
+        // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token match a keyword, then write at
         // start_to_alphanum the corresponding 1 Byte Token. Note: part of keyword may be in adjacent parts of the Tokens
         // array. This needs to be considered when matching.
         tokens[start_to_alphanum/8] |= 
-            ((!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ 
-            (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8)))) &
-            !(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ 
-            (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))))*IS_R_ALPHANUM*static_cast<uint64_t>(IS)) <<
-            ((start_to_alphanum%8)*8);
+            (
+                (
+                    !(
+                        ((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ 
+                        (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8)))
+                     ) &
+                    
+                    !(
+                        ((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ 
+                        (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))
+                     )
+                
+                )*static_cast<uint64_t>(IS)
+        
+            )*IS_R_ALPHANUM << ((start_to_alphanum%8)*8);
+        
+        // When IS_R_ALPHANUM is on and a Keyword Token has not been written at this point, then the 
+        // alphanums are part of a VAR Token. Writes VAR Token at the beginning of the alphanums.
+        tokens[start_to_alphanum/8] |=
+            (
+                !((tokens[start_to_alphanum/8] & ((static_cast<uint64_t>(0xFF)) << ((start_to_alphanum%8)*8))))&IS_R_ALPHANUM
+            
+            )*VAR << ((start_to_alphanum%8)*8);
         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
         // is already known at the this point.
@@ -746,7 +769,9 @@ int main() {
 /*temp*/std::cout << "===================================================== "  << std::endl;             
     }
                      
-/*temp*/std::cout << "Tokens: " << tokens[2] << std::endl;    
+/*temp*/std::cout << "Tokens1: " << tokens[2] << std::endl; 
+/*temp*/std::cout << "Tokens2: " << tokens[3] << std::endl; 
+/*temp*/std::cout << "Tokens3: " << tokens[4] << std::endl; 
  
 }
 
