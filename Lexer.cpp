@@ -693,7 +693,9 @@ int main() {
             (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))))*IS_R_ALPHANUM*static_cast<uint64_t>(IS)) <<
             ((start_to_alphanum%8)*8);
         
-        
+        // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
+        // is already known at the this point.
+        start_to_alphanum = !IS_R_ALPHANUM*(start_to_alphanum);
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
