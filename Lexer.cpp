@@ -2,8 +2,11 @@
 #include <chrono>
 
 #define SIZE 2000 
-#define PREV_STATE 0
-#define NEXT_STATE 1
+#define POW_OF_10    0 // 10^X Lookup Table. Starts at index 0 and ends at index 14.
+#define PREV_STATE   15
+#define NEXT_STATE   16
+#define W_TOKEN_INIT 17
+#define INPUT_INIT   18
 
 
 
@@ -340,11 +343,18 @@
 
 int main() {
     
-   
-    uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
+   // First 15 indexes are a lookup table for powers of 10.
+   // Next index after that is the PREV_STATE.
+   // Then the index after that is the NEXT_STATE.
+   // Finally, the space for writing tokens.
+    uint64_t tokens[SIZE] = // 16,000 BYTES : 250/512 CACHE-LINES
+        {
+            1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 
+            10000000000, 100000000000, 1000000000000, 10000000000000, 100000000000000
+        }; 
     tokens[PREV_STATE] = 0x1;
-    uint32_t i = 3;
-    uint32_t w_token = 16;
+    uint32_t i = INPUT_INIT;
+    uint32_t w_token = W_TOKEN_INIT*8;
     uint32_t start_to_alphanum = 0;
     
     while(((tokens[i] = getchar()) != 0x23 )) {
