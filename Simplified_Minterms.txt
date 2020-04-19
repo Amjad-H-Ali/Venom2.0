@@ -156,11 +156,11 @@ R_STR = P22(")
 
 W_NUM = (0-9) & !(P1 + P20 + P21 + P22 + P23 ) 
                         
-W_ALPHANUM = ( (_) + (A-Z) )  & !(P20 + P21 + P22 + P23) 
+W_ALPHANUM = (( (_) + (A-Z) )  & !(P20 + P21 + P22 + P23)) + P1(0-9)
             
 NUM = P2 & !(0-9)            
   
-R_ALPHANUM = P1 & !( (_) + (A_Z) )  
+R_ALPHANUM = P1 & !( (_) + (A_Z) + (0-9))  
             
 ERROR = N23
             

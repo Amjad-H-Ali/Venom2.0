@@ -333,13 +333,13 @@
 
 #define IS_P2NOTNUMERAL ((((tokens[i] & 0x4) == 0) & ((tokens[PREV_STATE] & 0x4) != 0)) != 0)
 
-#define IS_P1NOT_ALPHABET_OR_UNDERSCORE ((((tokens[i] & 0x3) == 0) & ((tokens[PREV_STATE] & 0x2) != 0)) != 0)
+#define IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL ((((tokens[i] & 0x7) == 0) & ((tokens[PREV_STATE] & 0x2) != 0)) != 0)
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-#define IS_W_ALPHANUM (IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20)
+#define IS_W_ALPHANUM ((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20) | IS_P1NUMERAL)
 
-#define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE)
+#define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL)
 
 #define IS_W_NUM (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
 
@@ -355,7 +355,7 @@ int main() {
    // (5)   Index is NUM_BUFFER.       (VARIABLE)
    // (7)   Index is input space.      (VARIABLE)
    // (8)   Index is ALPHANUM_BUFFER   (VARIABLE)
-    uint64_t tokens[SIZE] = {}; // 16,000 BYTES : 250/512 CACHE-LINES
+    uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
         
     tokens[PREV_STATE] = 0x1;
     uint32_t i = INPUT_INIT;
@@ -733,6 +733,12 @@ int main() {
         // known. But this may change later.
         tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(IS_R_ALPHANUM*(w_token - (start_to_alphanum+2))) << (((start_to_alphanum+1)%8)*8);
         
+        tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(tokens[NUM_BUFFER] << (((start_to_alphanum+1)%8)*8))*IS_R_NUM;
+        
+        tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(tokens[NUM_BUFFER] >> (8 - ((start_to_alphanum+1)%8) ))*IS_R_NUM;
+        
+/*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
+/*temp*/std::cout << "tokens[(start_to_alphanum+7)/8]: " << tokens[(start_to_alphanum+7)/8] << std::endl;         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
         // is already known at the this point.
         start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM)*(start_to_alphanum);
@@ -760,8 +766,9 @@ int main() {
         tokens[NUM_BUFFER] = 
              IS_W_NUM*(tokens[NUM_BUFFER] * 10 + (tokens[ALPHANUM_BUFFER] - '0')) +
             !IS_W_NUM*tokens[NUM_BUFFER];
-/*temp*/std::cout << "NUM_BUFFER: " << tokens[NUM_BUFFER] << std::endl;         
+/*temp*/std::cout << "NUM_BUFFER: " << tokens[NUM_BUFFER] << std::endl; 
         
+    
         // Clear out input space and the space where alphanum was premptively stored since
         // i may be changed in next step. Input space needs to be cleared out since Token
         // space may overtake it. 
