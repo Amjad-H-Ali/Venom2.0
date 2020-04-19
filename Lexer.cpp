@@ -694,13 +694,13 @@ int main() {
         // the third byte. The alphanum was premptively stored at tokens[i+1], so copy it over from there. If 
         // IS_W_ALPHANUM and it's not the beginning, then don't skip and just write alphanum at w_token position.
         tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
-            (IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
+            static_cast<uint64_t>(IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
         
         // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token match a keyword, then write at
         // start_to_alphanum the corresponding 1 Byte Token. Note: part of keyword may be in adjacent parts of the Tokens
         // array. This needs to be considered when matching.
         tokens[start_to_alphanum/8] |= 
-            (
+            static_cast<uint64_t>(
                 (
                     !(
                         ((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ 
@@ -719,7 +719,7 @@ int main() {
         // When IS_R_ALPHANUM is on and a Keyword Token has not been written at this point, then the 
         // alphanums are part of a VAR Token. Writes VAR Token at the beginning of the alphanums.
         tokens[start_to_alphanum/8] |=
-            (
+            static_cast<uint64_t>(
                 !((tokens[start_to_alphanum/8] & ((static_cast<uint64_t>(0xFF)) << ((start_to_alphanum%8)*8))))&IS_R_ALPHANUM
             
             )*VAR << ((start_to_alphanum%8)*8);
@@ -759,7 +759,7 @@ int main() {
         // extra byte is so i can increment 1 cycle before w_token. If the extra byte was not there,
         // w_token would have incremented before i, and tokens[w_token/8] is needed to calculate i.
         // Also, increment i only if w_token is two spaces away.
-        i += ((tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) ) & (i == 2+(w_token/8)));
+        i += (i <= 3+(w_token/8));
 /*temp*/std::cout << "i: " << i << std::endl; 
            
 //                     SET_R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
@@ -782,9 +782,9 @@ int main() {
 /*temp*/std::cout << "===================================================== "  << std::endl;             
     }
                      
-/*temp*/std::cout << "Tokens1: " << tokens[W_TOKEN_INIT*8] << std::endl; 
-/*temp*/std::cout << "Tokens2: " << tokens[(W_TOKEN_INIT*8)+1] << std::endl; 
-/*temp*/std::cout << "Tokens3: " << tokens[(W_TOKEN_INIT*8)+2] << std::endl; 
+/*temp*/std::cout << "Tokens1: " << tokens[(W_TOKEN_INIT*8)/8] << std::endl; 
+/*temp*/std::cout << "Tokens2: " << tokens[((W_TOKEN_INIT*8)/8)+1] << std::endl; 
+/*temp*/std::cout << "Tokens3: " << tokens[((W_TOKEN_INIT*8)/8)+2] << std::endl; 
  
 }
 
