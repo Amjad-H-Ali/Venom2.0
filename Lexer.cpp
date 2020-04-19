@@ -754,7 +754,7 @@ int main() {
         // Incrementing by 6 is obviously not a case.
         w_token +=
             (
-                IS_W_ALPHANUM + 2*(start_to_alphanum == w_token) + 6*IS_W_NUM*(start_to_alphanum == w_token)
+                IS_W_ALPHANUM + (start_to_alphanum == w_token)*(2 + 6*IS_W_NUM)
             );
 /*temp*/std::cout << "w_token3: " << w_token << std::endl; 
         
