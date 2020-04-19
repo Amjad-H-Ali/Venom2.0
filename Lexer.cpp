@@ -737,7 +737,7 @@ int main() {
         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
         // is already known at the this point.
-        start_to_alphanum = !(IS_R_ALPHANUM)*(start_to_alphanum);
+        start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM)*(start_to_alphanum);
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
