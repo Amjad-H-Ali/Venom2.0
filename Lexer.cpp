@@ -2,12 +2,11 @@
 #include <chrono>
 
 #define SIZE 2000 
-#define POW_OF_10        0                 // 10^X Lookup Table. Starts at index 0 and ends at index 14.
-#define PREV_STATE       15                // Previous State (P0 - P23)
-#define NEXT_STATE       16                // Next State (N0 - N23)
-#define W_TOKEN_INIT     17                // Used to initailize w_token. Tokens are initially outputted here.
-#define NUM_BUFFER       (2+(w_token/8))   // Buffer to compute number while IS_W_NUM is on. Two spaces from w_token.
-#define INPUT_INIT       20                // Initial Buffer where input is read into. Three spaces from w_token.
+#define PREV_STATE       0                 // Previous State (P0 - P23)
+#define NEXT_STATE       1                 // Next State (N0 - N23)
+#define W_TOKEN_INIT     2                 // Used to initailize w_token. Tokens are initially outputted here.
+#define NUM_BUFFER      (2+(w_token/8))    // Buffer to compute number while IS_W_NUM is on. Two spaces from w_token.
+#define INPUT_INIT       6                 // Initial Buffer where input is read into. Four spaces from w_token.
 #define ALPHANUM_BUFFER  i+1               // Buffer to get alphanum input when IS_W_ALPHANUM is on.
 
 
@@ -349,16 +348,15 @@
 
 
 int main() {
-    
-   // First 15 indices are a lookup table for powers of 10.
-   // Next index after that is the PREV_STATE.
-   // Then the index after that is the NEXT_STATE.
-   // Finally, the space for writing tokens.
-    uint64_t tokens[SIZE] = // 16,000 BYTES : 250/512 CACHE-LINES
-        {
-            1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 
-            10000000000, 100000000000, 1000000000000, 10000000000000, 100000000000000
-        }; 
+
+   // (1)   Index is the PREV_STATE.   (CONSTANT Index: Permanently 1 -- For Now --)
+   // (2)   Index is the NEXT_STATE.   (CONSTANT)
+   // (3)   Index is w_token space.    (VARIABLE Index: Changes when current space reaches capacity.)
+   // (5)   Index is NUM_BUFFER.       (VARIABLE)
+   // (7)   Index is input space.      (VARIABLE)
+   // (8)   Index is ALPHANUM_BUFFER   (VARIABLE)
+    uint64_t tokens[SIZE] = {}; // 16,000 BYTES : 250/512 CACHE-LINES
+        
     tokens[PREV_STATE] = 0x1;
     uint32_t i = INPUT_INIT;
     uint32_t w_token = W_TOKEN_INIT*8;
@@ -758,8 +756,11 @@ int main() {
             );
 /*temp*/std::cout << "w_token3: " << w_token << std::endl; 
         
-        
-        
+        // While IS_W_NUM is on, get the current number in ALPHANUM_BUFFER and compute the number in NUM_BUFFER.
+        tokens[NUM_BUFFER] = 
+             IS_W_NUM*(tokens[NUM_BUFFER] * 10 + (tokens[ALPHANUM_BUFFER] - '0')) +
+            !IS_W_NUM*tokens[NUM_BUFFER];
+/*temp*/std::cout << "NUM_BUFFER: " << tokens[NUM_BUFFER] << std::endl;         
         
         // Clear out input space and the space where alphanum was premptively stored since
         // i may be changed in next step. Input space needs to be cleared out since Token
@@ -802,6 +803,7 @@ int main() {
 /*temp*/std::cout << "Tokens1: " << tokens[(W_TOKEN_INIT*8)/8] << std::endl; 
 /*temp*/std::cout << "Tokens2: " << tokens[((W_TOKEN_INIT*8)/8)+1] << std::endl; 
 /*temp*/std::cout << "Tokens3: " << tokens[((W_TOKEN_INIT*8)/8)+2] << std::endl; 
+/*temp*/std::cout << "Tokens4: " << tokens[((W_TOKEN_INIT*8)/8)+3] << std::endl; 
  
 }
 
