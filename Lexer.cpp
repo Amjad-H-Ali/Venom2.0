@@ -2,12 +2,13 @@
 #include <chrono>
 
 #define SIZE 2000 
-#define POW_OF_10    0 // 10^X Lookup Table. Starts at index 0 and ends at index 14.
-#define PREV_STATE   15
-#define NEXT_STATE   16
-#define W_TOKEN_INIT 17
-#define INPUT_INIT   18
-
+#define POW_OF_10        0                 // 10^X Lookup Table. Starts at index 0 and ends at index 14.
+#define PREV_STATE       15                // Previous State (P0 - P23)
+#define NEXT_STATE       16                // Next State (N0 - N23)
+#define W_TOKEN_INIT     17                // Used to initailize w_token. Tokens are initially outputted here.
+#define NUM_BUFFER       (2+(w_token/8))   // Buffer to compute number while IS_W_NUM is on. Two spaces from w_token.
+#define INPUT_INIT       20                // Initial Buffer where input is read into. Three spaces from w_token.
+#define ALPHANUM_BUFFER  i+1               // Buffer to get alphanum input when IS_W_ALPHANUM is on.
 
 
 // Inputs
@@ -343,7 +344,7 @@
 
 int main() {
     
-   // First 15 indexes are a lookup table for powers of 10.
+   // First 15 indices are a lookup table for powers of 10.
    // Next index after that is the PREV_STATE.
    // Then the index after that is the NEXT_STATE.
    // Finally, the space for writing tokens.
@@ -363,7 +364,7 @@ int main() {
                
         // Premptively store alphanum in temporary buffer in case of a IS_W_ALPHANUM.
         // Information of alphanum is going to be lost in next step. 
-        tokens[i+1] = tokens[i]; 
+        tokens[ALPHANUM_BUFFER] = tokens[i]; 
         
         
         // Set the corresponding bit of current input to 1. So far, there are 27 possible inputs (counting a-z and A-Z as 1 etc.).
@@ -757,8 +758,8 @@ int main() {
         // Warning: If less than five bytes are available, then w_token may encroach on input space. The 
         // extra byte is so i can increment 1 cycle before w_token. If the extra byte was not there,
         // w_token would have incremented before i, and tokens[w_token/8] is needed to calculate i.
-        // Also, increment i only if w_token is at adjacent space.
-        i += ((tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) ) & (i == 1+(w_token/8)));
+        // Also, increment i only if w_token is two spaces away.
+        i += ((tokens[w_token/8] > static_cast<uint64_t>(0x0000000000FFFFFF) ) & (i == 2+(w_token/8)));
 /*temp*/std::cout << "i: " << i << std::endl; 
            
 //                     SET_R_CHR((IS_P20APOSTROPHE_OR_P21APOSTROPHE))
@@ -781,9 +782,9 @@ int main() {
 /*temp*/std::cout << "===================================================== "  << std::endl;             
     }
                      
-/*temp*/std::cout << "Tokens1: " << tokens[2] << std::endl; 
-/*temp*/std::cout << "Tokens2: " << tokens[3] << std::endl; 
-/*temp*/std::cout << "Tokens3: " << tokens[4] << std::endl; 
+/*temp*/std::cout << "Tokens1: " << tokens[W_TOKEN_INIT*8] << std::endl; 
+/*temp*/std::cout << "Tokens2: " << tokens[(W_TOKEN_INIT*8)+1] << std::endl; 
+/*temp*/std::cout << "Tokens3: " << tokens[(W_TOKEN_INIT*8)+2] << std::endl; 
  
 }
 
