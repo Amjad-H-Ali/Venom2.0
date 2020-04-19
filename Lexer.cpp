@@ -342,6 +342,12 @@
 
 #define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE)
 
+#define IS_W_NUM (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
+
+#define IS_R_NUM (IS_P2NOTNUMERAL)
+
+
+
 int main() {
     
    // First 15 indices are a lookup table for powers of 10.
@@ -687,7 +693,7 @@ int main() {
         // are being written into Tokens space, and the start position needs to be saved so 
         // VAR/(WHICH_KEYWORD(K) => KEYWORD) is later written there when Token is known.
         // If NOT(IS_W_ALPHANUM*!start_to_alphanum) -> start_to_alphanum = start_to_alphanum.
-        start_to_alphanum = ((w_token*IS_W_ALPHANUM*!start_to_alphanum) + start_to_alphanum);
+        start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM)*!start_to_alphanum) + start_to_alphanum);
 /*temp*/std::cout << "start_to_alphanum: " << start_to_alphanum<< std::endl;
         // When IS_W_ALPHANUM is on and it's the beginning of an alphanum, w_token skips ahead and reserves 
         // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
@@ -731,19 +737,30 @@ int main() {
         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
         // is already known at the this point.
-        start_to_alphanum = !IS_R_ALPHANUM*(start_to_alphanum);
+        start_to_alphanum = !(IS_R_ALPHANUM)*(start_to_alphanum);
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
         // Increment w_token by either 0 if no Token output, 1 if IS_W_ALPHANUM is on but it's not the beginning
-        // of an alphanum, or by 3 if IS_W_ALPHANUM is on and it is the beginning of an alphanum. This is to account
+        // of an alphanum, by 3 if IS_W_ALPHANUM is on and it is the beginning of an alphanum, or by 8 if IS_W_ALPHANUM
+        // is on and it is the beginning of an alphanum. Incrementing by 3 when IS_W_ALPHANUM is on is to account
         // for the two bytes that are reserved for Token and Length of VAR/KEYWORD, and 1 byte for the alphanum itself.
-        // Incrementing by two is not a case since start_to_alphanum never equals w_token while IS_W_ALPHANUM is off.
+        // Incrementing by 8 when IS_W_NUM is on is to account for the 1 byte reserved for NUM Token, the 6 bytes 
+        // reserved for the number (48 bit data type) itself, and 1 byte to account for the case where IS_R_NUM and
+        // some other output are on at the same cycle while there is only 1 byte of space at current w_token; w_token
+        // would have incremented while NUM_BUFFER is still in use, which relies on w_token variable.
+        // Incrementing by 2 is not a case since start_to_alphanum never equals w_token while IS_W_ALPHANUM is off.
+        // Incrementing by 9 is not a case since IS_W_ALPHANUM and IS_W_NUM are both never on concurrently.
+        // Incrementing by 6 is obviously not a case.
         w_token +=
             (
-                IS_W_ALPHANUM + 2*(start_to_alphanum == w_token)
+                IS_W_ALPHANUM + 2*(start_to_alphanum == w_token) + 6*IS_W_NUM*(start_to_alphanum == w_token)
             );
-/*temp*/std::cout << "w_token3: " << w_token << std::endl;                     
+/*temp*/std::cout << "w_token3: " << w_token << std::endl; 
+        
+        
+        
+        
         // Clear out input space and the space where alphanum was premptively stored since
         // i may be changed in next step. Input space needs to be cleared out since Token
         // space may overtake it. 
