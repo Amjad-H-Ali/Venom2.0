@@ -700,6 +700,11 @@ int main() {
         tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
             static_cast<uint64_t>(IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
         
+        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
+        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
+        // known. But this may change later.
+        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM) << (((start_to_alphanum+1)%8)*8);
+        
         // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token match a keyword, then write at
         // start_to_alphanum the corresponding 1 Byte Token. Note: part of keyword may be in adjacent parts of the Tokens
         // array. This needs to be considered when matching.
@@ -718,15 +723,20 @@ int main() {
                     
                      // Check if Length is 2. If not, then no match.
                      (
-                        (tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)/8)*8)) == 
+                        (tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)%8)*8)) == 
                          
-                        (static_cast<uint64_t>(0x2) << (((start_to_alphanum+1)/8)*8))
+                        (static_cast<uint64_t>(0x2) << (((start_to_alphanum+1)%8)*8))
                      )  
                 
                 )*IS
         
             )*IS_R_ALPHANUM << ((start_to_alphanum%8)*8);
         
+        std::cout << "((tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)/8)*8)) ==): "<<((tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)%8)*8)) == (static_cast<uint64_t>(0x2) << (((start_to_alphanum+1)%8)*8)) ) << std::endl;
+        
+        std::cout << "!(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^(tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))) " << (!(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8))))) << std::endl;
+        
+        std::cout << "!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8)))) " << (!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8))))) << std::endl;
         // When IS_R_ALPHANUM is on and a Keyword Token has not been written at this point, then the 
         // alphanums are part of a VAR Token. Writes VAR Token at the beginning of the alphanums.
         tokens[start_to_alphanum/8] |=
@@ -735,10 +745,7 @@ int main() {
             
             )*VAR << ((start_to_alphanum%8)*8);
         
-        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
-        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
-        // known. But this may change later.
-        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM) << (((start_to_alphanum+1)%8)*8);
+
         
         // Read Number from NUM_BUFFER and write it at 6 Byte location reserved for it in Token array.
         tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] << (((start_to_alphanum+1)%8)*8));  
