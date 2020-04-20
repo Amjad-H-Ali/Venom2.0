@@ -728,10 +728,10 @@ int main() {
             
             )*VAR << ((start_to_alphanum%8)*8);
         
-        // When IS_R_ALPHANUM is on, write the length of the VAR at the beginning of the alphanums after the VAR Token.
+        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
         // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
         // known. But this may change later.
-        tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(IS_R_ALPHANUM*(w_token - (start_to_alphanum+2))) << (((start_to_alphanum+1)%8)*8);
+        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM << (((start_to_alphanum+1)%8)*8));
         
         tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(tokens[NUM_BUFFER] << (((start_to_alphanum+1)%8)*8))*IS_R_NUM;
         
