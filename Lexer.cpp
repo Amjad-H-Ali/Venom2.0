@@ -40,127 +40,248 @@
 #define IS_TILDE              ((tokens[i] & 0x80000000)  != 0) 
 
 /* TOKENS */
-#define SET_CHR(CONDITION)        (0x1 & CONDITION)
 
-#define SET_STR(CONDITION)        (0x2 * CONDITION)
+#define CHR        (0x1)
 
-#define SET_MUL(CONDITION)        (0x3 * CONDITION)
+#define STR        (0x2)
 
-#define SET_DIV(CONDITION)        (0x4 * CONDITION)
+#define MUL        (0x3)
 
-#define SET_PLUS(CONDITION)       (0x5 * CONDITION)
+#define DIV        (0x4)
 
-#define SET_MIN(CONDITION)        (0x6 * CONDITION)
+#define PLUS       (0x5)
 
-#define SET_MOD(CONDITION)        (0x7 * CONDITION)
+#define MIN        (0x6)
 
-#define SET_ASSGN(CONDITION)      (0x8 * CONDITION)
+#define MOD        (0x7)
 
-#define SET_BOR(CONDITION)        (0x9 * CONDITION)
+#define ASSGN      (0x8)
 
-#define SET_BAND(CONDITION)       (0xA * CONDITION)
+#define BOR        (0x9)
 
-#define SET_BXOR(CONDITION)       (0xB * CONDITION)
+#define BAND       (0xA)
 
-#define SET_GT(CONDITION)         (0xC * CONDITION)
+#define BXOR       (0xB)
 
-#define SET_SAR(CONDITION)        (0xD * CONDITION)
+#define GT         (0xC)
 
-#define SET_SHR(CONDITION)        (0xE * CONDITION)
+#define SAR        (0xD)
 
-#define SET_LT(CONDITION)         (0xF * CONDITION)
+#define SHR        (0xE)
 
-#define SET_SHL(CONDITION)        (0x10 * CONDITION)
+#define LT         (0xF)
 
-#define SET_DOT(CONDITION)        (0x11 * CONDITION)
+#define SHL        (0x10)
 
-#define SET_DDOT(CONDITION)       (0x12 * CONDITION)
+#define DOT        (0x11)
 
-#define SET_ELLIP(CONDITION)      (0x13 * CONDITION)
+#define DDOT       (0x12)
 
-#define SET_NOT(CONDITION)        (0x14 * CONDITION)
+#define ELLIP      (0x13)
 
-#define SET_W_CHR(CONDITION)      (0x15 * CONDITION)
+#define NOT        (0x14)
 
-#define SET_W_STR(CONDITION)      (0x16 * CONDITION)
+#define W_CHR      (0x15)
 
-#define SET_MULEQ(CONDITION)      (0x17 * CONDITION)
+#define W_STR      (0x16)
 
-#define SET_EXP(CONDITION)        (0x18 * CONDITION)
+#define MULEQ      (0x17)
 
-#define SET_COLON(CONDITION)      (0x19 * CONDITION)
+#define EXP        (0x18)
 
-#define SET_LPARAN(CONDITION)     (0x1A * CONDITION)
+#define COLON      (0x19)
 
-#define SET_RPARAN(CONDITION)     (0x1B * CONDITION)
+#define LPARAN     (0x1A)
 
-#define SET_LBRACK(CONDITION)     (0x1C * CONDITION)
+#define RPARAN     (0x1B)
 
-#define SET_RBRACK(CONDITION)     (0x1D * CONDITION)
+#define LBRACK     (0x1C)
 
-#define SET_LBRACE(CONDITION)     (0x1E * CONDITION)
+#define RBRACK     (0x1D)
 
-#define SET_RBRACE(CONDITION)     (0x1F * CONDITION)
+#define LBRACE     (0x1E)
 
-#define SET_BNOT(CONDITION)       (0x20 * CONDITION)
+#define RBRACE     (0x1F)
 
-#define SET_DIVEQ(CONDITION)      (0x21 * CONDITION)
+#define BNOT       (0x20)
 
-#define SET_PE(CONDITION)         (0x22 * CONDITION)
+#define DIVEQ      (0x21)
 
-#define SET_INC(CONDITION)        (0x23 * CONDITION)
+#define PE         (0x22)
 
-#define SET_MINE(CONDITION)       (0x24 * CONDITION)
+#define INC        (0x23)
 
-#define SET_DEC(CONDITION)        (0x25 * CONDITION)
+#define MINE       (0x24)
 
-#define SET_MODEQ(CONDITION)      (0x26 * CONDITION)
+#define DEC        (0x25)
 
-#define SET_EQ(CONDITION)         (0x27 * CONDITION)
+#define MODEQ      (0x26)
 
-#define SET_FARROW(CONDITION)     (0x28 * CONDITION)
+#define EQ         (0x27)
 
-#define SET_BOREQ(CONDITION)      (0x29 * CONDITION)
+#define FARROW     (0x28)
 
-#define SET_LOR(CONDITION)        (0x2A * CONDITION)
+#define BOREQ      (0x29)
 
-#define SET_BANDEQ(CONDITION)     (0x2B * CONDITION)
+#define LOR        (0x2A)
 
-#define SET_LAND(CONDITION)       (0x2C * CONDITION)
+#define BANDEQ     (0x2B)
 
-#define SET_BXOREQ(CONDITION)     (0x2D * CONDITION)
+#define LAND       (0x2C)
 
-#define SET_GTE(CONDITION)        (0x2E * CONDITION)
+#define BXOREQ     (0x2D)
 
-#define SET_SAREQ(CONDITION)      (0x2F * CONDITION)
+#define GTE        (0x2E)
 
-#define SET_SHREQ(CONDITION)      (0x30 * CONDITION)
+#define SAREQ      (0x2F)
 
-#define SET_LTE(CONDITION)        (0x31 * CONDITION)
+#define SHREQ      (0x30)
 
-#define SET_SHLEQ(CONDITION)      (0x32 * CONDITION)
+#define LTE        (0x31)
 
-#define SET_NOTEQ(CONDITION)      (0x33 * CONDITION)
+#define SHLEQ      (0x32)
 
-#define SET_R_CHR(CONDITION)      (0x34 * CONDITION)
+#define NOTEQ      (0x33)
 
-#define SET_R_STR(CONDITION)      (0x35 * CONDITION)
+#define R_CHR      (0x34)
 
-#define SET_W_NUM(CONDITION)      (0x36 * CONDITION)
+#define R_STR      (0x35)
 
-#define SET_W_ALPHANUM(CONDITION) (0x37 * CONDITION)
+#define W_NUM      (0x36)
 
-#define SET_NUM(CONDITION)        (0x38 * CONDITION)
+#define W_ALPHANUM (0x37)
 
-#define SET_R_ALPHANUM(CONDITION) (0x39 * CONDITION)
+#define NUM        (0x38)
 
-#define SET_ERROR(CONDITION)      (0x3A * CONDITION)
+#define R_ALPHANUM (0x39)
 
-#define VAR                       (0x3B)
+#define ERROR      (0x3A)
 
-#define IS                        (0x3C)
+#define VAR        (0x3B)
+
+#define IS         (0x3C)
 
 /* END OF TOKEN DEFINITIONS */
+
+
+
+#define SET_CHR(CONDITION)        (CHR & CONDITION)
+
+#define SET_STR(CONDITION)        (STR * CONDITION)
+
+#define SET_MUL(CONDITION)        (MUL * CONDITION)
+
+#define SET_DIV(CONDITION)        (DIV * CONDITION)
+
+#define SET_PLUS(CONDITION)       (PLUS * CONDITION)
+
+#define SET_MIN(CONDITION)        (MIN * CONDITION)
+
+#define SET_MOD(CONDITION)        (MOD * CONDITION)
+
+#define SET_ASSGN(CONDITION)      (ASSGN * CONDITION)
+
+#define SET_BOR(CONDITION)        (BOR * CONDITION)
+
+#define SET_BAND(CONDITION)       (BAND * CONDITION)
+
+#define SET_BXOR(CONDITION)       (BXOR * CONDITION)
+
+#define SET_GT(CONDITION)         (GT * CONDITION)
+
+#define SET_SAR(CONDITION)        (SAR * CONDITION)
+
+#define SET_SHR(CONDITION)        (SHR * CONDITION)
+
+#define SET_LT(CONDITION)         (LT * CONDITION)
+
+#define SET_SHL(CONDITION)        (SHL * CONDITION)
+
+#define SET_DOT(CONDITION)        (DOT * CONDITION)
+
+#define SET_DDOT(CONDITION)       (DDOT * CONDITION)
+
+#define SET_ELLIP(CONDITION)      (ELLIP * CONDITION)
+
+#define SET_NOT(CONDITION)        (NOT * CONDITION)
+
+#define SET_W_CHR(CONDITION)      (W_CHR * CONDITION)
+
+#define SET_W_STR(CONDITION)      (W_STR * CONDITION)
+
+#define SET_MULEQ(CONDITION)      (MULEQ * CONDITION)
+
+#define SET_EXP(CONDITION)        (EXP * CONDITION)
+
+#define SET_COLON(CONDITION)      (COLON * CONDITION)
+
+#define SET_LPARAN(CONDITION)     (LPARAN * CONDITION)
+
+#define SET_RPARAN(CONDITION)     (RPARAN * CONDITION)
+
+#define SET_LBRACK(CONDITION)     (LBRACK* CONDITION)
+
+#define SET_RBRACK(CONDITION)     (RBRACK * CONDITION)
+
+#define SET_LBRACE(CONDITION)     (LBRACE * CONDITION)
+
+#define SET_RBRACE(CONDITION)     (RBRACE * CONDITION)
+
+#define SET_BNOT(CONDITION)       (BNOT * CONDITION)
+
+#define SET_DIVEQ(CONDITION)      (DIVEQ * CONDITION)
+
+#define SET_PE(CONDITION)         (PE * CONDITION)
+
+#define SET_INC(CONDITION)        (INC * CONDITION)
+
+#define SET_MINE(CONDITION)       (MINE * CONDITION)
+
+#define SET_DEC(CONDITION)        (DEC * CONDITION)
+
+#define SET_MODEQ(CONDITION)      (MODEQ * CONDITION)
+
+#define SET_EQ(CONDITION)         (EQ * CONDITION)
+
+#define SET_FARROW(CONDITION)     (FARROW * CONDITION)
+
+#define SET_BOREQ(CONDITION)      (BOREQ * CONDITION)
+
+#define SET_LOR(CONDITION)        (LOR * CONDITION)
+
+#define SET_BANDEQ(CONDITION)     (BANDEQ * CONDITION)
+
+#define SET_LAND(CONDITION)       (LAND * CONDITION)
+
+#define SET_BXOREQ(CONDITION)     (BXOREQ * CONDITION)
+
+#define SET_GTE(CONDITION)        (GTE * CONDITION)
+
+#define SET_SAREQ(CONDITION)      (SAREQ * CONDITION)
+
+#define SET_SHREQ(CONDITION)      (SHREQ * CONDITION)
+
+#define SET_LTE(CONDITION)        (LTE * CONDITION)
+
+#define SET_SHLEQ(CONDITION)      (SHLEQ * CONDITION)
+
+#define SET_NOTEQ(CONDITION)      (NOTEQ * CONDITION)
+
+#define SET_R_CHR(CONDITION)      (R_CHR * CONDITION)
+
+#define SET_R_STR(CONDITION)      (R_ST * CONDITION)
+
+#define SET_W_NUM(CONDITION)      (W_NUM * CONDITION)
+
+#define SET_W_ALPHANUM(CONDITION) (W_ALPHANUM * CONDITION)
+
+#define SET_NUM(CONDITION)        (NUM * CONDITION)
+
+#define SET_R_ALPHANUM(CONDITION) (R_ALPHANUM * CONDITION)
+
+#define SET_ERROR(CONDITION)      (ERROR * CONDITION)
+
+
 
                                                                                                     
 #define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((tokens[i] & 0xFF800000) != 0)
