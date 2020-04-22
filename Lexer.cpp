@@ -164,7 +164,7 @@
 /* END OF TOKEN DEFINITIONS */
 
 
-
+/* For setting outputs that ARE Tokens */
 #define SET_CHR(CONDITION)        (CHR & CONDITION)
 
 #define SET_STR(CONDITION)        (STR * CONDITION)
@@ -281,9 +281,17 @@
 
 #define SET_ERROR(CONDITION)      (ERROR * CONDITION)
 
+/* Ouputs that are NOT Tokens */
+#define IS_W_ALPHANUM ((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20) | IS_P1NUMERAL)
+
+#define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL)
+
+#define IS_W_NUM (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
+
+#define IS_R_NUM (IS_P2NOTNUMERAL)
 
 
-                                                                                                    
+/* For setting the NEXT_STATE */                                                                                                    
 #define IS_TILDE_OR_BRACK_OR_BRACE_OR_PARAN_OR_COLON_OR_WS ((tokens[i] & 0xFF800000) != 0)
                       
 #define IS_NOT_P23_OR_P22_OR_P21_OR_P20 ((tokens[PREV_STATE] & 0xF00000) == 0 )
@@ -457,15 +465,6 @@
 #define IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL ((((tokens[i] & 0x7) == 0) & ((tokens[PREV_STATE] & 0x2) != 0)) != 0)
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
-
-#define IS_W_ALPHANUM ((IS_UNDERSCORE_OR_ALPHABET & IS_NOT_P23_OR_P22_OR_P21_OR_P20) | IS_P1NUMERAL)
-
-#define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL)
-
-#define IS_W_NUM (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
-
-#define IS_R_NUM (IS_P2NOTNUMERAL)
-
 
 
 int main() {
@@ -953,205 +952,4 @@ int main() {
 }
 
 
-//     const uint32_t SIZE = 21;
-//     uint32_t i = 0;
-//     uint32_t j = 0;
-//     const char stream[SIZE]= 
-//         {
-//             'f', 'o', 'o', 0x20, 'i', 's', 0x20, 'i', 
-//             's', 0x20, 'l', ')', '=', '>', '{', 0x20, '}', 'i', 's', 0x20, '\n'
-//         };
 
-//     uint64_t tokens[SIZE] = {0};
-
-    
-//     std::chrono::time_point<std::chrono::system_clock> start2, end2;
-
-//     start2 = std::chrono::system_clock::now();
-    
-//     /*
-//      * 
-//      *  IS: 1  
-//      * 
-//      */
-//     uint64_t flags = 0x0000000000000000;
-//    // Read stream from stdin into tokens[]
-//    // Tokenize chars inplace
-//     while(tokens[offset_w] += getchar()) { 
-        
-//         flags = 
-  
-//             (tokens[offset_r] == 0x00000000006973)*0000000100000000 // IS flag
-                
-//             (tokens[offset_r] == 0x00000000000028)*0000000000000001 // LPARAN flag
-            
-//             (tokens[offset_r] == 0x00000000000029)*0000000000000002 // RPARAN flag
-            
-//             (tokens[offset_r] == 0x0000000000007B)*0000000000000004 // LBRACE flag
-            
-//             (tokens[offset_r] == 0x0000000000007D)*0000000000000008 // RBRACE flag
-            
-//             (tokens[offset_r] == 0x00000000000020)*0000000000000010 // SPACE flag
-            
-            
-            
-            
-//         /*
-//          * 
-//          * IS Token     : 1
-//          * 
-//          * LPARAN Token : 2
-//          * 
-//          * RPARAN Token : 3
-//          * 
-//          * LBRACE Token : 4
-//          * 
-//          * RBRACE Token : 5
-//          * 
-//          */    
-//         //
-//         tokens[offset_r] = 
-            
-//             // A Single Token (ie. curly brace, paranthesis, space,  etc.) ends.
-//             // Check which flag is on and write corresponding Token to tokens[]. 
-//             // If no flag is on (only SINGLE_TOKS flag is on), then write 
-//             // corresponding single char Token to tokens[]
-//             SINGLE_TOKS*
-//             (
-//                 IS_FLG*1 + NOT_VAR_STR_KEYWORD*
-            
-//                 (LPARAN_FLG*2 + RPARAN_FLG*3 + LBRACE_FLG*4 + RBRACE_FLG*5)
-            
-//              ) + !SINGLE_TOKS*tokens[offset_r];
-            
-            
-         
-            
-       
-    
-//         offset_w += (tokens[offset_w] > 0x00FFFFFFFFFFFFFF);
-
-//         tokens[offset_w] <<= 8;
-
-//         std::cout << std::hex << tokens[j] << std::endl;
-
-        
-//         std::cout << std::hex << j << std::endl;
-//         std::cout << std::hex << stream[i] << std::endl;
-        
-        
-//         ++i;
-//     }
-//     std::cout << "I: " <<i << std::endl;
-//     tokens[j] <<= ((9-((i+1)%9))*7);
-
-//     uint64_t flags = 0;
-//     // Possibly combine the two. Only need 4 bits for each.
-//     uint8_t SHFT = 0; // Offset for reading TOKEN
-//     uint8_t SHFT_W = 0; // Offset for writing TOKEN
-//     // Possibly combine the two
-//     i = 0; // For Reading TOKEN
-//     j = 0; // For Writing TOKEN
-//     while(i < (SIZE/9) ) {
-
-//         // Don't Set any Flag if VAR or STR is on.
-//         flags |= 
-//             (   
-//                 !VAR_B &  // To avoid reading part of a VAR as a Keyword 
-//                 (
-//                     (tokens[i] & (0xFFFFF80000000000 >> (SHFT+1) )) == (0x69E6800000000000 >> SHFT )
-//                 ) &
-
-//                 (
-//                     ( (tokens[i+1] & ( 0xFFFC000000000000 << (56-SHFT)) ) << 1 ) == (0xE680000000000000 << (56-SHFT))
-//                 )
-//             ) & 0x0000000000000001;
-
-//         // If above did not set any of the Keyword Flags, and current char is an Alphabet, then Set VAR_B to on.
-//         flags |= 
-//             (
-//                 ((flags & 0xFFFFFFFFFFFFFFFF) == 0) &
-                
-//                 (
-//                     (
-//                         (((tokens[i] & (0xFE00000000000000 >> (SHFT+1) )) >> (56-SHFT)) >= 'A') & 
-
-//                         (((tokens[i] & (0xFE00000000000000 >> (SHFT+1) )) >> (56-SHFT)) <= 'Z')
-
-//                     ) |
-//                     (
-//                         (((tokens[i] & (0xFE00000000000000 >> (SHFT+1) )) >> (56-SHFT)) >= 'a') & 
-
-//                         (((tokens[i] & (0xFE00000000000000 >> (SHFT+1) )) >> (56-SHFT)) <= 'z')
-
-//                     )
-
-//                 )
-//             )*0x0000000100000000;
-
-//         std::cout << "--------------------" << std::endl;
-//         std::cout << "--------------------" << std::endl;
-//         std::cout << "LETTER: " << (char) ((tokens[i] & (0xFE00000000000000 >> (SHFT+1) )) >> (56-SHFT))<< std::endl;
-
-//         std::cout << "BOOL: " << ( (tokens[i+1] << (57-SHFT)) & ( 0xFFFC000000000000 << (56-SHFT)) )<< std::endl;
-        
-
-//         std::cout << "IS: " <<  IS_B << std::endl;
-//         std::cout << "i: " <<  i << std::endl;
-//         std::cout << "SHFT: " <<  (int)SHFT << std::endl;
-        
-        
-
-//         tokens[j] = 
-//             (   
-//                  IS_B * ((tokens[j] & ~(0xFF00000000000000 >> SHFT_W)) | (0x0100000000000000 >> SHFT_W)) +
-
-//                 !IS_B * tokens[j]
-//             );
-
-
-//         SHFT += 
-//             7*!IS_B + 21*IS_B;
-
-//         if(21*IS_B) std::cout << "INCREMENTED BY 21" << std::endl;
-
-//         i += (SHFT >= 63);
-
-//         // When part of a TOKEN takes up more than one space in the array of Longs, 
-//         // SHFT should  be set to the end of that TOKEN.
-//         SHFT = (SHFT >= 63)*(SHFT - 63) + (SHFT < 63)*SHFT;
-
-//         // Increment by 1 Byte after a Write occured since each TOKEN is one Byte.
-//         // Don't forget that it should not WRite over a string.
-//         SHFT_W += 8;
-//         j += (SHFT_W >= 64); // Increment j if current array space is full w/ TOKENS
-//         SHFT_W = (SHFT_W % 64);  // Reset to 0 if SHFT_W is at end
-
-//         flags &= 0xFFFFFFFF00000000;    
-
-//     }
-
-//     for(uint32_t k = 0; k < (SIZE/9); ++k) {
-//         std::cout << std::hex << tokens[k] << std::endl;
-
-//         for(uint32_t x = 0; x < 9; ++x) {
-
-//             std::cout << (tokens[k] & (0xFE00000000000000 >> ((x*7)+1) )) << std::endl;
-//         }
-//     }    
-
-//     std::cout << (tokens[0] &(0xFF00000000000000 >> 28) ) << std::endl;
-
-//     std::cout << (0x69E6800000000000 >> 28) << std::endl;
-    
-
-    
-    
-
-//     end2 = std::chrono::system_clock::now();
-//     std::chrono::duration<double> elapsed_seconds2 = end2 - start2; 
-//     std::time_t end_time2 = std::chrono::system_clock::to_time_t(end2);
-
-//     std::cout << "finished computation at " << std::ctime(&end_time2) 
-//                << "elapsed time: " << elapsed_seconds2.count() << "s\n"; 
-// }
