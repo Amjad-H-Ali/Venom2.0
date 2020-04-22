@@ -872,6 +872,9 @@ int main() {
         tokens[(start_to_alphanum)/8]   |= static_cast<uint64_t>(IS_R_NUM)*(((tokens[NUM_BUFFER] << 8) | NUM) << (((start_to_alphanum)%8)*8));  
         tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));
         
+        // Clear out buffer (NUM_BUFFER) after writing Number.
+        tokens[NUM_BUFFER] = !IS_R_NUM*tokens[NUM_BUFFER];
+        
 /*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
 /*temp*/std::cout << "tokens[(start_to_alphanum+7)/8]: " << tokens[(start_to_alphanum+7)/8] << std::endl;         
         // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
