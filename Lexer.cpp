@@ -806,24 +806,7 @@ int main() {
         // Move write "pointer" one space over in Token array if above wrote in a Token at current spot.
         w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0);
 /*temp*/std::cout << "w_token2: " << w_token << std::endl;
-        // Save current w_token (the write "pointer" for tokens) if IS_W_ALPHANUM is on, AND 
-        // start_to_alphanum is off. This means alphanums (can be part of a keyword or variable) 
-        // are being written into Tokens space, and the start position needs to be saved so 
-        // VAR/(WHICH_KEYWORD(K) => KEYWORD) is later written there when Token is known.
-        // If NOT(IS_W_ALPHANUM*!start_to_alphanum) -> start_to_alphanum = start_to_alphanum.
-        start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM)*!start_to_alphanum) + start_to_alphanum);
-/*temp*/std::cout << "start_to_alphanum: " << start_to_alphanum<< std::endl;
-        // When IS_W_ALPHANUM is on and it's the beginning of an alphanum, w_token skips ahead and reserves 
-        // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
-        // the third byte. The alphanum was premptively stored at tokens[i+1], so copy it over from there. If 
-        // IS_W_ALPHANUM and it's not the beginning, then don't skip and just write alphanum at w_token position.
-        tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
-            static_cast<uint64_t>(IS_W_ALPHANUM*tokens[i+1]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
         
-        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
-        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
-        // known. But this may change later.
-        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM) << (((start_to_alphanum+1)%8)*8);
         
         // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token match a keyword, then write at
         // start_to_alphanum the corresponding 1 Byte Token. Note: part of keyword may be in adjacent parts of the Tokens
@@ -852,11 +835,8 @@ int main() {
         
             )*IS_R_ALPHANUM << ((start_to_alphanum%8)*8);
         
-        std::cout << "((tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)/8)*8)) ==): "<<((tokens[(start_to_alphanum+1)/8] & static_cast<uint64_t>(0xFF) << (((start_to_alphanum+1)%8)*8)) == (static_cast<uint64_t>(0x2) << (((start_to_alphanum+1)%8)*8)) ) << std::endl;
         
-        std::cout << "!(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^(tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8)))) " << (!(((static_cast<uint64_t>(0x7369)) >> ((6-(start_to_alphanum%8))*8)) ^ (tokens[w_token/8] & (static_cast<uint64_t>(0xFFFF) >> ((6-(start_to_alphanum%8))*8))))) << std::endl;
         
-        std::cout << "!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8)))) " << (!(((static_cast<uint64_t>(0x7369)) << (((start_to_alphanum+2)%8)*8)) ^ (tokens[(start_to_alphanum+2)/8] & ((static_cast<uint64_t>(0xFFFF)) << (((start_to_alphanum+2)%8)*8))))) << std::endl;
         // When IS_R_ALPHANUM is on and a Keyword Token has not been written at this point, then the 
         // alphanums are part of a VAR Token. Writes VAR Token at the beginning of the alphanums.
         tokens[start_to_alphanum/8] |=
@@ -865,20 +845,41 @@ int main() {
             
             )*VAR << ((start_to_alphanum%8)*8);
         
-
-        
         // Read Number from NUM_BUFFER and write it at 6 Byte location reserved for it in Token array.
         tokens[(start_to_alphanum)/8]   |= static_cast<uint64_t>(IS_R_NUM)*(((tokens[NUM_BUFFER] << 8) | NUM) << (((start_to_alphanum)%8)*8));  
-        tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));
-        
-        // Clear out buffer (NUM_BUFFER) after writing Number.
-        tokens[NUM_BUFFER] = !IS_R_NUM*tokens[NUM_BUFFER];
+        tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));  
         
 /*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
 /*temp*/std::cout << "tokens[(start_to_alphanum+7)/8]: " << tokens[(start_to_alphanum+7)/8] << std::endl;         
-        // Reset start_to_alphanum to zero if IS_R_ALPHANUM is on. This is because the VAR/KEYWORD 
+        // Reset start_to_alphanum to zero if IS_R_ALPHANUM or IS_R_NUM are on. This is because the VAR/KEYWORD 
         // is already known at the this point.
         start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM)*(start_to_alphanum);
+        
+        // Save current w_token (the write "pointer" for tokens) if IS_W_ALPHANUM or IS_W_NUM are on, AND 
+        // start_to_alphanum is off. This means alphanums (can be part of a keyword or variable) 
+        // are being written into Tokens space, and the start position needs to be saved so 
+        // VAR/(WHICH_KEYWORD(K) => KEYWORD)/NUM is later written there when Token or number is known.
+        // If NOT((IS_W_ALPHANUM + IS_W_NUM)*!start_to_alphanum) -> start_to_alphanum = start_to_alphanum.
+        start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM)*!start_to_alphanum) + start_to_alphanum);
+/*temp*/std::cout << "start_to_alphanum: " << start_to_alphanum<< std::endl;
+        // When IS_W_ALPHANUM is on and it's the beginning of an alphanum, w_token skips ahead and reserves 
+        // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
+        // the third byte. The alphanum was premptively stored at tokens[i+1] (ALPHANUM_BUFFER), so copy it over from there. If 
+        // IS_W_ALPHANUM and it's not the beginning, then don't skip and just write alphanum at w_token position.
+        tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
+            static_cast<uint64_t>(IS_W_ALPHANUM*tokens[ALPHANUM_BUFFER]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
+/*temp*/ std::cout << "ALPHA IS BEING WRITTEN AT INDEX: " << ((w_token+2*(start_to_alphanum == w_token))/8) << std::endl;
+/*temp*/ std::cout << "NUM BUFFER: " << NUM_BUFFER << std::endl;
+   
+        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
+        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
+        // known. But this may change later.
+        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM) << (((start_to_alphanum+1)%8)*8);
+
+        // Clear out buffer (NUM_BUFFER) after writing Number.
+        tokens[NUM_BUFFER] = !IS_R_NUM*tokens[NUM_BUFFER];
+        
+
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
 /*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
@@ -913,14 +914,10 @@ int main() {
         tokens[i] = 0x0; 
 /*temp*/std::cout << "tokens[i+1]: " << tokens[i+1] << std::endl;        
         tokens[i+1] = 0x0;            
-        // Move write "pointer" for input one index over if there is less than five bytes left in
-        // Token buffer. At least four bytes are needed in case two Tokens are outputted in one cycle,
-        // one of which may be IS_W_ALPHANUM, that alone skips two bytes (reserved for actual Token and 
-        // Length of VAR) and writes the alphanum in the third byte. This is 1+2+1 = 4 bytes.
-        // Warning: If less than five bytes are available, then w_token may encroach on input space. The 
-        // extra byte is so i can increment 1 cycle before w_token. If the extra byte was not there,
-        // w_token would have incremented before i, and tokens[w_token/8] is needed to calculate i.
-        // Also, increment i only if w_token is two spaces away.
+        // The "pointer" used for writing Tokens (w_token) should never catch up to the input "pointer" (i).
+        // Such case will cause input (from getchar) to be written over Tokens and vice versa. Since one cycle 
+        // can cause two Token outputs, and one output from the two may be a Number, for instance, that alone 
+        // skips 8 bytes, i is always checked to be at least 3 spaces ahead of w_token for safety.
         i += (i <= 3+(w_token/8));
 /*temp*/std::cout << "i: " << i << std::endl; 
            
