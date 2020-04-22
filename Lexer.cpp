@@ -803,9 +803,7 @@ int main() {
         
 /*temp*/std::cout << "tokens[w_token]2: " << tokens[w_token/8] << std::endl;        
 /*temp*/std::cout << "IS_W_ALPHANUM: " << IS_W_ALPHANUM << std::endl;        
-        // Move write "pointer" one space over in Token array if above wrote in a Token at current spot.
-        w_token += ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0);
-/*temp*/std::cout << "w_token2: " << w_token << std::endl;
+
         
         
         // When IS_R_ALPHANUM is on and the alphanums from start_to_alphanum to w_token match a keyword, then write at
@@ -847,7 +845,7 @@ int main() {
         
         // Read Number from NUM_BUFFER and write it at 6 Byte location reserved for it in Token array.
         tokens[(start_to_alphanum)/8]   |= static_cast<uint64_t>(IS_R_NUM)*(((tokens[NUM_BUFFER] << 8) | NUM) << (((start_to_alphanum)%8)*8));  
-        tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));  
+        tokens[(start_to_alphanum+6)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));  
         
 /*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
 /*temp*/std::cout << "tokens[(start_to_alphanum+7)/8]: " << tokens[(start_to_alphanum+7)/8] << std::endl;         
@@ -882,21 +880,23 @@ int main() {
 
      
 /*temp*/std::cout << "tokens[w_token]3: " << tokens[w_token/8] << std::endl; 
-/*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl;        
-        // Increment w_token by either 0 if no Token output, 1 if IS_W_ALPHANUM is on but it's not the beginning
-        // of an alphanum, by 3 if IS_W_ALPHANUM is on and it is the beginning of an alphanum, or by 8 if IS_W_ALPHANUM
+/*temp*/std::cout << "tokens[w_token+2]: " << tokens[(w_token+2)/8] << std::endl; 
+        
+
+/*temp*/std::cout << "w_token2: " << w_token << std::endl;
+        // Increment w_token by either 0 if no Token output, by 1 if there is a Token output, 
+        // by 3 if IS_W_ALPHANUM is on and it is the beginning of an alphanum, or by 7 if IS_W_ALPHANUM
         // is on and it is the beginning of an alphanum. Incrementing by 3 when IS_W_ALPHANUM is on is to account
         // for the two bytes that are reserved for Token and Length of VAR/KEYWORD, and 1 byte for the alphanum itself.
-        // Incrementing by 8 when IS_W_NUM is on is to account for the 1 byte reserved for NUM Token, the 6 bytes 
-        // reserved for the number (48 bit data type) itself, and 1 byte to account for the case where IS_R_NUM and
-        // some other output are on at the same cycle while there is only 1 byte of space at current w_token; w_token
-        // would have incremented while NUM_BUFFER is still in use, which relies on w_token variable.
-        // Incrementing by 2 is not a case since start_to_alphanum never equals w_token while IS_W_ALPHANUM is off.
-        // Incrementing by 9 is not a case since IS_W_ALPHANUM and IS_W_NUM are both never on concurrently.
-        // Incrementing by 6 is obviously not a case.
+        // Incrementing by 7 when IS_W_NUM is on is to account for the 1 byte reserved for NUM Token, the 6 bytes 
+        // reserved for the number (48 bit data type) itself. Incrementing by 4, 8, 10, or 11 are not cases since
+        // (1) if start_to_alphanum equals w_token, then that space is reserved and no ouput was written there, 
+        // (2) IS_W_ALPHANUM and IS_W_NUM are never on concurrently.
         w_token +=
             (
-                IS_W_ALPHANUM + (start_to_alphanum == w_token)*(2 + 6*IS_W_NUM)
+                ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0) + 
+            
+                ((start_to_alphanum == w_token)*(3*IS_W_ALPHANUM + 7*IS_W_NUM))
             );
 /*temp*/std::cout << "w_token3: " << w_token << std::endl; 
         
