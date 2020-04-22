@@ -147,13 +147,13 @@
 
 #define R_STR      (0x35)
 
-#define W_NUM      (0x36)
+#define W_NUM      (0x36) /* May be removed */
 
-#define W_ALPHANUM (0x37)
+#define W_ALPHANUM (0x37) /* May be removed */
 
 #define NUM        (0x38)
 
-#define R_ALPHANUM (0x39)
+#define R_ALPHANUM (0x39) /* May be removed */
 
 #define ERROR      (0x3A)
 
@@ -271,13 +271,13 @@
 
 #define SET_R_STR(CONDITION)      (R_ST * CONDITION)
 
-#define SET_W_NUM(CONDITION)      (W_NUM * CONDITION)
+#define SET_W_NUM(CONDITION)      (W_NUM * CONDITION)      /* May be removed */
 
-#define SET_W_ALPHANUM(CONDITION) (W_ALPHANUM * CONDITION)
+#define SET_W_ALPHANUM(CONDITION) (W_ALPHANUM * CONDITION) /* May be removed */
 
-#define SET_NUM(CONDITION)        (NUM * CONDITION)
+#define SET_NUM(CONDITION)        (NUM * CONDITION)        /* May be removed */
 
-#define SET_R_ALPHANUM(CONDITION) (R_ALPHANUM * CONDITION)
+#define SET_R_ALPHANUM(CONDITION) (R_ALPHANUM * CONDITION) /* May be removed */
 
 #define SET_ERROR(CONDITION)      (ERROR * CONDITION)
 
@@ -869,7 +869,7 @@ int main() {
 
         
         // Read Number from NUM_BUFFER and write it at 6 Byte location reserved for it in Token array.
-        tokens[(start_to_alphanum+1)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] << (((start_to_alphanum+1)%8)*8));  
+        tokens[(start_to_alphanum)/8]   |= static_cast<uint64_t>(IS_R_NUM)*(((tokens[NUM_BUFFER] << 8) | NUM) << (((start_to_alphanum)%8)*8));  
         tokens[(start_to_alphanum+7)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));
         
 /*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
