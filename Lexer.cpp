@@ -296,9 +296,9 @@
                                                                                                       
 #define IS_W_STR      (IS_P22 & IS_NOT_QUOTATION)
 
-#define SET_R_CHR     (IS_P20APOSTROPHE_OR_P21APOSTROPHE)
+#define IS_R_CHR      (IS_P20APOSTROPHE_OR_P21APOSTROPHE)
                                                                                                        
-#define SET_R_STR     (IS_P22QUOTATION)
+#define IS_R_STR      (IS_P22QUOTATION)
 
 
 /* For setting the NEXT_STATE */                                                                                                    
@@ -851,9 +851,9 @@ int main() {
         
 /*temp*/std::cout << "tokens[(start_to_alphanum+1)/8]: " << tokens[(start_to_alphanum+1)/8] << std::endl; 
 /*temp*/std::cout << "tokens[(start_to_alphanum+7)/8]: " << tokens[(start_to_alphanum+7)/8] << std::endl;         
-        // Reset start_to_alphanum to zero if IS_R_ALPHANUM or IS_R_NUM are on. This is because the VAR/KEYWORD 
-        // is already known at the this point.
-        start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM)*(start_to_alphanum);
+        // Reset start_to_alphanum to zero if either IS_R_ALPHANUM, IS_R_NUM, IS_R_STR, or IS_R_CHR are on. 
+        // For IS_R_ALPHANUM, the VAR/KEYWORD is already known at the this point.
+        start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM | IS_R_CHR | IS_R_STR)*(start_to_alphanum);
         
         // Save current w_token (the write "pointer" for tokens) if IS_W_ALPHANUM or IS_W_NUM are on, AND 
         // start_to_alphanum is off. This means alphanums (can be part of a keyword or variable) 
