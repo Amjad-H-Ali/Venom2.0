@@ -845,6 +845,10 @@ int main() {
             
             )*VAR << ((start_to_alphanum%8)*8);
         
+        // When IS_R_STR or IS_R_CHR, write the corresponding Token at the beginning of the alphanum/s.
+        tokens[start_to_alphanum/8] |=
+            (static_cast<uint64_t>(IS_R_STR)*STR + static_cast<uint64_t>(IS_R_CHR)*CHR) << ((start_to_alphanum%8)*8);
+        
         // Read Number from NUM_BUFFER and write it at 6 Byte location reserved for it in Token array.
         tokens[(start_to_alphanum)/8]   |= static_cast<uint64_t>(IS_R_NUM)*(((tokens[NUM_BUFFER] << 8) | NUM) << (((start_to_alphanum)%8)*8));  
         tokens[(start_to_alphanum+6)/8] |= static_cast<uint64_t>(IS_R_NUM)*(tokens[NUM_BUFFER] >> ((8 - ((start_to_alphanum+1)%8))*8));  
