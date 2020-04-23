@@ -861,19 +861,19 @@ int main() {
         // later written there when Token is known. Otherwise, retain start_to_alphanum's current value.
         start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM | IS_W_STR | IS_W_CHR)*!start_to_alphanum) + start_to_alphanum);
 /*temp*/std::cout << "start_to_alphanum: " << start_to_alphanum<< std::endl;
-        // When IS_W_ALPHANUM is on and it's the beginning of an alphanum, w_token skips ahead and reserves 
-        // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
-        // the third byte. The alphanum was premptively stored at tokens[i+1] (ALPHANUM_BUFFER), so copy it over from there. If 
-        // IS_W_ALPHANUM and it's not the beginning, then don't skip and just write alphanum at w_token position.
+        // When IS_W_ALPHANUM, IS_W_STR, or IS_W_CHR are on and it's the beginning of an alphanum, w_token skips ahead and reserves 
+        // two bytes for Token (VAR/KEYWORD/STR/CHR) and Length and continues writing the alphanum starting at the third byte. 
+        // The alphanum was premptively stored at tokens[i+1] (ALPHANUM_BUFFER), so copy it over from there. If IS_W_ALPHANUM, 
+        // IS_W_STR, or IS_W_CHR are on and it's not the beginning, then don't skip, and just write alphanum at w_token position.
         tokens[(w_token+2*(start_to_alphanum == w_token))/8] |=   
-            static_cast<uint64_t>(IS_W_ALPHANUM*tokens[ALPHANUM_BUFFER]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
+            static_cast<uint64_t>((IS_W_ALPHANUM | IS_W_STR | IS_W_CHR)*tokens[ALPHANUM_BUFFER]) << (((w_token+2*(start_to_alphanum == w_token))%8)<<3);
 /*temp*/ std::cout << "ALPHA IS BEING WRITTEN AT INDEX: " << ((w_token+2*(start_to_alphanum == w_token))/8) << std::endl;
 /*temp*/ std::cout << "NUM BUFFER: " << NUM_BUFFER << std::endl;
    
-        // While IS_W_ALPHANUM is on, increment the length of the VAR stored at the beginning of the alphanums after the VAR Token.
-        // NOTE: For now, the same goes with Keywords although it's not needed since the Keyword lengths are already
-        // known. But this may change later.
-        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM) << (((start_to_alphanum+1)%8)*8);
+        // While IS_W_ALPHANUM, IS_W_STR, or IS_W_CHR are on, increment the length stored at the beginning
+        // of the alphanums after the Token. NOTE: For now, the same goes with Keywords and Chars although 
+        // it's not needed since the lengths are already known. But this may change later.
+        tokens[(start_to_alphanum+1)/8] += static_cast<uint64_t>(IS_W_ALPHANUM | IS_W_STR | IS_W_CHR) << (((start_to_alphanum+1)%8)*8);
 
         // Clear out buffer (NUM_BUFFER) after writing Number.
         tokens[NUM_BUFFER] = !IS_R_NUM*tokens[NUM_BUFFER];
@@ -886,18 +886,20 @@ int main() {
 
 /*temp*/std::cout << "w_token2: " << w_token << std::endl;
         // Increment w_token by either 0 if no Token output, by 1 if there is a Token output, 
-        // by 3 if IS_W_ALPHANUM is on and it is the beginning of an alphanum, or by 7 if IS_W_ALPHANUM
-        // is on and it is the beginning of an alphanum. Incrementing by 3 when IS_W_ALPHANUM is on is to account
-        // for the two bytes that are reserved for Token and Length of VAR/KEYWORD, and 1 byte for the alphanum itself.
-        // Incrementing by 7 when IS_W_NUM is on is to account for the 1 byte reserved for NUM Token, the 6 bytes 
-        // reserved for the number (48 bit data type) itself. Incrementing by 4, 8, 10, or 11 are not cases since
-        // (1) if start_to_alphanum equals w_token, then that space is reserved and no ouput was written there, 
-        // (2) IS_W_ALPHANUM and IS_W_NUM are never on concurrently.
+        // by 3 if either IS_W_ALPHANUM, IS_W_STR, or IS_W_CHR are on and it is the beginning 
+        // of an alphanum, or by 7 if IS_W_NUM is on and it is the beginning of an alphanum. 
+        // Incrementing by 3 is to account for the two bytes that are reserved for the Token 
+        // and Length of VAR/KEYWORD, and 1 byte for the alphanum itself. Incrementing by 7
+        // when IS_W_NUM is on is to account for the 1 byte reserved for NUM Token,and the 
+        // 6 bytes reserved for the number (48 bit data type) itself. Incrementing by 4, 8,
+        // 10, or 11 are not cases since (1) if start_to_alphanum equals w_token, then that
+        // space is reserved and no ouput was written there,(2) IS_W_ALPHANUM, IS_W_CHR,
+        // IS_W_STR, or IS_W_NUM are never on concurrently.
         w_token +=
             (
                 ((tokens[w_token/8] & (static_cast<uint64_t>(0xFF) << ((w_token % 8) << 3))) != 0) + 
             
-                ((start_to_alphanum == w_token)*(3*IS_W_ALPHANUM + 7*IS_W_NUM))
+                ((start_to_alphanum == w_token)*(3*(IS_W_ALPHANUM | IS_W_STR | IS_W_CHR) + 7*IS_W_NUM))
             );
 /*temp*/std::cout << "w_token3: " << w_token << std::endl; 
         
