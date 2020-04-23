@@ -161,6 +161,8 @@
 
 #define IS         (0x3C)
 
+
+
 /* END OF TOKEN DEFINITIONS */
 
 
@@ -286,9 +288,17 @@
 
 #define IS_R_ALPHANUM (IS_P1NOT_ALPHABET_OR_UNDERSCORE_OR_NUMERAL)
 
-#define IS_W_NUM (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
+#define IS_W_NUM      (IS_NUMERAL & IS_NOT_P23_OR_P22_OR_P21_OR_P20_OR_P1)
 
-#define IS_R_NUM (IS_P2NOTNUMERAL)
+#define IS_R_NUM      (IS_P2NOTNUMERAL)
+
+#define IS_W_CHR      (N21)
+                                                                                                      
+#define IS_W_STR      (IS_P22 & IS_NOT_QUOTATION)
+
+#define SET_R_CHR     (IS_P20APOSTROPHE_OR_P21APOSTROPHE)
+                                                                                                       
+#define SET_R_STR     (IS_P22QUOTATION)
 
 
 /* For setting the NEXT_STATE */                                                                                                    
@@ -682,10 +692,6 @@ int main() {
                     
             static_cast<uint64_t>(
                 
-                SET_CHR((N20))                                   
-                                                                                                   |
-                SET_STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
-                                                                                                   |
                 SET_MUL((IS_P3 & IS_NOT_ASTERISK_OR_EQUAL))                      
                                                                                                    |
                 SET_DIV((IS_P4 & IS_NOT_EQUAL)) 
@@ -721,10 +727,6 @@ int main() {
                 SET_ELLIP((IS_P18PERIOD))
                                                                                                    |
                 SET_NOT((IS_P19 & IS_NOT_EQUAL))
-                                                                                                   |
-                SET_W_CHR((N21))
-                                                                                                   |
-                SET_W_STR((IS_P22 & IS_NOT_QUOTATION))
                                                                                                    |
                 SET_MULEQ((IS_P3EQUAL))
                                                                                                    |
@@ -931,10 +933,17 @@ int main() {
 //                                                                                                        |
 //                     SET_NUM((IS_P2NOTNUMERAL))
 //                                                                                                        |
-//                     SET_R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))
-                   
-
-            
+//                     SET_R_ALPHANUM((IS_P1NOT_ALPHABET_OR_UNDERSCORE))                   
+//                                                                                                        |
+//                     SET_W_CHR((N21))
+//                                                                                                        |
+//                     SET_W_STR((IS_P22 & IS_NOT_QUOTATION))
+//                                 
+//                     SET_CHR((N20))                                   
+//                                                                                                        |
+//                     SET_STR((IS_QUOTATION & IS_NOT_P23_OR_P22_OR_P21_OR_P20))        
+//                                                                                                        |        
+        
         // Set new previous state to old next state.
         tokens[PREV_STATE] = tokens[NEXT_STATE];
                
