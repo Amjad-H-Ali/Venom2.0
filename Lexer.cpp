@@ -855,12 +855,11 @@ int main() {
         // For IS_R_ALPHANUM, the VAR/KEYWORD is already known at the this point.
         start_to_alphanum = !(IS_R_ALPHANUM | IS_R_NUM | IS_R_CHR | IS_R_STR)*(start_to_alphanum);
         
-        // Save current w_token (the write "pointer" for tokens) if IS_W_ALPHANUM or IS_W_NUM are on, AND 
-        // start_to_alphanum is off. This means alphanums (can be part of a keyword or variable) 
-        // are being written into Tokens space, and the start position needs to be saved so 
-        // VAR/(WHICH_KEYWORD(K) => KEYWORD)/NUM is later written there when Token or number is known.
-        // If NOT((IS_W_ALPHANUM + IS_W_NUM)*!start_to_alphanum) -> start_to_alphanum = start_to_alphanum.
-        start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM)*!start_to_alphanum) + start_to_alphanum);
+        // Save current w_token (the write "pointer" for tokens) if either IS_W_ALPHANUM, IS_W_NUM, IS_W_CHR, or IS_W_STR are on, 
+        // AND start_to_alphanum is off. This means alphanums (can be part of a keyword, variable, number, string, or character) 
+        // are being written into Tokens space, and the start position needs to be saved so either VAR/KEYWORD/NUM/CHR/STR are
+        // later written there when Token is known. Otherwise, retain start_to_alphanum's current value.
+        start_to_alphanum = ((w_token*(IS_W_ALPHANUM | IS_W_NUM | IS_W_STR | IS_W_CHR)*!start_to_alphanum) + start_to_alphanum);
 /*temp*/std::cout << "start_to_alphanum: " << start_to_alphanum<< std::endl;
         // When IS_W_ALPHANUM is on and it's the beginning of an alphanum, w_token skips ahead and reserves 
         // two bytes for Token (VAR/KEYWORD) and Length (if VAR) and continues writing the alphanum starting at 
