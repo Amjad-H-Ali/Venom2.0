@@ -44,8 +44,16 @@ TEST(LexerTest, NumbersAndVariables) {
     test_tokens[W_TOKEN_INIT+2] =  
         // continued...
         0x03 | (static_cast<uint64_t>('f') << 8) |
+                                
+       (static_cast<uint64_t>('o') << 16) | (static_cast<uint64_t>('o') << 24) |
         
-       (static_cast<uint64_t>('o') << 16) | (static_cast<uint64_t>('o') << 24);
+        // 281474976710655bar == NUM, VAR
+       (static_cast<uint64_t>(NUM) << 32) | static_cast<uint64_t>(0xFFFFFF) << 40;
+    
+    test_tokens[W_TOKEN_INIT+3] =
+        // continued...
+        0xFFFFFF | (static_cast<uint64_t>(VAR) << 24) | (static_cast<uint64_t>(0x3) << 32) |
+       (static_cast<uint64_t>('b') << 40) | (static_cast<uint64_t>('a') << 48) | (static_cast<uint64_t>('r') << 56);
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         ASSERT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
