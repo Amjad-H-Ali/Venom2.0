@@ -1,11 +1,14 @@
 #include "../Lexer/Lexer.cpp"
 #include <gtest/gtest.h>
+
  
 
 TEST(LexerTest, PositiveNumbers) { 
     
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
+    
+    ASSERT_EQ(7, end_of_tokens_list);
     
     uint64_t test_tokens[SIZE]  = {0};
     // Testing the following numbers:
@@ -17,7 +20,7 @@ TEST(LexerTest, PositiveNumbers) {
     test_tokens[W_TOKEN_INIT+4] = 0;
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
-        ASSERT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
+        EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
     }
 
 }
@@ -27,7 +30,9 @@ TEST(LexerTest, NumbersAndVariables) {
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
     
-    uint64_t test_tokens[SIZE]  = {0};
+    ASSERT_EQ(7, end_of_tokens_list);
+    
+    std::vector<uint64_t> test_tokens(SIZE, 0);
     
     test_tokens[W_TOKEN_INIT]   =   
         // foo999 == VAR
@@ -56,7 +61,7 @@ TEST(LexerTest, NumbersAndVariables) {
        (static_cast<uint64_t>('b') << 40) | (static_cast<uint64_t>('a') << 48) | (static_cast<uint64_t>('r') << 56);
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
-        ASSERT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
+        EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
     }
 
 }
