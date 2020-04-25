@@ -476,7 +476,7 @@
 
 #define IS_N23 ((tokens[NEXT_STATE] & 0x800000) != 0)
 
-
+uint64_t* lexer(uint64_t* tokens);
 int main() {
 
    // (1)   Index is the PREV_STATE.   (CONSTANT Index: Permanently 1 -- For Now --)
@@ -486,7 +486,17 @@ int main() {
    // (7)   Index is input space.      (VARIABLE)
    // (8)   Index is ALPHANUM_BUFFER   (VARIABLE)
     uint64_t tokens[SIZE] = {0x0}; // 16,000 BYTES : 250/512 CACHE-LINES
-        
+    
+    lexer(tokens);
+
+    return 0;
+ 
+}
+
+
+uint64_t* lexer(uint64_t* tokens) {
+    
+            
     tokens[PREV_STATE] = 0x1;
     uint32_t i = INPUT_INIT;
     uint32_t w_token = W_TOKEN_INIT*8;
@@ -959,8 +969,6 @@ int main() {
 /*temp*/std::cout << "Tokens2: " << tokens[((W_TOKEN_INIT*8)/8)+1] << std::endl; 
 /*temp*/std::cout << "Tokens3: " << tokens[((W_TOKEN_INIT*8)/8)+2] << std::endl; 
 /*temp*/std::cout << "Tokens4: " << tokens[((W_TOKEN_INIT*8)/8)+3] << std::endl; 
- 
+    return tokens;
 }
-
-
 
