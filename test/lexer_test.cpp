@@ -17,7 +17,28 @@ TEST(LexerTest, PositiveNumbers) {
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         ASSERT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
     }
+
+}
+
+TEST(LexerTest, NumbersAndVariables) { 
     
+    uint64_t tokens[SIZE] = {0};
+    uint64_t end_of_tokens_list = lexer(tokens);
+    
+    uint64_t test_tokens[SIZE]  = {0};
+    
+    test_tokens[W_TOKEN_INIT]   =  
+        
+        VAR | (static_cast<uint64_t>(0x06) << 8) | (static_cast<uint64_t>('f') << 16) |
+        
+       (static_cast<uint64_t>('o') << 24) | (static_cast<uint64_t>('o') << 32) | (static_cast<uint64_t>('9') << 40) |
+      
+       (static_cast<uint64_t>('9') << 48) | (static_cast<uint64_t>('9') << 56);
+
+    
+    for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
+        ASSERT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
+    }
 
 }
 int main(int argc, char **argv) {
