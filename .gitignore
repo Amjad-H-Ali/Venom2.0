@@ -1,0 +1,10 @@
+#Ignore Google Test Files
+
+test/CMakeFiles/
+
+test/CMakeFiles/*
+
+test/cmake_install.cmake
+
+test/CMakeCache.txt
+

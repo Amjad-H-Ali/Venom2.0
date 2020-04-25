@@ -1,6 +1,6 @@
 build:
-	rm -f program.exe
-	g++ -g -std=c++11 -Wall Lexer.cpp -o Venom.exe
+	rm -f Venom.exe
+	g++ -g -std=c++11 -Wall main.cpp Lexer/Lexer.cpp -o Venom.exe
 
 	
 run:
