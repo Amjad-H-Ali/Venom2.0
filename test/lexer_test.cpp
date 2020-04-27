@@ -30,7 +30,7 @@ TEST(LexerTest, NumbersAndVariables) {
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
     
-    ASSERT_EQ(14, end_of_tokens_list);
+    ASSERT_EQ(17, end_of_tokens_list);
     
     std::vector<uint64_t> test_tokens(SIZE, 0);
     
@@ -107,7 +107,25 @@ TEST(LexerTest, NumbersAndVariables) {
     test_tokens[W_TOKEN_INIT+11] = 
         // continued...
         'C' | (static_cast<uint64_t>('a') << 8) | (static_cast<uint64_t>('s') << 16) | (static_cast<uint64_t>('i') << 24) |
-        (static_cast<uint64_t>('n') << 32) | (static_cast<uint64_t>('g') << 40);
+        (static_cast<uint64_t>('n') << 32) | (static_cast<uint64_t>('g') << 40) |
+        // _under_scored_7_77_ == VAR
+        (static_cast<uint64_t>(VAR) << 48) | (static_cast<uint64_t>(0x13) << 56);
+    
+    test_tokens[W_TOKEN_INIT+12] =
+        // continued...
+        '_' | (static_cast<uint64_t>('u') << 8) | (static_cast<uint64_t>('n') << 16) | (static_cast<uint64_t>('d') << 24) |
+        (static_cast<uint64_t>('e') << 32) | (static_cast<uint64_t>('r') << 40) | (static_cast<uint64_t>('_') << 48) |
+        (static_cast<uint64_t>('s') << 56);
+    
+    test_tokens[W_TOKEN_INIT+13] = 
+        // continued...
+        'c' | (static_cast<uint64_t>('o') << 8) | (static_cast<uint64_t>('r') << 16) | (static_cast<uint64_t>('e') << 24) |
+        (static_cast<uint64_t>('d') << 32) | (static_cast<uint64_t>('_') << 40) | (static_cast<uint64_t>('7') << 48) |
+        (static_cast<uint64_t>('_') << 56);
+   
+    test_tokens[W_TOKEN_INIT+14] =
+        // continued...
+        '7' | (static_cast<uint64_t>('7') << 8) | (static_cast<uint64_t>('_') << 16);
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
