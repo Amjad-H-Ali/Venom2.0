@@ -30,7 +30,7 @@ TEST(LexerTest, NumbersAndVariables) {
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
     
-    ASSERT_EQ(9, end_of_tokens_list);
+    ASSERT_EQ(11, end_of_tokens_list);
     
     std::vector<uint64_t> test_tokens(SIZE, 0);
     
@@ -74,7 +74,18 @@ TEST(LexerTest, NumbersAndVariables) {
     
     test_tokens[W_TOKEN_INIT+6] = 
         // continued...
-        '0' | (static_cast<uint64_t>('6') << 8) | (static_cast<uint64_t>('5') << 16) | (static_cast<uint64_t>('5') << 24);
+        '0' | (static_cast<uint64_t>('6') << 8) | (static_cast<uint64_t>('5') << 16) | (static_cast<uint64_t>('5') << 24) |
+        // 777baz777 == NUM, VAR
+        (static_cast<uint64_t>(NUM) << 32) | (static_cast<uint64_t>(0x309) << 40);
+    
+    test_tokens[W_TOKEN_INIT+7] =
+        // continued...
+        (static_cast<uint64_t>(VAR) << 24) | (static_cast<uint64_t>(0x6) << 32) | (static_cast<uint64_t>('b') << 40) |
+        (static_cast<uint64_t>('a') << 48) | (static_cast<uint64_t>('z') << 56);
+    
+    test_tokens[W_TOKEN_INIT+8] = 
+        // continued
+        '7' | (static_cast<uint64_t>('7') << 8) | (static_cast<uint64_t>('7') << 16);
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
