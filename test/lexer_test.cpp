@@ -30,7 +30,7 @@ TEST(LexerTest, NumbersAndVariables) {
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
     
-    ASSERT_EQ(17, end_of_tokens_list);
+    ASSERT_EQ(18, end_of_tokens_list);
     
     std::vector<uint64_t> test_tokens(SIZE, 0);
     
@@ -125,7 +125,16 @@ TEST(LexerTest, NumbersAndVariables) {
    
     test_tokens[W_TOKEN_INIT+14] =
         // continued...
-        '7' | (static_cast<uint64_t>('7') << 8) | (static_cast<uint64_t>('_') << 16);
+        '7' | (static_cast<uint64_t>('7') << 8) | (static_cast<uint64_t>('_') << 16) |
+        // 777_ == NUM, VAR
+        (static_cast<uint64_t>(NUM) << 24) | (static_cast<uint64_t>(0x309) << 32);
+    
+    test_tokens[W_TOKEN_INIT+15] =
+        // continued...
+        (static_cast<uint64_t>(VAR) << 16) | (static_cast<uint64_t>(0x1) << 24) | (static_cast<uint64_t>('_') << 32);
+        
+        
+       
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
