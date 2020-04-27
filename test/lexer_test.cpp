@@ -30,7 +30,7 @@ TEST(LexerTest, NumbersAndVariables) {
     uint64_t tokens[SIZE] = {0};
     uint64_t end_of_tokens_list = lexer(tokens);
     
-    ASSERT_EQ(13, end_of_tokens_list);
+    ASSERT_EQ(14, end_of_tokens_list);
     
     std::vector<uint64_t> test_tokens(SIZE, 0);
     
@@ -87,7 +87,7 @@ TEST(LexerTest, NumbersAndVariables) {
         // continued...
         '7' | (static_cast<uint64_t>('7') << 8) | (static_cast<uint64_t>('7') << 16) |
         // bongo123bang == VAR
-        (static_cast<uint64_t>(VAR) << 24) | (static_cast<uint64_t>(0xc) << 32) | (static_cast<uint64_t>('b') << 40) |
+        (static_cast<uint64_t>(VAR) << 24) | (static_cast<uint64_t>(0xC) << 32) | (static_cast<uint64_t>('b') << 40) |
         (static_cast<uint64_t>('o') << 48) | (static_cast<uint64_t>('n') << 56);
     
     test_tokens[W_TOKEN_INIT+9] =
@@ -98,7 +98,16 @@ TEST(LexerTest, NumbersAndVariables) {
     
     test_tokens[W_TOKEN_INIT+10] =
         // continued...
-        'g';
+        'g' |
+        // camelCasing == VAR
+        (static_cast<uint64_t>(VAR) << 8) | (static_cast<uint64_t>(0xB) << 16) | (static_cast<uint64_t>('c') << 24) |
+        (static_cast<uint64_t>('a') << 32) | (static_cast<uint64_t>('m') << 40) | (static_cast<uint64_t>('e') << 48) |
+        (static_cast<uint64_t>('l') << 56);
+    
+    test_tokens[W_TOKEN_INIT+11] = 
+        // continued...
+        'C' | (static_cast<uint64_t>('a') << 8) | (static_cast<uint64_t>('s') << 16) | (static_cast<uint64_t>('i') << 24) |
+        (static_cast<uint64_t>('n') << 32) | (static_cast<uint64_t>('g') << 40);
     
     for(size_t i = W_TOKEN_INIT; i < end_of_tokens_list; ++i) {
         EXPECT_EQ(test_tokens[i], tokens[i]) << std::hex << "test_tokens[i]: " << test_tokens[i] << '\n' << "tokens[i]: " << tokens[i];
