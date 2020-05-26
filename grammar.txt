@@ -4,7 +4,7 @@
 
 <FUNCTION>             ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> ]
 
-<PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <PARAM_LIST> <PARAM_LIST>
+<PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <PARAM_LIST> | <DESTRUCT_ASSGN> <PARAM_LIST>
 
 <IDENT>                ::= <VAR>
 
@@ -16,5 +16,29 @@
 
 <DESTRUCT_ASSGN>       ::= { <DESTRUCT_ASSGN_LIST> } 
  
-<DESTRUCT_ASSGN_LIST>  ::= <IDENT> | { <DESTRUCT_ASSGN_LIST> } | <DESTRUCT_ASSGN_LIST> <DESTRUCT_ASSGN_LIST>  
+<DESTRUCT_ASSGN_LIST>  ::= <IDENT> | { <DESTRUCT_ASSGN_LIST> } | <IDENT> <DESTRUCT_ASSGN_LIST> | <DESTRUCT_ASSGN_LIST> <DESTRUCT_ASSGN_LIST> 
+
+<STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT> <STATEMENT_LIST>
+
+<IF>                   ::=   if ( <EXP> ) <STATEMENT_BLOCK> 
+                           | if ( <EXP> ) <STATEMENT> 
+                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>
+                           | if ( <EXP> ) <STATEMENT> <ELIF>
+                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELSE>
+                           | if ( <EXP> ) <STATEMENT> <ELSE>
+                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELIF> <ELSE>
+                           | if ( <EXP> ) <STATEMENT> <ELIF> <ELSE>
+
+<ELIF>                ::=    else if ( <EXP> ) <STATEMENT_BLOCK>
+                           | else if ( <EXP> ) <STATEMENT>
+                           | else if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>
+                           | else if ( <EXP> ) <STATEMENT> <ELIF>
+                          
+<ELSE>                ::= else <STATEMENT_BLOCK> | else <STATEMENT>
+
+<WHILE>               ::= while ( <EXP> ) <STATEMENT_BLOCK> | while ( <EXP> ) <STATEMENT>
+
+
+
+                           
 
