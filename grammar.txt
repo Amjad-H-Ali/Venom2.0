@@ -2,15 +2,19 @@
 
 ** PARSER **
 
-<FUNCTION>         ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> ]
+<FUNCTION>             ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> ]
 
-<PARAM_LIST>       ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <PARAM_LIST> | <DESTRUCT_ASSGN> <PARAM_LIST>
+<PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <PARAM_LIST> | <DESTRUCT_ASSGN> <PARAM_LIST>
 
-<IDENT>            ::= <VAR>
+<IDENT>                ::= <VAR>
 
-<STATEMENT_BLOCK>  ::= { <STATEMENT_LIST> } | {}
+<STATEMENT_BLOCK>      ::= { <STATEMENT_LIST> } | {}
 
-<STATEMENT>        ::= <ASSGNMNT> | <IF> | <WHILE> | <FOR> | <DO> | <RETURN> | <INIT> | <DECL>
+<STATEMENT>            ::= <ASSGNMNT> | <IF> | <WHILE> | <FOR> | <DO> | <RETURN> | <INIT> | <DECL>
 
-<ASSGNMNT>         ::= <L_VAL> = <R_VAL>
+<ASSGNMNT>             ::= <L_VAL> = <R_VAL>
+
+<DESTRUCT_ASSGN>       ::= { <DESTRUCT_ASSGN_LIST> } 
+ 
+<DESTRUCT_ASSGN_LIST>  ::= <IDENT> | { <DESTRUCT_ASSGN_LIST> } | <DESTRUCT_ASSGN_LIST> <DESTRUCT_ASSGN_LIST>  
 
