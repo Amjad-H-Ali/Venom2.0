@@ -4,7 +4,7 @@
 
 <FUNCTION>             ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> ]
 
-<PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <PARAM_LIST> | <DESTRUCT_ASSGN> <PARAM_LIST>
+<PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <PARAM_LIST> <PARAM_LIST>
 
 <IDENT>                ::= <VAR>
 
