@@ -38,7 +38,27 @@
 
 <WHILE>               ::= while ( <EXP> ) <STATEMENT_BLOCK> | while ( <EXP> ) <STATEMENT>
 
+<FOR>                 ::= for ( <INIT> ; <EXP> ; <EXP> ) <STATEMENT_BLOCK> | for ( <INIT> ; <EXP> ; <EXP> ) <STATEMENT>
 
+<DO>                  ::= do <STATEMENT_BLOCK> while ( <EXP> ) | do <STATEMENT> while ( <EXP> )
+
+<RETURN>              ::= return <ASSGNMNT> | return <EXP>
+
+<INIT>                ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL>
+
+<DECL>                ::= let <IDENT>
+
+<L_VAL>               ::= <IDENT> | <DESTRUCT_ASSGN>
+
+<R_VAL>               ::= <EXP> | <ASSGNMNT> | <FUNCTION> 
+
+<EXP>                 ::= <EXP> + <TERM> | <EXP> - <TERM> | <TERM>
+
+<TERM>                ::= <TERM> * <POWER> | <TERM> / <POWER> | <POWER>
+
+<POWER>               ::= <FACTOR> ^ <POWER> | <FACTOR>
+
+<FACTOR>              ::= ( <EXP> ) | <NUM> | <IDENT>
 
                            
 
