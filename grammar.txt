@@ -52,13 +52,9 @@
 
 <R_VAL>               ::= <EXP> | <ASSGNMNT> | <FUNCTION> 
 
-<EXP>                 ::= <EXP> + <TERM> | <EXP> - <TERM> | <TERM>
+<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM>
 
-<TERM>                ::= <TERM> * <POWER> | <TERM> / <POWER> | <POWER>
-
-<POWER>               ::= <FACTOR> ^ <POWER> | <FACTOR>
-
-<FACTOR>              ::= ( <EXP> ) | <NUM> | <IDENT>
+<TERM>                ::= <NUM> | <IDENT>
 
                            
 
