@@ -18,7 +18,7 @@
  
 <DESTRUCT_ASSGN_LIST>  ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <DESTRUCT_ASSGN> | <DESTRUCT_ASSGN> <DESTRUCT_ASSGN> 
 
-<STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT> <STATEMENT_LIST>
+<STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT_BLOCK> | <STATEMENT> <STATEMENT_LIST> | <STATEMENT_BLOCK> <STATEMENT_LIST>
 
 <IF>                   ::=   if ( <EXP> ) <STATEMENT_BLOCK> 
                            | if ( <EXP> ) <STATEMENT> 
@@ -50,9 +50,9 @@
 
 <L_VAL>               ::= <IDENT> | <DESTRUCT_ASSGN>
 
-<R_VAL>               ::= <EXP> | <ASSGNMNT> | <FUNCTION> 
+<R_VAL>               ::= <EXP> | <FUNCTION> 
 
-<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM>
+<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <ASSGNMNT>
 
 <TERM>                ::= <NUM> | <IDENT>
 
