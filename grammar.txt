@@ -52,7 +52,7 @@
 
 <R_VAL>               ::= <EXP> 
 
-<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <ASSGNMNT>
+<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <L_VAL> = <R_VAL>
 
 <TERM>                ::= <NUM> | <IDENT>
 
