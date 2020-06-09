@@ -12,7 +12,7 @@
 
 <STATEMENT>            ::= <ASSGNMNT> | <IF> | <WHILE> | <FOR> | <DO> | <RETURN> | <INIT> | <DECL>
 
-<ASSGNMNT>             ::= <L_VAL> = <R_VAL>
+<ASSGNMNT>             ::= <L_VAL> = <R_VAL> | <L_VAL> = <FUNCTION>
 
 <DESTRUCT_ASSGN>       ::= { <DESTRUCT_ASSGN_LIST> } 
  
@@ -44,13 +44,13 @@
 
 <RETURN>              ::= return <ASSGNMNT> | return <EXP>
 
-<INIT>                ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL>
+<INIT>                ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> 
 
 <DECL>                ::= let <IDENT>
 
-<L_VAL>               ::= <IDENT> | <DESTRUCT_ASSGN>
+<L_VAL>               ::= <IDENT> 
 
-<R_VAL>               ::= <EXP> | <FUNCTION> 
+<R_VAL>               ::= <EXP> 
 
 <EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <ASSGNMNT>
 
