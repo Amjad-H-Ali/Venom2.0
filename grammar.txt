@@ -38,7 +38,8 @@
 
 <WHILE>               ::= while ( <EXP> ) <STATEMENT_BLOCK> | while ( <EXP> ) <STATEMENT>
 
-<FOR>                 ::= for ( <INIT> ; <EXP> ; <EXP> ) <STATEMENT_BLOCK> | for ( <INIT> ; <EXP> ; <EXP> ) <STATEMENT>
+<FOR>                 ::= for ( <INIT>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <INIT>  <EXP>  <EXP> ) <STATEMENT> |
+                          for ( <EXP>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <EXP>  <EXP>  <EXP> ) <STATEMENT>
 
 <DO>                  ::= do <STATEMENT_BLOCK> while ( <EXP> ) | do <STATEMENT> while ( <EXP> )
 
