@@ -18,7 +18,7 @@
  
 <DESTRUCT_ASSGN_LIST>  ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <DESTRUCT_ASSGN_LIST> | <DESTRUCT_ASSGN> <DESTRUCT_ASSGN_LIST> 
 
-<STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT_BLOCK> | <STATEMENT> <STATEMENT_LIST> | <STATEMENT_BLOCK> <STATEMENT_LIST>
+<STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT_BLOCK> | <FUNCTION> | <STATEMENT> <STATEMENT_LIST> | <STATEMENT_BLOCK> <STATEMENT_LIST> | <FUNCTION> <STATEMENT_LIST>
 
 <IF>                   ::=   if ( <EXP> ) <STATEMENT_BLOCK> 
                            | if ( <EXP> ) <STATEMENT> 
@@ -43,7 +43,7 @@
 
 <DO>                  ::= do <STATEMENT_BLOCK> while ( <EXP> ) | do <STATEMENT> while ( <EXP> )
 
-<RETURN>              ::= return <ASSGNMNT> | return <EXP>
+<RETURN>              ::= return <ASSGNMNT> | return <EXP> | return <FUNCTION>
 
 <INIT>                ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> 
 
