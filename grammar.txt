@@ -2,7 +2,7 @@
 
 ** PARSER **
 
-<FUNCTION>             ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> ]
+<FUNCTION>             ::= [ (<PARAM_LIST>) | <IDENT> | () ] => [ <STATEMENT_BLOCK> | <STATEMENT> | <R_VAL> ]
 
 <FUNCTION_CALL>        ::= <IDENT> () | <IDENT> ( <ARG_LIST> )
 
