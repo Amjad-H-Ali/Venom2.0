@@ -24,42 +24,32 @@
 
 <STATEMENT_LIST>       ::= <STATEMENT> | <STATEMENT_BLOCK> | <FUNCTION> | <STATEMENT> <STATEMENT_LIST> | <STATEMENT_BLOCK> <STATEMENT_LIST> | <FUNCTION> <STATEMENT_LIST>
 
-<IF>                   ::=   if ( <EXP> ) <STATEMENT_BLOCK> 
-                           | if ( <EXP> ) <STATEMENT> 
-                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>
-                           | if ( <EXP> ) <STATEMENT> <ELIF>
-                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELSE>
-                           | if ( <EXP> ) <STATEMENT> <ELSE>
-                           | if ( <EXP> ) <STATEMENT_BLOCK> <ELIF> <ELSE>
-                           | if ( <EXP> ) <STATEMENT> <ELIF> <ELSE>
+<IF>                   ::= if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? | if ( <EXP> ) <STATEMENT> <ELIF>?
 
-<ELIF>                ::=    else if ( <EXP> ) <STATEMENT_BLOCK>
-                           | else if ( <EXP> ) <STATEMENT>
-                           | else if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>
-                           | else if ( <EXP> ) <STATEMENT> <ELIF>
+<ELIF>                 ::= else if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? <ELSE>? | else if ( <EXP> ) <STATEMENT> <ELIF>? <ELSE>?
                           
-<ELSE>                ::= else <STATEMENT_BLOCK> | else <STATEMENT>
+<ELSE>                 ::= else <STATEMENT_BLOCK> | else <STATEMENT>
 
-<WHILE>               ::= while ( <EXP> ) <STATEMENT_BLOCK> | while ( <EXP> ) <STATEMENT>
+<WHILE>                ::= while ( <EXP> ) <STATEMENT_BLOCK> | while ( <EXP> ) <STATEMENT>
 
-<FOR>                 ::= for ( <INIT>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <INIT>  <EXP>  <EXP> ) <STATEMENT> |
-                          for ( <EXP>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <EXP>  <EXP>  <EXP> ) <STATEMENT>
+<FOR>                  ::= for ( <INIT>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <INIT>  <EXP>  <EXP> ) <STATEMENT> |
+                           for ( <EXP>  <EXP>  <EXP> ) <STATEMENT_BLOCK> | for ( <EXP>  <EXP>  <EXP> ) <STATEMENT>
 
-<DO>                  ::= do <STATEMENT_BLOCK> while ( <EXP> ) | do <STATEMENT> while ( <EXP> )
+<DO>                   ::= do <STATEMENT_BLOCK> while ( <EXP> ) | do <STATEMENT> while ( <EXP> )
 
-<RETURN>              ::= return <ASSGNMNT> | return <EXP> | return <FUNCTION>
+<RETURN>               ::= return <ASSGNMNT> | return <EXP> | return <FUNCTION>
 
-<INIT>                ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> 
+<INIT>                 ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> 
 
-<DECL>                ::= let <IDENT>
+<DECL>                 ::= let <IDENT>
 
-<L_VAL>               ::= <IDENT> 
+<L_VAL>                ::= <IDENT> 
 
-<R_VAL>               ::= <EXP> 
+<R_VAL>                ::= <EXP> 
 
-<EXP>                 ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <L_VAL> = <R_VAL>
+<EXP>                  ::= <EXP> + <EXP> | <EXP> - <EXP> | <EXP> * <EXP> | <EXP> / <EXP> | ( <EXP> ) | <TERM> | <L_VAL> = <R_VAL>
 
-<TERM>                ::= <NUM> | <IDENT>
+<TERM>                 ::= <NUM> | <IDENT>
 
                            
 
