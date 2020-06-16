@@ -6,7 +6,7 @@
 
 <FUNCTION_CALL>        ::= <IDENT> () | <IDENT> ( <ARG_LIST> )
 
-<ARG_LIST>             ::= <R_VAL> | <FUNCTION> | <R_VAL> <ARG_LIST> | <FUNCTION> <ARG_LIST>
+<ARG_LIST>             ::= <R_VAL> <ARG_LIST>? | <FUNCTION> <ARG_LIST>?
 
 <PARAM_LIST>           ::= <IDENT> | <DESTRUCT_ASSGN> | <IDENT> <PARAM_LIST> | <DESTRUCT_ASSGN> <PARAM_LIST>
 
