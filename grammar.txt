@@ -24,9 +24,9 @@
 
 <STATEMENT_LIST>       ::= <STATEMENT> <STATEMENT_LIST>? | <STATEMENT_BLOCK> <STATEMENT_LIST>? | <FUNCTION> <STATEMENT_LIST>?
 
-<IF>                   ::= if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? | if ( <EXP> ) <STATEMENT> <ELIF>?
+<IF>                   ::= if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? <ELSE>? | if ( <EXP> ) <STATEMENT> <ELIF>? <ELSE>?
 
-<ELIF>                 ::= else if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? <ELSE>? | else if ( <EXP> ) <STATEMENT> <ELIF>? <ELSE>?
+<ELIF>                 ::= else if ( <EXP> ) <STATEMENT_BLOCK> <ELIF>? | else if ( <EXP> ) <STATEMENT> <ELIF>?
                           
 <ELSE>                 ::= else <STATEMENT_BLOCK> | else <STATEMENT>
 
