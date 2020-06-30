@@ -39,7 +39,7 @@
 
 <RETURN>               ::= return <ASSGNMNT> | return <R_VAL> | return <FUNCTION>
 
-<INIT>                 ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> 
+<INIT>                 ::= let <IDENT> = <R_VAL> | const let <IDENT> = <R_VAL> | let <IDENT> = <FUNCTION> | const let <IDENT> = <FUNCTION>
 
 <DECL>                 ::= let <IDENT>
 
