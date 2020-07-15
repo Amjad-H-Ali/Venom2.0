@@ -1,0 +1,6 @@
+ *** BACKUS-NAUR FORM ***
+ 
+** LEXER **
+
+<CHR> ::= ' ANY ASCII CHARACTER '
+
