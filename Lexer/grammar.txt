@@ -2,20 +2,24 @@
  
 ** LEXER **
 
-<CHR>  ::= ' ALL_ASCII_CHARACTERS '
+<CHR>      ::= ' ALL_ASCII_CHARACTERS '
 
-<STR>  ::= "" | " ALL_ASCII_CHARACTERS+ "
+<STR>      ::= "" | " ALL_ASCII_CHARACTERS+ "
 
-<MUL>  ::= *
+<MUL>      ::= *
 
-<DIV>  ::= /
+<DIV>      ::= /
 
-<PLUS> ::= +
+<PLUS>     ::= +
 
-<MIN>  ::= -
+<MIN>      ::= -
 
-<MOD>  ::= %
+<MOD>      ::= %
 
+<ASSGN>    ::= =
 
+<BOR>      ::= |
+
+<BAND>     ::= &
 
 
