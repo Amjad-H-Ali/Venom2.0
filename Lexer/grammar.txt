@@ -6,6 +6,10 @@
 
 <STR> ::= "" | " ALL_ASCII_CHARACTERS+ "
 
+<MUL> ::= *
+
+<DIV> ::= /
+
 
 
 
