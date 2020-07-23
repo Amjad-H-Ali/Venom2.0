@@ -120,8 +120,12 @@
 
 <VAR>      ::= [a-z, A-Z, _][a-z, A-Z, _, 0-9]+? AND !<RESERVED>
 
-<RESERVED> ::= <IS>
+<RESERVED> ::= <IS> | <STRUCT> | <CLASS> | <BOOL> | <CHAR> | <SHORT> | <INT> | <LONG> | <FLOAT> | <DOUBLE> | <SIGNED> |
 
+               <AUTO> | <BREAK> | <CASE> | <CONST> | <CONTINUE> | <DEFAULT> | <DO> | <ELSE> | <ENUM> | <FOR> | <IF> |    
+               
+               <RETURN> | <SIZEOF> | <STATIC> | <SWITCH> | <TYPEDEF> | <UNION> | <VOID> | <WHILE> 
+               
 <IS>       ::= is
 
 <STRUCT>   ::= struct
@@ -143,4 +147,42 @@
 <DOUBLE>   ::= double
 
 <SIGNED>   ::= signed
+
+<AUTO>     ::= auto
+
+<BREAK>    ::= break
+
+<CASE>     ::= case
+
+<CONST>    ::= const
+
+<CONTINUE> ::= continue
+
+<DEFAULT>  ::= default
+
+<DO>       ::= do
+
+<ELSE>     ::= else
+
+<ENUM>     ::= enum
+
+<FOR>      ::= for
+
+<IF>       ::= if
+
+<RETURN>   ::= return
+
+<SIZEOF>   ::= sizeof
+
+<STATIC>   ::= static
+
+<SWITCH>   ::= switch
+
+<TYPEDEF>  ::= typedef
+
+<UNION>    ::= union
+
+<VOID>     ::= void
+
+<WHILE>    ::= while
 
