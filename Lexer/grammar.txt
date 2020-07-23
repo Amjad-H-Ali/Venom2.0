@@ -118,12 +118,29 @@
                 
                | [0-9]+sl | -[0-9]+l | 0x[0-F]+sl | -0x[0-F]+l          
 
-<VAR>      ::= [a-z, A-Z, _][a-z, A-Z, _, 0-9]+? AND !<RES_W>
+<VAR>      ::= [a-z, A-Z, _][a-z, A-Z, _, 0-9]+? AND !<RESERVED>
 
-<RES_W>    ::= 
+<RESERVED> ::= <IS>
 
-<IS>        
+<IS>       ::= is
 
+<STRUCT>   ::= struct
 
+<CLASS>    ::= class
 
+<BOOL>     ::= bool
+
+<CHAR>     ::= char
+
+<SHORT>    ::= short
+
+<INT>      ::= int
+
+<LONG>     ::= long
+
+<FLOAT>    ::= float
+
+<DOUBLE>   ::= double
+
+<SIGNED>   ::= signed
 
