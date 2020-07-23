@@ -60,6 +60,14 @@
 
 <RBRACE>   ::= }
 
+<SEMI_COL> ::= ;
+
+<COMMA>    ::= ,
+
+<HASH>     ::= #
+
+<APOST>    ::= `
+
 <BNOT>     ::= ~
 
 <DIVEQ>    ::= /=
