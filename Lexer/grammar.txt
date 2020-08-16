@@ -80,6 +80,8 @@
 
 <DEC>      ::= --
 
+<SARROW>   ::= ->
+
 <MODEQ>    ::= %=
 
 <EQ>       ::= ==
@@ -112,13 +114,13 @@
 
 <DOUBLE_L> ::=   [0-9]+? . [0-9]+  ([IEEE 754 double-precision binary floating-point format (64 bits)]) 
 
-<INT_L>    ::=   [0-9]+ | 0x[0-F]+ ([32 bits]) 
+<INT_L>    ::=   [0-9]+ | 0x[0-F]+ (32 bits) 
 
-<LONG_L>   ::=   [0-9]+ | 0x[0-F]+ | [0-9]+l | 0x[0-F]+l ([64 bits]) 
+<LONG_L>   ::=   [0-9]+ | 0x[0-F]+ | [0-9]+l | 0x[0-F]+l (64 bits) 
 
-<SINT_L>   ::=   [0-9]+s | -[0-9]+ | 0x[0-F]+s | -0x[0-F]+ (IF AND ONLY IF IT CAN BE REPRESENTED IN 4B (64 bits))
+<SINT_L>   ::=   [0-9]+s | -[0-9]+ | 0x[0-F]+s | -0x[0-F]+ (32 bits)
 
-<SLONG_L>  ::=   [0-9]+s | -[0-9]+ | 0x[0-F]+s | -0x[0-F]+ (IF AND ONLY IF IT CANNOT BE REPRESENTED IN 4B (64 bits))
+<SLONG_L>  ::=   [0-9]+s | -[0-9]+ | 0x[0-F]+s | -0x[0-F]+ (64 bits)
                 
                | [0-9]+sl | -[0-9]+l | 0x[0-F]+sl | -0x[0-F]+l          
 
